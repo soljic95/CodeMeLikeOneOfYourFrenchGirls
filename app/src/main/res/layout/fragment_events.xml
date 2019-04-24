@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorAccent"
+    tools:context=".ui.FragmentEvents">
+
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/eventsToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="@color/material_grey_800">
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="32dp"
+            android:background="@color/material_grey_800"
+            app:tabTextAppearance="@style/MyTabLayoutTextAppearance"></com.google.android.material.tabs.TabLayout>
+    </androidx.appcompat.widget.Toolbar>
+
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewPagerContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?actionBarSize"
+         />
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

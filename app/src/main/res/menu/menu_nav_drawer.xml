@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/menu_events"
+            android:title="Events"
+            android:icon="@android:drawable/ic_menu_myplaces">Events
+        </item>
+        <item
+            android:id="@+id/menu_groups"
+            android:title="Groups"
+            android:icon="@android:drawable/ic_dialog_dialer">Groups
+        </item>
+        <item
+            android:id="@+id/menu_profile"
+            android:title="MyProfile"
+            android:icon="@android:drawable/ic_popup_disk_full">MyProfile
+        </item>
+        <item
+            android:id="@+id/menu_settings"
+            android:title="Settings"
+            android:icon="@android:drawable/ic_menu_compass">Settings
+        </item>
+
+    </group>
+
+
+</menu>

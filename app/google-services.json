@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "293325066525",
+    "firebase_url": "https://codemelikeoneofyourfrenchgirls.firebaseio.com",
+    "project_id": "codemelikeoneofyourfrenchgirls",
+    "storage_bucket": "codemelikeoneofyourfrenchgirls.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:293325066525:android:56e273204e61c971",
+        "android_client_info": {
+          "package_name": "com.example.codemelikeoneofyourfrenchgirls"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "293325066525-4ilfi5t7ahlkpgbfva39ok387rh4js9a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA28oQqDEnxRn0utznmJxg6-dVQNdQjOO4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "293325066525-4ilfi5t7ahlkpgbfva39ok387rh4js9a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
