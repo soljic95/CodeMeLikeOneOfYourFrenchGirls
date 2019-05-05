@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/register_user_graph"
+    app:startDestination="@id/signInFragment">
+
+    <fragment
+        android:id="@+id/signInFragment"
+        android:name="com.hW4c4Doi.codemelikeoneofyourfrenchgirls.ui.SignInFragment"
+        android:label="fragment_sign_in"
+        tools:layout="@layout/fragment_sign_in" >
+        <action
+            android:id="@+id/action_signInFragment_to_logInFragment"
+            app:destination="@id/logInFragment" />
+        <action
+            android:id="@+id/action_signInFragment_to_signUpFragment"
+            app:destination="@id/signUpFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/logInFragment"
+        android:name="com.hW4c4Doi.codemelikeoneofyourfrenchgirls.ui.LogInFragment"
+        android:label="fragment_log_in"
+        tools:layout="@layout/fragment_log_in" />
+    <fragment
+        android:id="@+id/signUpFragment"
+        android:name="com.hW4c4Doi.codemelikeoneofyourfrenchgirls.ui.SignUpFragment"
+        android:label="fragment_sign_up"
+        tools:layout="@layout/fragment_sign_up" >
+        <action
+            android:id="@+id/action_signUpFragment_to_signUpFragment2"
+            app:destination="@id/signUpFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/signUpFragment2"
+        android:name="com.hW4c4Doi.codemelikeoneofyourfrenchgirls.ui.SignUpFragment2"
+        android:label="fragment_sign_up_2"
+        tools:layout="@layout/fragment_sign_up_2" >
+        <action
+            android:id="@+id/action_signUpFragment2_to_signUpFragment4"
+            app:destination="@id/signUpFragment4" />
+    </fragment>
+    <fragment
+        android:id="@+id/signUpFragment3"
+        android:name="com.hW4c4Doi.codemelikeoneofyourfrenchgirls.ui.SignUpFragment3"
+        android:label="fragment_sign_up_3"
+        tools:layout="@layout/fragment_sign_up_3" />
+    <fragment
+        android:id="@+id/signUpFragment4"
+        android:name="com.hW4c4Doi.codemelikeoneofyourfrenchgirls.ui.SignUpFragment4"
+        android:label="fragment_sign_up_4"
+        tools:layout="@layout/fragment_sign_up_4" >
+        <action
+            android:id="@+id/action_signUpFragment4_to_signUpFragment3"
+            app:destination="@id/signUpFragment3" />
+    </fragment>
+</navigation>

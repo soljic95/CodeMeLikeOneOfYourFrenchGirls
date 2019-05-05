@@ -6,7 +6,7 @@
     app:startDestination="@id/fragmentEvents">
     <fragment
         android:id="@+id/fragmentEvents"
-        android:name="com.example.codemelikeoneofyourfrenchgirls.ui.FragmentEvents"
+        android:name="com.hW4c4Doi.codemelikeoneofyourfrenchgirls.ui.EventsFragment"
         android:label="Events"
         tools:layout="@layout/fragment_events">
         <action
@@ -30,16 +30,20 @@
     </fragment>
     <fragment
         android:id="@+id/fragmentUpcomingEvents2"
-        android:name="com.example.codemelikeoneofyourfrenchgirls.ui.FragmentUpcomingEvents"
+        android:name="com.hW4c4Doi.codemelikeoneofyourfrenchgirls.ui.UpcomingEventsFragment"
         android:label="fragment_upcoming_events"
         tools:layout="@layout/fragment_upcoming_events">
         <action
-            android:id="@+id/action_fragmentUpcomingEvents2_to_fragmentInsideEvent"
-            app:destination="@id/fragmentInsideEvent" />
+            android:id="@+id/confirmationAction"
+            app:destination="@id/fragmentInsideEvent"
+            app:launchSingleTop="false" />
+        <action
+            android:id="@+id/action_fragmentUpcomingEvents2_to_fragmentCreateEvent"
+            app:destination="@id/fragmentCreateEvent" />
     </fragment>
     <fragment
         android:id="@+id/fragmentMyEvents4"
-        android:name="com.example.codemelikeoneofyourfrenchgirls.ui.FragmentMyEvents"
+        android:name="com.hW4c4Doi.codemelikeoneofyourfrenchgirls.ui.MyEventsFragment"
         android:label="fragment_my_events"
         tools:layout="@layout/fragment_my_events">
         <action
@@ -50,12 +54,14 @@
     </fragment>
     <fragment
         android:id="@+id/fragmentInsideEvent"
-        android:name="com.example.codemelikeoneofyourfrenchgirls.ui.FragmentInsideEvent"
+        android:name="com.hW4c4Doi.codemelikeoneofyourfrenchgirls.ui.InsideEventFragment"
         android:label="Event"
-        tools:layout="@layout/fragment_inside_event" />
+        tools:layout="@layout/fragment_inside_event" >
+        <argument android:name="EventArgs" />
+    </fragment>
     <fragment
         android:id="@+id/fragmentGroups"
-        android:name="com.example.codemelikeoneofyourfrenchgirls.ui.FragmentGroups"
+        android:name="com.hW4c4Doi.codemelikeoneofyourfrenchgirls.ui.GroupsFragment"
         android:label="Groups"
         tools:layout="@layout/fragment_groups">
         <action
@@ -67,22 +73,27 @@
     </fragment>
     <fragment
         android:id="@+id/fragmentInsideGroup"
-        android:name="com.example.codemelikeoneofyourfrenchgirls.ui.FragmentInsideGroup"
+        android:name="com.hW4c4Doi.codemelikeoneofyourfrenchgirls.ui.InsideGroupFragment"
         android:label="fragment_inside_group"
         tools:layout="@layout/fragment_inside_group" />
     <fragment
         android:id="@+id/fragmentCreateGroup"
-        android:name="com.example.codemelikeoneofyourfrenchgirls.ui.FragmentCreateGroup"
+        android:name="com.hW4c4Doi.codemelikeoneofyourfrenchgirls.ui.CreateGroupFragment"
         android:label="fragment_create_group"
         tools:layout="@layout/fragment_create_group" />
     <fragment
         android:id="@+id/fragmentMyProfile"
-        android:name="com.example.codemelikeoneofyourfrenchgirls.ui.FragmentMyProfile"
+        android:name="com.hW4c4Doi.codemelikeoneofyourfrenchgirls.ui.MyProfileFragment"
         android:label="fragment_my_profile"
         tools:layout="@layout/fragment_my_profile" />
     <fragment
         android:id="@+id/fragmentSettings"
-        android:name="com.example.codemelikeoneofyourfrenchgirls.ui.FragmentSettings"
+        android:name="com.hW4c4Doi.codemelikeoneofyourfrenchgirls.ui.SettingsFragment"
         android:label="fragment_settings"
         tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/fragmentCreateEvent"
+        android:name="com.hW4c4Doi.codemelikeoneofyourfrenchgirls.ui.CreateEventFragment"
+        android:label="fragment_create_event"
+        tools:layout="@layout/fragment_create_event" />
 </navigation>

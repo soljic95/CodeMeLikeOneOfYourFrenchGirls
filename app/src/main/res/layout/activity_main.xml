@@ -18,6 +18,7 @@
             android:background="@color/material_grey_800">
 
             <ImageView
+                android:id="@+id/toolbarImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
@@ -47,7 +48,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         app:menu="@menu/menu_nav_drawer"
-        android:background="@color/material_grey_800"
+
         app:headerLayout="@layout/nav_header"/>
 
 </androidx.drawerlayout.widget.DrawerLayout>

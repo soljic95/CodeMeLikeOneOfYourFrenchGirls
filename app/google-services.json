@@ -15,6 +15,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "293325066525-gr07epka5gssju9regntb1413d23c2eh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.codemelikeoneofyourfrenchgirls",
+            "certificate_hash": "5a5738f6e5d9002b025a001d6aae5771013fca14"
+          }
+        },
+        {
+          "client_id": "293325066525-3e2fg7ffivs5d4482ig51lfin974p41v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.codemelikeoneofyourfrenchgirls",
+            "certificate_hash": "c2509f856ca0b16217f5f9e498114970b2cb3ea3"
+          }
+        },
+        {
           "client_id": "293325066525-4ilfi5t7ahlkpgbfva39ok387rh4js9a.apps.googleusercontent.com",
           "client_type": 3
         }
