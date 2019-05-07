@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.R;
+import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.model.User;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.ui.MainActivity;
 
 import static android.app.Activity.RESULT_OK;
@@ -31,6 +32,7 @@ import static android.app.Activity.RESULT_OK;
  * A simple {@link Fragment} subclass.
  */
 public class SignUpFragment3 extends Fragment {
+    User user;
     Button btnComplete;
     private static final int PICK_IMAGE_REQUEST = 1;
     private Uri mPictureUri;

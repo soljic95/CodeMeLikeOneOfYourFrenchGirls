@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.R;
+import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +29,7 @@ import java.util.List;
  * A simple {@link Fragment} subclass.
  */
 public class SignUpFragment4 extends Fragment {
+    User user;
     Button btnContinue;
     Chip nogometChip;
     Chip kosarkaChip;
@@ -53,7 +55,10 @@ public class SignUpFragment4 extends Fragment {
     @Override
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        Bundle bundle = new Bundle();
+        bundle = getArguments();
+        user = new User();
+        user = bundle.getParcelable("user");
         btnContinue = view.findViewById(R.id.btnContinue);
         nogometChip = view.findViewById(R.id.nogometChip);
         kosarkaChip = view.findViewById(R.id.kosarkaChip);
@@ -62,6 +67,8 @@ public class SignUpFragment4 extends Fragment {
         teretanaChip = view.findViewById(R.id.teretanaChip);
         drustveneChip = view.findViewById(R.id.drustveneChip);
         druzenjeChip = view.findViewById(R.id.druzenjeChip);
+
+        Toast.makeText(getContext(), user.getName(), Toast.LENGTH_SHORT).show();
 
         setChipsListener();
 

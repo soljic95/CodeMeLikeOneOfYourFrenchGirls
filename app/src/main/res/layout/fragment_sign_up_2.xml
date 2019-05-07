@@ -22,6 +22,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etFullName"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="Full name" />
@@ -101,12 +102,14 @@
         app:layout_constraintTop_toBottomOf="@+id/tvDay">
 
         <RadioButton
+            android:id="@+id/radioFemale"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingRight="16dp"
             android:text="Female" />
 
         <RadioButton
+            android:id="@+id/radioMale"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="8dp"
@@ -116,7 +119,7 @@
     </RadioGroup>
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/etPhoneNumber"
         android:layout_width="0dp"
         android:layout_height="44dp"
         android:layout_marginTop="8dp"

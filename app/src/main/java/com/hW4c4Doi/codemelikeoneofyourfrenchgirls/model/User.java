@@ -10,8 +10,28 @@ import java.util.ArrayList;
 
 @Entity(tableName = "user_table")
 public class User implements Parcelable {
-    String userId;
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     String name;
+    String sex;
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    String userId;
+    String password;
     String email;
     String profilePictureUrl;
     String description;
@@ -22,14 +42,33 @@ public class User implements Parcelable {
     String userToken;
     ArrayList<String> userFriends;
     String userDocRef;
+    long dateOfBirth;
     int nogometSkill;
     int kosarkaSkill;
     int sahSkill;
     int numberOfEventsParticipated = 0;
     int positiveReview = 0;
     int percentage = 100;
+    long phoneNumber;
+
+    public long getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(long phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
     @PrimaryKey(autoGenerate = true)
     int primaryKey;
+
+    public long getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(long dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
 
     public int getPrimaryKey() {
         return primaryKey;
@@ -253,8 +292,10 @@ public class User implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.userId);
         dest.writeString(this.name);
+        dest.writeString(this.sex);
+        dest.writeString(this.userId);
+        dest.writeString(this.password);
         dest.writeString(this.email);
         dest.writeString(this.profilePictureUrl);
         dest.writeString(this.description);
@@ -265,20 +306,25 @@ public class User implements Parcelable {
         dest.writeString(this.userToken);
         dest.writeStringList(this.userFriends);
         dest.writeString(this.userDocRef);
+        dest.writeLong(this.dateOfBirth);
         dest.writeInt(this.nogometSkill);
         dest.writeInt(this.kosarkaSkill);
         dest.writeInt(this.sahSkill);
         dest.writeInt(this.numberOfEventsParticipated);
         dest.writeInt(this.positiveReview);
         dest.writeInt(this.percentage);
+        dest.writeLong(this.phoneNumber);
+        dest.writeInt(this.primaryKey);
         dest.writeInt(this.userGrades);
         dest.writeInt(this.numberOfGrades);
         dest.writeInt(this.usersFinalGrade);
     }
 
     protected User(Parcel in) {
-        this.userId = in.readString();
         this.name = in.readString();
+        this.sex = in.readString();
+        this.userId = in.readString();
+        this.password = in.readString();
         this.email = in.readString();
         this.profilePictureUrl = in.readString();
         this.description = in.readString();
@@ -289,18 +335,21 @@ public class User implements Parcelable {
         this.userToken = in.readString();
         this.userFriends = in.createStringArrayList();
         this.userDocRef = in.readString();
+        this.dateOfBirth = in.readLong();
         this.nogometSkill = in.readInt();
         this.kosarkaSkill = in.readInt();
         this.sahSkill = in.readInt();
         this.numberOfEventsParticipated = in.readInt();
         this.positiveReview = in.readInt();
         this.percentage = in.readInt();
+        this.phoneNumber = in.readLong();
+        this.primaryKey = in.readInt();
         this.userGrades = in.readInt();
         this.numberOfGrades = in.readInt();
         this.usersFinalGrade = in.readInt();
     }
 
-    public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>() {
+    public static final Creator<User> CREATOR = new Creator<User>() {
         @Override
         public User createFromParcel(Parcel source) {
             return new User(source);
