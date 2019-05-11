@@ -6,87 +6,85 @@ import android.util.Log;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.UpdateUserId;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.model.Event;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QuerySnapshot;
+import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Nullable;
-
 
 public class FirebaseHelperClass {
     FirebaseFirestore db;
-    String documentRef = "";
+    FirebaseAuth auth = FirebaseAuth.getInstance();
+    String eventDocRef = "";
+    String userDocRef = "";
+    private MyCustomObjectListener listener;
 
 
     public FirebaseHelperClass() {
         db = FirebaseFirestore.getInstance();
+        this.listener = null;
     }
 
     public LiveData<List<Event>> getEvents() {
         final MutableLiveData events = new MutableLiveData();
         final List<Event> eventsList = new ArrayList<>();
-        db.collection("Events").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                for (DocumentSnapshot dc : queryDocumentSnapshots) {
-                    eventsList.add(dc.toObject(Event.class));
-                }
-                events.setValue(eventsList);
+        db.collection("Events").get().addOnSuccessListener(queryDocumentSnapshots -> {
+            for (DocumentSnapshot dc : queryDocumentSnapshots) {
+                eventsList.add(dc.toObject(Event.class));
             }
+            events.setValue(eventsList);
         });
         return events;
 
     }
 
     public String insertEvent(Event event) {
-        db.collection("Events").add(event).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-            @Override
-            public void onSuccess(DocumentReference documentReference) {
-                documentRef = documentReference.getId();
-            }
-        });
-        return documentRef;
+        db.collection("Events").add(event).addOnSuccessListener(documentReference -> eventDocRef = documentReference.getId());
+        return eventDocRef;
     }
 
     public void deleteEventFromFirebase(Event event) {
         Log.d("marko", "deleteEventFromFirebase: started");
-        db.collection("Events").whereEqualTo("eventId", event.getEventId()).addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-                for (DocumentSnapshot dc : queryDocumentSnapshots) {
-                    db.collection("Events").document(dc.getId()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            Log.d("marko", "onSuccess: event deleted from firebase");
-                        }
-                    });
-                }
+        db.collection("Events").whereEqualTo("eventId", event.getEventId()).addSnapshotListener((queryDocumentSnapshots, e) -> {
+            for (DocumentSnapshot dc : queryDocumentSnapshots) {
+                db.collection("Events").document(dc.getId()).delete().addOnSuccessListener(aVoid -> Log.d("marko", "onSuccess: event deleted from firebase"));
             }
         });
     }
 
-    public LiveData<List<Event>> observeAllEvents(){
+    public LiveData<List<Event>> observeAllEvents() {
         final MutableLiveData<List<Event>> observedLiveData = new MutableLiveData<>();
         final List<Event> eventList = new ArrayList<>();
-        db.collection("Events").addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-                eventList.clear();
-                for(DocumentSnapshot dc : queryDocumentSnapshots){
-                    Log.d("marko", "onEvent: "+dc.toObject(Event.class).getEventName());
-                    eventList.add(dc.toObject(Event.class));
-                }
-                observedLiveData.setValue(eventList);
+        db.collection("Events").addSnapshotListener((queryDocumentSnapshots, e) -> {
+            eventList.clear();
+            for (DocumentSnapshot dc : queryDocumentSnapshots) {
+                Log.d("marko", "onEvent: " + dc.toObject(Event.class).getEventName());
+                eventList.add(dc.toObject(Event.class));
             }
+            observedLiveData.setValue(eventList);
         });
         return observedLiveData;
+    }
+
+    public void createUserAccountInFirebase(User user) {
+        auth.createUserWithEmailAndPassword(user.getEmail(), user.getPassword()).addOnSuccessListener(authResult ->
+                db.collection("Users").add(user).addOnSuccessListener(documentReference -> userDocRef = eventDocRef));
+    }
+
+    public interface MyCustomObjectListener {
+        // These methods are the different events and
+        // need to pass relevant arguments related to the event triggered
+        void onObjectReady(String userId);
+    }
+
+
+    // Assign the listener implementing events interface that will receive the events
+    public void setCustomObjectListener(MyCustomObjectListener listener) {
+        this.listener = listener;
     }
 }

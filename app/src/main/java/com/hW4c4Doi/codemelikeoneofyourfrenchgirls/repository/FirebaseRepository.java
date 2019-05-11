@@ -5,17 +5,20 @@ import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
+import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.UpdateUserId;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.model.Event;
+import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.model.User;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.network.FirebaseHelperClass;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.room.EventDao;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.room.EventDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Callable;
 
 import io.reactivex.Completable;
 import io.reactivex.CompletableObserver;
+import io.reactivex.Observable;
+import io.reactivex.Observer;
 import io.reactivex.Single;
 import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -28,12 +31,12 @@ public class FirebaseRepository {
     List<Event> eventList;
     LiveData<List<Event>> eventLiveData;
     EventDao eventDao;
+    User currentUser;
 
-    public FirebaseRepository(Application application) {
-        EventDatabase eventDatabase = EventDatabase.getInstance(application);
+    public FirebaseRepository(EventDatabase database) {
         eventList = new ArrayList<>();
         firebaseHelperClass = new FirebaseHelperClass();
-        eventDao = eventDatabase.getEventDao();
+        eventDao = database.getEventDao();
         eventLiveData = eventDao.getAllEvents();
 
     }
@@ -45,12 +48,7 @@ public class FirebaseRepository {
 
 
     public void deleteEvent(final Event event) {
-        Completable.fromAction(new Action() {
-            @Override
-            public void run() throws Exception {
-                eventDao.deleteEvent(event);
-            }
-        }).subscribeOn(Schedulers.io())
+        Completable.fromAction(() -> eventDao.deleteEvent(event)).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new CompletableObserver() {
                     @Override
@@ -72,12 +70,7 @@ public class FirebaseRepository {
     }
 
     public void insertEvent(final Event event) {
-        Single.fromCallable(new Callable<Long>() {
-            @Override
-            public Long call() throws Exception {
-                return eventDao.insertEvent(event);
-            }
-        }).subscribeOn(Schedulers.io())
+        Single.fromCallable(() -> eventDao.insertEvent(event)).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new SingleObserver<Long>() {
                     @Override
@@ -87,7 +80,7 @@ public class FirebaseRepository {
 
                     @Override
                     public void onSuccess(Long aLong) {
-                        Log.d("marko", "onSuccess: "+aLong);
+                        Log.d("marko", "onSuccess: " + aLong);
                         event.setEventId(aLong);
                         insertEventInFirebaseDb(event);
                     }
@@ -99,15 +92,68 @@ public class FirebaseRepository {
                 });
     }
 
-    public void insertEventInFirebaseDb(Event event){
+    public void insertEventInFirebaseDb(Event event) {
         firebaseHelperClass.insertEvent(event);
     }
 
-    public void deleteEventFromFirebase(Event event){
+    public void deleteEventFromFirebase(Event event) {
         firebaseHelperClass.deleteEventFromFirebase(event);
     }
 
-    public LiveData<List<Event>> getEventLiveData(){
+    public LiveData<List<Event>> getEventLiveData() {
         return firebaseHelperClass.observeAllEvents();
+    }
+
+    public void createUserInFirebase(User user) {
+        firebaseHelperClass.createUserAccountInFirebase(user);
+
+    }
+
+    public void insertUserInDatabase(User user) {
+        Completable.fromAction(() -> eventDao.insertUser(user)).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new CompletableObserver() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                        Log.d("marko", "onInsertUser: userInserted");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+                });
+    }
+
+    public void updateId(User user) {
+        Completable.fromAction(() -> eventDao.updateUser(user)).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new CompletableObserver() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.d("marko", "onComplete: userId updated");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+                });
+
+    }
+
+    public LiveData<User> getCurrentUser() {
+        return getCurrentUser();
     }
 }

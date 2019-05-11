@@ -31,11 +31,6 @@ public class SignUpFragment extends Fragment {
     TextInputEditText etPasswordCheck;
 
 
-    public SignUpFragment() {
-        // Required empty public constructor
-    }
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -54,13 +49,13 @@ public class SignUpFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                if(validateForm()){
+                if (validateForm()) {
                     Bundle bundle = new Bundle();
                     user = new User();
                     user.setEmail(etEmail.getText().toString());
                     user.setPassword(etPasswordCheck.getText().toString());
-                    bundle.putParcelable("user",user);
-                    Navigation.findNavController(view).navigate(R.id.signUpFragment2,bundle);
+                    bundle.putParcelable("user", user);
+                    Navigation.findNavController(view).navigate(R.id.signUpFragment2, bundle);
 
                 }
 
@@ -69,26 +64,26 @@ public class SignUpFragment extends Fragment {
 
     }
 
-    public boolean validateForm(){
+    public boolean validateForm() {
         boolean valid = true;
-        if(android.util.Patterns.EMAIL_ADDRESS.matcher(etEmail.getText().toString())
-                .matches()){
+        if (android.util.Patterns.EMAIL_ADDRESS.matcher(etEmail.getText().toString())
+                .matches()) {
             Log.d("marko", "validateForm: email in correct form");
-        }else {
+        } else {
             etEmail.setError("Email not valid");
             valid = false;
         }
 
-        if(etPassword.getText().toString().length()>6){
+        if (etPassword.getText().toString().length() > 6) {
             Log.d("marko", "validateForm: password big enough");
-        }else {
+        } else {
             etPassword.setError("Password must be more than 6 characters");
             valid = false;
         }
 
-        if(etPassword.getText().toString().equals(etPasswordCheck.getText().toString())){
+        if (etPassword.getText().toString().equals(etPasswordCheck.getText().toString())) {
             Log.d("marko", "validateForm: password the same");
-        }else {
+        } else {
             etPasswordCheck.setError("Passwords dont match");
             valid = false;
         }

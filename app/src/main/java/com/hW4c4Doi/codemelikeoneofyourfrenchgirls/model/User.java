@@ -4,9 +4,11 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity(tableName = "user_table")
 public class User implements Parcelable {
@@ -35,12 +37,12 @@ public class User implements Parcelable {
     String email;
     String profilePictureUrl;
     String description;
-    ArrayList<String> interests;
+    public ArrayList<String> interests;
     int range;
     double userLat;
     double userLong;
     String userToken;
-    ArrayList<String> userFriends;
+    public ArrayList<String> userFriends;
     String userDocRef;
     long dateOfBirth;
     int nogometSkill;
@@ -78,6 +80,7 @@ public class User implements Parcelable {
         this.primaryKey = primaryKey;
     }
 
+    @Ignore
     public User(String userId, String userToken, String name, String email, String description,
                 ArrayList<String> interests, int range, ArrayList<String> userFriends, String profilePictureUrl, int nogometSkill, int kosarkaSkill,
                 int sahSkill, int numberOfEventsParticipated, int positiveReview, int percentage) {
@@ -195,15 +198,7 @@ public class User implements Parcelable {
     public User() {
     }
 
-    public int getUsersFinalGrade() {
-        return usersFinalGrade;
-    }
-
-    public void setUsersFinalGrade(int usersFinalGrade) {
-        this.usersFinalGrade = usersFinalGrade;
-    }
-
-    public ArrayList<String> getInterests() {
+    public List<String> getInterests() {
         return interests;
     }
 
@@ -212,11 +207,6 @@ public class User implements Parcelable {
     }
 
 
-    //we will use this in the case of leaving reviews from 1 to 5, and then we will calculate the users review grade.
-    private int userGrades;
-    private int numberOfGrades;
-    private int usersFinalGrade;
-
     public String getName() {
         return name;
     }
@@ -224,7 +214,6 @@ public class User implements Parcelable {
     public void setName(String name) {
         this.name = name;
     }
-
 
 
     public String getEmail() {
@@ -269,12 +258,6 @@ public class User implements Parcelable {
     }
 
 
-    public void gradeUser(int grade) {
-        userGrades += grade;
-        numberOfGrades += 1;
-        usersFinalGrade = userGrades / numberOfGrades;
-    }
-
     public void addPositiveReview() {
         positiveReview += 1;
         numberOfEventsParticipated += 1;
@@ -315,9 +298,6 @@ public class User implements Parcelable {
         dest.writeInt(this.percentage);
         dest.writeLong(this.phoneNumber);
         dest.writeInt(this.primaryKey);
-        dest.writeInt(this.userGrades);
-        dest.writeInt(this.numberOfGrades);
-        dest.writeInt(this.usersFinalGrade);
     }
 
     protected User(Parcel in) {
@@ -344,9 +324,6 @@ public class User implements Parcelable {
         this.percentage = in.readInt();
         this.phoneNumber = in.readLong();
         this.primaryKey = in.readInt();
-        this.userGrades = in.readInt();
-        this.numberOfGrades = in.readInt();
-        this.usersFinalGrade = in.readInt();
     }
 
     public static final Creator<User> CREATOR = new Creator<User>() {

@@ -24,25 +24,43 @@ import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.model.User;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnCheckedChanged;
+import butterknife.OnClick;
+
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class SignUpFragment4 extends Fragment {
-    User user;
-    Button btnContinue;
-    Chip nogometChip;
-    Chip kosarkaChip;
-    Chip rukometChip;
-    Chip trcanjeChip;
-    Chip teretanaChip;
-    Chip drustveneChip;
-    Chip druzenjeChip;
-    List<String> interestList = new ArrayList<>();
+    public static final String PASSED_USER_TAG = "user";
 
-    public SignUpFragment4() {
-        // Required empty public constructor
-    }
+    User user;
+    @BindView(R.id.btnContinue)
+    Button btnContinue;
+
+    @BindView(R.id.nogometChip)
+    Chip nogometChip;
+    @BindView(R.id.kosarkaChip)
+    Chip kosarkaChip;
+
+    @BindView(R.id.rukometChip)
+    Chip rukometChip;
+
+    @BindView(R.id.trcanjeChip)
+    Chip trcanjeChip;
+
+    @BindView(R.id.teretanaChip)
+    Chip teretanaChip;
+
+    @BindView(R.id.drustveneChip)
+    Chip drustveneChip;
+
+    @BindView(R.id.druzenjeChip)
+    Chip druzenjeChip;
+
+    List<String> interestList = new ArrayList<>();
 
 
     @Override
@@ -55,116 +73,99 @@ public class SignUpFragment4 extends Fragment {
     @Override
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        ButterKnife.bind(this, view);
         Bundle bundle = new Bundle();
         bundle = getArguments();
         user = new User();
-        user = bundle.getParcelable("user");
-        btnContinue = view.findViewById(R.id.btnContinue);
-        nogometChip = view.findViewById(R.id.nogometChip);
-        kosarkaChip = view.findViewById(R.id.kosarkaChip);
-        rukometChip = view.findViewById(R.id.rukometChip);
-        trcanjeChip = view.findViewById(R.id.trcanjeChip);
-        teretanaChip = view.findViewById(R.id.teretanaChip);
-        drustveneChip = view.findViewById(R.id.drustveneChip);
-        druzenjeChip = view.findViewById(R.id.druzenjeChip);
+        user = bundle.getParcelable(PASSED_USER_TAG);
 
-        Toast.makeText(getContext(), user.getName(), Toast.LENGTH_SHORT).show();
 
         setChipsListener();
 
-
-        btnContinue.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Navigation.findNavController(view).navigate(R.id.action_signUpFragment4_to_signUpFragment3);
-            }
-        });
     }
 
+    @OnClick(R.id.btnContinue)
+    void continueToNextCreationPage() {
+        user.setInterests((ArrayList<String>) interestList);
+        user.setRange(100);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(PASSED_USER_TAG, user);
+        Navigation.findNavController(getView()).navigate(R.id.action_signUpFragment4_to_signUpFragment3, bundle);
+    }
+
+   /* @OnCheckedChanged(R.id.nogometChip)
+    void toastMe() {
+        if (nogometChip.isChecked()) {
+            Toast.makeText(getContext(), "nogometChecked", Toast.LENGTH_SHORT).show(); we can use it like this also :)
+        } else if (!nogometChip.isChecked()) {
+            Toast.makeText(getContext(), "uncheked", Toast.LENGTH_SHORT).show();
+        }
+    }*/
+
     public void setChipsListener() {
-        nogometChip.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    interestList.add(nogometChip.getText().toString());
-                    Log.d("marko", "onCheckedChanged: nogometChip added");
-                } else if (isChecked == false) {
-                    interestList.remove(nogometChip.getText().toString());
-                    Log.d("marko", "onCheckedChanged: nogometChip removed");
-                }
+        nogometChip.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                interestList.add(nogometChip.getText().toString());
+                Log.d("marko", "onCheckedChanged: nogometChip added");
+            } else if (isChecked == false) {
+                interestList.remove(nogometChip.getText().toString());
+                Log.d("marko", "onCheckedChanged: nogometChip removed");
             }
         });
-        kosarkaChip.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    interestList.add(kosarkaChip.getText().toString());
-                    Log.d("marko", "onCheckedChanged: kosarkaChip added");
-                } else if (isChecked == false) {
-                    interestList.remove(kosarkaChip.getText().toString());
-                    Log.d("marko", "onCheckedChanged: kosarkaChip removed");
-                }
+        kosarkaChip.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                interestList.add(kosarkaChip.getText().toString());
+                Log.d("marko", "onCheckedChanged: kosarkaChip added");
+            } else if (isChecked == false) {
+                interestList.remove(kosarkaChip.getText().toString());
+                Log.d("marko", "onCheckedChanged: kosarkaChip removed");
             }
         });
-        rukometChip.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    interestList.add(rukometChip.getText().toString());
-                    Log.d("marko", "onCheckedChanged: rukometChip added");
-                } else if (isChecked == false) {
-                    interestList.remove(rukometChip.getText().toString());
-                    Log.d("marko", "onCheckedChanged: rukometChip removed");
-                }
+        rukometChip.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                interestList.add(rukometChip.getText().toString());
+                Log.d("marko", "onCheckedChanged: rukometChip added");
+            } else if (isChecked == false) {
+                interestList.remove(rukometChip.getText().toString());
+                Log.d("marko", "onCheckedChanged: rukometChip removed");
             }
         });
-        trcanjeChip.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    interestList.add(trcanjeChip.getText().toString());
-                    Log.d("marko", "onCheckedChanged: trcanjeChip added");
-                } else if (isChecked == false) {
-                    interestList.remove(trcanjeChip.getText().toString());
-                    Log.d("marko", "onCheckedChanged: trcanjeChip removed");
-                }
+        trcanjeChip.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                interestList.add(trcanjeChip.getText().toString());
+                Log.d("marko", "onCheckedChanged: trcanjeChip added");
+            } else if (isChecked == false) {
+                interestList.remove(trcanjeChip.getText().toString());
+                Log.d("marko", "onCheckedChanged: trcanjeChip removed");
             }
         });
-        teretanaChip.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    interestList.add(teretanaChip.getText().toString());
-                    Log.d("marko", "onCheckedChanged: teretanaChip added");
-                } else if (isChecked == false) {
-                    interestList.remove(teretanaChip.getText().toString());
-                    Log.d("marko", "onCheckedChanged: teretanaChip removed");
-                }
+        teretanaChip.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                interestList.add(teretanaChip.getText().toString());
+                Log.d("marko", "onCheckedChanged: teretanaChip added");
+            } else if (isChecked == false) {
+                interestList.remove(teretanaChip.getText().toString());
+                Log.d("marko", "onCheckedChanged: teretanaChip removed");
             }
         });
-        drustveneChip.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    interestList.add(drustveneChip.getText().toString());
-                    Log.d("marko", "onCheckedChanged: drustveneChip added");
-                } else if (isChecked == false) {
-                    interestList.remove(drustveneChip.getText().toString());
-                    Log.d("marko", "onCheckedChanged: drustveneChip removed");
-                }
+        drustveneChip.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                interestList.add(drustveneChip.getText().toString());
+                Log.d("marko", "onCheckedChanged: drustveneChip added");
+            } else if (isChecked == false) {
+                interestList.remove(drustveneChip.getText().toString());
+                Log.d("marko", "onCheckedChanged: drustveneChip removed");
             }
         });
-        druzenjeChip.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    interestList.add(druzenjeChip.getText().toString());
-                    Log.d("marko", "onCheckedChanged: druzenjeChip added");
-                } else if (isChecked == false) {
-                    interestList.remove(druzenjeChip.getText().toString());
-                    Log.d("marko", "onCheckedChanged: druzenjeChip removed");
-                }
+        druzenjeChip.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                interestList.add(druzenjeChip.getText().toString());
+                Log.d("marko", "onCheckedChanged: druzenjeChip added");
+            } else if (isChecked == false) {
+                interestList.remove(druzenjeChip.getText().toString());
+                Log.d("marko", "onCheckedChanged: druzenjeChip removed");
             }
         });
     }
 }
+

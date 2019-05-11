@@ -18,8 +18,10 @@ import android.view.ViewGroup;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.R;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.adapter.UpcomingEventsRecyclerViewAdapter;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.model.Event;
+import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.room.EventDatabase;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.viewModel.FirebaseViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.viewModel.MyViewModelFactory;
 
 import java.util.List;
 
@@ -36,11 +38,6 @@ public class UpcomingEventsFragment extends Fragment {
     private Context context;
 
 
-    public UpcomingEventsFragment() {
-        // Required empty public constructor
-    }
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -48,22 +45,14 @@ public class UpcomingEventsFragment extends Fragment {
         context = getContext();
         setupAdapter(view);
         fab = view.findViewById(R.id.fab);
-        viewModel = ViewModelProviders.of(getActivity()).get(FirebaseViewModel.class);
-        viewModel.getObservableFirebaseLiveData().observe(this, new Observer<List<Event>>() {
-            @Override
-            public void onChanged(List<Event> events) {
-                adapter.addAllEvents(events);
-                adapter.notifyDataSetChanged();
-            }
+        viewModel = ViewModelProviders.of(getActivity(), new MyViewModelFactory(getActivity().getApplication(), EventDatabase.getInstance(getContext())))
+                .get(FirebaseViewModel.class);
+        viewModel.getObservableFirebaseLiveData().observe(this, events -> {
+            adapter.addAllEvents(events);
+            adapter.notifyDataSetChanged();
         });
 
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Navigation.findNavController(getActivity(),R.id.nav_host_fragment).navigate(R.id.fragmentCreateEvent);
-
-            }
-        });
+        fab.setOnClickListener(v -> Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(R.id.fragmentCreateEvent));
         return view;
     }
 

@@ -8,6 +8,7 @@ import androidx.room.Query;
 import androidx.room.Update;
 
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.model.Event;
+import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.model.User;
 
 import java.util.List;
 
@@ -25,5 +26,14 @@ public interface EventDao {
 
     @Update
     void updateEvent(Event event);
+
+    @Update
+    void updateUser(User user);
+
+    @Insert
+    void insertUser(User user);
+
+    @Query("SELECT * FROM user_table")
+    LiveData<User> getCurrentUser();
 
 }
