@@ -3,8 +3,8 @@ package com.hW4c4Doi.codemelikeoneofyourfrenchgirls.repository;
 import android.util.Log;
 
 import com.google.firebase.auth.AuthResult;
-import com.google.firebase.firestore.DocumentReference;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.EventInterfaces.AuthRegisteredListener;
+import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.EventInterfaces.UserUpdatedListener;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.model.Event;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.model.User;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.room.EventDao;
@@ -16,14 +16,16 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class UserRepository implements AuthRegisteredListener {
+public class UserRepository implements UserUpdatedListener {
     EventDao eventDao;
     FirebaseRepository firebaseRepository;
 
     public UserRepository(EventDatabase database, FirebaseRepository firebaseRepository){
         eventDao = database.getEventDao();
         this.firebaseRepository = firebaseRepository;
-        this.firebaseRepository.addAuthRegisteredListener(this);
+        // Adding this class to userUpdatedListener so we know when we are ready to create user
+        // in Room database
+        this.firebaseRepository.addUserUpdatedListener(this);
     }
 
     public void deleteEvent(final Event event) {
@@ -90,11 +92,7 @@ public class UserRepository implements AuthRegisteredListener {
 
     }
 
-    @Override
-    public void UserAuthenticatedInFirebase(AuthResult authResult, User user) {
-        return;
-    }
-
+    // Insert given user in Room database when he is created in Firebase
     @Override
     public void UserUpdatedInFirebase(User user) {
         insertUserInDatabase(user);
