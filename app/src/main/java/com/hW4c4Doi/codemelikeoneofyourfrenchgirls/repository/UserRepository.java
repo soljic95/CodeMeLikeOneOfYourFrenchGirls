@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.google.firebase.auth.AuthResult;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.EventInterfaces.AuthRegisteredListener;
+import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.EventInterfaces.UserFetchedListener;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.EventInterfaces.UserUpdatedListener;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.model.Event;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.model.User;
@@ -18,7 +19,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class UserRepository implements UserUpdatedListener {
+public class UserRepository implements UserUpdatedListener, UserFetchedListener {
     EventDao eventDao;
     FirebaseRepository firebaseRepository;
     boolean isUserInRoom = false;
@@ -30,6 +31,7 @@ public class UserRepository implements UserUpdatedListener {
         // Adding this class to userUpdatedListener so we know when we are ready to create user
         // in Room database
         this.firebaseRepository.addUserUpdatedListener(this);
+        this.firebaseRepository.addUserFetchedListener(this);
     }
 
     public void deleteEvent(final Event event) {
@@ -100,7 +102,7 @@ public class UserRepository implements UserUpdatedListener {
 
 
     public boolean isUserInRoomDb(String uId) {
-        Single.just(eventDao.getCurrentUser(uId)).subscribeOn(Schedulers.io())
+        Single.just(eventDao.getCurrentUser(uId)).subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new SingleObserver<User>() {
                     @Override
@@ -127,6 +129,12 @@ public class UserRepository implements UserUpdatedListener {
 
     @Override
     public void UserUpdatedInFirebase(User user) {
+        insertUserInDatabase(user);
+    }
+
+
+    @Override
+    public void UserFetchedFromFirebase(User user) {
         insertUserInDatabase(user);
     }
 }

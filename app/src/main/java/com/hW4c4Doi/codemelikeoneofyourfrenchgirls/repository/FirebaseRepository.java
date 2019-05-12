@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.EventInterfaces.AuthRegisteredListener;
+import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.EventInterfaces.UserFetchedListener;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.EventInterfaces.UserUpdatedListener;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.model.Event;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.model.User;
@@ -42,6 +43,11 @@ public class FirebaseRepository {
     // Adding user updated listener to firebase helper class
     public void addUserUpdatedListener(UserUpdatedListener listener) {
         firebaseHelperClass.addUserListener(listener);
+    }
+
+    // Adding user updated listener to firebase helper class
+    public void addUserFetchedListener(UserFetchedListener listener) {
+        firebaseHelperClass.addUserFetchedListener(listener);
     }
 
     public LiveData<List<Event>> getAllEvents() {

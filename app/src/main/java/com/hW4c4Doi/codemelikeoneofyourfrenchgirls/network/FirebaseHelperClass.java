@@ -17,6 +17,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.EventInterfaces.AuthRegisteredListener;
 
+import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.EventInterfaces.UserFetchedListener;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.EventInterfaces.UserUpdatedListener;
 
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.model.Event;
@@ -37,6 +38,7 @@ public class FirebaseHelperClass implements AuthRegisteredListener {
     // Listeners for when user is registered and updated in Firebase
     List<AuthRegisteredListener> authRegisteredListeners = new ArrayList<AuthRegisteredListener>();
     List<UserUpdatedListener> userUpdatedListeners = new ArrayList<>();
+    List<UserFetchedListener> userFetchedListeners = new ArrayList<>();
 
     public FirebaseHelperClass() {
         db = FirebaseFirestore.getInstance();
@@ -144,6 +146,11 @@ public class FirebaseHelperClass implements AuthRegisteredListener {
         userUpdatedListeners.add(toAdd);
     }
 
+    // Add listener to list of listeners for user update
+    public void addUserFetchedListener(UserFetchedListener toAdd) {
+        userFetchedListeners.add(toAdd);
+    }
+
     public User getUserFromFirebase(String uId) {
         db.collection("Users").whereEqualTo("userId", uId).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
@@ -151,6 +158,9 @@ public class FirebaseHelperClass implements AuthRegisteredListener {
                 for (DocumentSnapshot dc : queryDocumentSnapshots) {
                     currentUser = new User();
                     currentUser = dc.toObject(User.class);
+                    for (UserFetchedListener listener : userFetchedListeners)
+                        listener.UserFetchedFromFirebase(currentUser);
+
                 }
 
             }
