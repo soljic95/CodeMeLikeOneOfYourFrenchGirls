@@ -35,11 +35,12 @@ public class FirebaseRepository {
 
 
     // Adding auth listener to firebase helper class
-    public void addAuthRegisteredListener(AuthRegisteredListener listener){
+    public void addAuthRegisteredListener(AuthRegisteredListener listener) {
         firebaseHelperClass.addAuthListener(listener);
     }
+
     // Adding user updated listener to firebase helper class
-    public void addUserUpdatedListener(UserUpdatedListener listener){
+    public void addUserUpdatedListener(UserUpdatedListener listener) {
         firebaseHelperClass.addUserListener(listener);
     }
 
@@ -67,5 +68,9 @@ public class FirebaseRepository {
 
     public LiveData<User> getCurrentUser() {
         return getCurrentUser();
+    }
+
+    public User getUserFromFirebase(String uId) {
+        return firebaseHelperClass.getUserFromFirebase(uId);
     }
 }

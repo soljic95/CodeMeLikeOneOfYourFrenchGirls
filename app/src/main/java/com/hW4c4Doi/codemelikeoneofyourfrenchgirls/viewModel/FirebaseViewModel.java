@@ -63,4 +63,8 @@ public class FirebaseViewModel extends AndroidViewModel {
         return userRepository.isUserInRoomDb(uId);
     }
 
+    public User getUserFromFirebase(String uId) {
+        return firebaseRepository.getUserFromFirebase(uId);
+    }
+
 }

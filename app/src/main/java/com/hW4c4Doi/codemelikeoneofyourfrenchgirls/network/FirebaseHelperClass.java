@@ -4,16 +4,16 @@ package com.hW4c4Doi.codemelikeoneofyourfrenchgirls.network;
 import android.util.Log;
 
 import androidx.annotation.MainThread;
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.EventInterfaces.AuthRegisteredListener;
 
@@ -24,26 +24,16 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.model.User;
 
-import org.w3c.dom.Document;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.annotation.Nullable;
-
-import io.reactivex.Single;
-import io.reactivex.SingleObserver;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 
 
 public class FirebaseHelperClass implements AuthRegisteredListener {
     FirebaseFirestore db;
     FirebaseAuth auth = FirebaseAuth.getInstance();
     String eventDocRef = "";
-    String userDocRef = "";
-
+    User currentUser;
     // Listeners for when user is registered and updated in Firebase
     List<AuthRegisteredListener> authRegisteredListeners = new ArrayList<AuthRegisteredListener>();
     List<UserUpdatedListener> userUpdatedListeners = new ArrayList<>();
@@ -125,25 +115,24 @@ public class FirebaseHelperClass implements AuthRegisteredListener {
                         db.collection("Users").document(documentReference.getId())
                                 .update("userDocRef", documentReference.getId())
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            // When user is updated, fetch it from database and trigger event for
-                            // Listener that will create that user in Room database locally
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                db.collection("Users").document(documentReference.getId()).
-                                        get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                    // When user is updated, fetch it from database and trigger event for
+                                    // Listener that will create that user in Room database locally
                                     @Override
-                                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                        for (UserUpdatedListener listener : userUpdatedListeners)
-                                            listener.UserUpdatedInFirebase(documentSnapshot.toObject(User.class));
+                                    public void onSuccess(Void aVoid) {
+                                        db.collection("Users").document(documentReference.getId()).
+                                                get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                            @Override
+                                            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                                for (UserUpdatedListener listener : userUpdatedListeners)
+                                                    listener.UserUpdatedInFirebase(documentSnapshot.toObject(User.class));
+                                            }
+                                        });
                                     }
                                 });
-                            }
-                        });
                     }
                 });
     }
 
-    ;
 
     // Add listener to list of listener for auth registration
     public void addAuthListener(AuthRegisteredListener toAdd) {
@@ -153,5 +142,24 @@ public class FirebaseHelperClass implements AuthRegisteredListener {
     // Add listener to list of listeners for user update
     public void addUserListener(UserUpdatedListener toAdd) {
         userUpdatedListeners.add(toAdd);
+    }
+
+    public User getUserFromFirebase(String uId) {
+        db.collection("Users").whereEqualTo("userId", uId).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                for (DocumentSnapshot dc : queryDocumentSnapshots) {
+                    currentUser = new User();
+                    currentUser = dc.toObject(User.class);
+                }
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("marko", "onFailure: " + e.getLocalizedMessage());
+            }
+        });
+        return currentUser;
     }
 }

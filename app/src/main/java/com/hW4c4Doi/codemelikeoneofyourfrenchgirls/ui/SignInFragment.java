@@ -158,10 +158,12 @@ public class SignInFragment extends Fragment {
                                 Intent intent = new Intent(getContext(), MainActivity.class);
                                 startActivity(intent);
                                 getActivity().finish();
+                            } else {
+                                viewModel.getUserFromFirebase(task.getResult().getUser().getUid());
                             }
 
                         } else {
-                            //viewModel.getUserFromFirebase(String uId);
+
                         }
                     }
                 }).addOnFailureListener(new OnFailureListener() {
