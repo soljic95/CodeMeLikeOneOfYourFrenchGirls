@@ -16,7 +16,7 @@ public class Event implements Parcelable {
     }
 
     @PrimaryKey(autoGenerate = true)
-    private String eventId;
+    private long eventId;
     private String name;
     private String activity;
     private String eventDescription;
@@ -174,11 +174,11 @@ public class Event implements Parcelable {
         this.usersEntered = usersEntered;
     }
 
-    public String getEventId() {
+    public long getEventId() {
         return eventId;
     }
 
-    public void setEventId(String eventId) {
+    public void setEventId(long eventId) {
         this.eventId = eventId;
     }
 
@@ -212,7 +212,7 @@ public class Event implements Parcelable {
         dest.writeDouble(this.eventLng);
         dest.writeInt(this.usersNeeded);
         dest.writeInt(this.usersEntered);
-        dest.writeString(this.eventId);
+        dest.writeLong(this.eventId);
         dest.writeString(this.idOfTheUserWhoCreatedIt);
         dest.writeStringList(this.listOfUsersParticipatingInEvent);
         dest.writeByte(this.isCompleted ? (byte) 1 : (byte) 0);
@@ -231,7 +231,7 @@ public class Event implements Parcelable {
         this.eventLng = in.readDouble();
         this.usersNeeded = in.readInt();
         this.usersEntered = in.readInt();
-        this.eventId = in.readString();
+        this.eventId = in.readLong();
         this.idOfTheUserWhoCreatedIt = in.readString();
         this.listOfUsersParticipatingInEvent = in.createStringArrayList();
         this.isCompleted = in.readByte() != 0;

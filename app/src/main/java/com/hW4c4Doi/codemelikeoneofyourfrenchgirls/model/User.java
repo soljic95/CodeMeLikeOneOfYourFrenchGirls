@@ -132,6 +132,10 @@ public class User implements Parcelable {
         this.userDocRef = userDocRef;
     }
 
+    public User updateUserDocRef(String userDocRef){
+        this.userDocRef = userDocRef;
+        return this;
+    }
     public ArrayList<String> getUserFriends() {
         return userFriends;
     }
@@ -227,6 +231,10 @@ public class User implements Parcelable {
         this.userId = userId;
     }
 
+    public User updateUserId(String userId) {
+        this.userId = userId;
+        return this;
+    }
 
     public void addPositiveReview() {
         positiveReview += 1;

@@ -70,10 +70,13 @@ public class FirebaseHelperClass {
         return observedLiveData;
     }
 
-    public void createUserAccountInFirebase(User user, UpdateUserId updateUserId) {
-        auth.createUserWithEmailAndPassword(user.getEmail(), user.getPassword()).addOnSuccessListener(authResult ->
-                db.collection("Users").add(user).addOnSuccessListener(documentReference -> userDocRef = eventDocRef));
-        updateUserId.updateId(userDocRef);
+    public void createUserAccountInFirebase(User user) {
+        auth.createUserWithEmailAndPassword(user.getEmail(), user.getPassword()).
+                addOnSuccessListener(authResult ->
+                db.collection("Users").add(user.updateUserId(authResult.getUser().getUid())).
+                        addOnSuccessListener(documentReference -> db.collection("Users")
+                                .document(documentReference.getId()).update("userDocRef",documentReference.getId())));
+
     }
 
     public void setCustomDocRef(String customDocRef) {
