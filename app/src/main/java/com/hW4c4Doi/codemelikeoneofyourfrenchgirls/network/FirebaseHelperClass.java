@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.UpdateUserId;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.model.Event;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -22,12 +23,10 @@ public class FirebaseHelperClass {
     FirebaseAuth auth = FirebaseAuth.getInstance();
     String eventDocRef = "";
     String userDocRef = "";
-    private MyCustomObjectListener listener;
 
 
     public FirebaseHelperClass() {
         db = FirebaseFirestore.getInstance();
-        this.listener = null;
     }
 
     public LiveData<List<Event>> getEvents() {
@@ -63,7 +62,7 @@ public class FirebaseHelperClass {
         db.collection("Events").addSnapshotListener((queryDocumentSnapshots, e) -> {
             eventList.clear();
             for (DocumentSnapshot dc : queryDocumentSnapshots) {
-                Log.d("marko", "onEvent: " + dc.toObject(Event.class).getEventName());
+                Log.d("marko", "onEvent: " + dc.toObject(Event.class).getName());
                 eventList.add(dc.toObject(Event.class));
             }
             observedLiveData.setValue(eventList);
@@ -71,20 +70,14 @@ public class FirebaseHelperClass {
         return observedLiveData;
     }
 
-    public void createUserAccountInFirebase(User user) {
+    public void createUserAccountInFirebase(User user, UpdateUserId updateUserId) {
         auth.createUserWithEmailAndPassword(user.getEmail(), user.getPassword()).addOnSuccessListener(authResult ->
                 db.collection("Users").add(user).addOnSuccessListener(documentReference -> userDocRef = eventDocRef));
+        updateUserId.updateId(userDocRef);
     }
 
-    public interface MyCustomObjectListener {
-        // These methods are the different events and
-        // need to pass relevant arguments related to the event triggered
-        void onObjectReady(String userId);
+    public void setCustomDocRef(String customDocRef) {
     }
 
 
-    // Assign the listener implementing events interface that will receive the events
-    public void setCustomObjectListener(MyCustomObjectListener listener) {
-        this.listener = listener;
-    }
 }

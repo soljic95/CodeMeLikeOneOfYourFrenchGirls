@@ -45,9 +45,6 @@ public class User implements Parcelable {
     public ArrayList<String> userFriends;
     String userDocRef;
     long dateOfBirth;
-    int nogometSkill;
-    int kosarkaSkill;
-    int sahSkill;
     int numberOfEventsParticipated = 0;
     int positiveReview = 0;
     int percentage = 100;
@@ -93,9 +90,6 @@ public class User implements Parcelable {
         this.userToken = userToken;
         this.userFriends = userFriends;
         this.profilePictureUrl = profilePictureUrl;
-        this.nogometSkill = nogometSkill;
-        this.kosarkaSkill = kosarkaSkill;
-        this.sahSkill = sahSkill;
         this.numberOfEventsParticipated = numberOfEventsParticipated;
         this.positiveReview = positiveReview;
         this.percentage = percentage;
@@ -127,30 +121,6 @@ public class User implements Parcelable {
 
     public void setProfilePictureUrl(String profilePictureUrl) {
         this.profilePictureUrl = profilePictureUrl;
-    }
-
-    public int getNogometSkill() {
-        return nogometSkill;
-    }
-
-    public void setNogometSkill(int nogometSkill) {
-        this.nogometSkill = nogometSkill;
-    }
-
-    public int getKosarkaSkill() {
-        return kosarkaSkill;
-    }
-
-    public void setKosarkaSkill(int kosarkaSkill) {
-        this.kosarkaSkill = kosarkaSkill;
-    }
-
-    public int getSahSkill() {
-        return sahSkill;
-    }
-
-    public void setSahSkill(int sahSkill) {
-        this.sahSkill = sahSkill;
     }
 
 
@@ -290,9 +260,6 @@ public class User implements Parcelable {
         dest.writeStringList(this.userFriends);
         dest.writeString(this.userDocRef);
         dest.writeLong(this.dateOfBirth);
-        dest.writeInt(this.nogometSkill);
-        dest.writeInt(this.kosarkaSkill);
-        dest.writeInt(this.sahSkill);
         dest.writeInt(this.numberOfEventsParticipated);
         dest.writeInt(this.positiveReview);
         dest.writeInt(this.percentage);
@@ -316,9 +283,6 @@ public class User implements Parcelable {
         this.userFriends = in.createStringArrayList();
         this.userDocRef = in.readString();
         this.dateOfBirth = in.readLong();
-        this.nogometSkill = in.readInt();
-        this.kosarkaSkill = in.readInt();
-        this.sahSkill = in.readInt();
         this.numberOfEventsParticipated = in.readInt();
         this.positiveReview = in.readInt();
         this.percentage = in.readInt();

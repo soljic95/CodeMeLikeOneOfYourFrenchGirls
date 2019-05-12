@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.R;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.model.Event;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.viewModel.FirebaseViewModel;
@@ -44,16 +45,14 @@ public class CreateEventFragment extends Fragment {
         viewModel = ViewModelProviders.of(getActivity()).get(FirebaseViewModel.class);
 
 
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                event = new Event(inEventName.getText().toString(), inEventActivity.getText().toString(),
-                        "transitionName",
-                        "transitionImage", R.drawable.woman);
-                viewModel.insertEvent(event);
-                Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(R.id.fragmentEvents);
+        button.setOnClickListener(v -> {
+            event = new Event(FirebaseAuth.getInstance().getUid(), inEventName.getText().toString(), inEventActivity.getText().toString(),
+                    0, 0, 0, 0, 6, "EVENT DESCRIPTION", "",
+                    false, false, 000);
 
-            }
+            viewModel.insertEvent(event);
+            Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(R.id.fragmentEvents);
+
         });
 
         return view;

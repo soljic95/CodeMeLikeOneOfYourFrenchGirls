@@ -53,6 +53,7 @@ public class UpcomingEventsFragment extends Fragment {
         });
 
         fab.setOnClickListener(v -> Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(R.id.fragmentCreateEvent));
+
         return view;
     }
 

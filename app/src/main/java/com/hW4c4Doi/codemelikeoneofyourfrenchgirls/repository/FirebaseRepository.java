@@ -70,31 +70,9 @@ public class FirebaseRepository {
     }
 
     public void insertEvent(final Event event) {
-        Single.fromCallable(() -> eventDao.insertEvent(event)).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SingleObserver<Long>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-
-                    }
-
-                    @Override
-                    public void onSuccess(Long aLong) {
-                        Log.d("marko", "onSuccess: " + aLong);
-                        event.setEventId(aLong);
-                        insertEventInFirebaseDb(event);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-                });
-    }
-
-    public void insertEventInFirebaseDb(Event event) {
         firebaseHelperClass.insertEvent(event);
     }
+
 
     public void deleteEventFromFirebase(Event event) {
         firebaseHelperClass.deleteEventFromFirebase(event);
