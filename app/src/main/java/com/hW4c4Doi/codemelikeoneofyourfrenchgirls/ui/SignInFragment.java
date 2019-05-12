@@ -161,7 +161,7 @@ public class SignInFragment extends Fragment {
                             }
 
                         } else {
-                            viewModel.getUserFromFirebase(String uId);
+                            //viewModel.getUserFromFirebase(String uId);
                         }
                     }
                 }).addOnFailureListener(new OnFailureListener() {
