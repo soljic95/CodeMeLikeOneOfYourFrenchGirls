@@ -11,6 +11,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.model.Event;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.model.User;
+import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.network.FirebaseHelperClass;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.repository.FirebaseRepository;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.repository.UserRepository;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.room.EventDatabase;
@@ -27,7 +28,7 @@ public class FirebaseViewModel extends AndroidViewModel {
     public FirebaseViewModel(@NonNull Application application, EventDatabase database) {
         super(application);
         firebaseRepository = new FirebaseRepository();
-        userRepository = new UserRepository(database,firebaseRepository);
+        userRepository = new UserRepository(database, firebaseRepository);
         eventListLiveData = firebaseRepository.getAllEvents();
 
     }
@@ -51,12 +52,15 @@ public class FirebaseViewModel extends AndroidViewModel {
     }
 
     public void createUser(User user) {
-       firebaseRepository.createUserInFirebase(user);
+        firebaseRepository.createUserInFirebase(user);
     }
 
     public void updateUser(User user) {
         userRepository.updateId(user);
     }
 
+    public boolean isUserInRoomDatabase(String uId) {
+        return userRepository.isUserInRoomDb(uId);
+    }
 
 }

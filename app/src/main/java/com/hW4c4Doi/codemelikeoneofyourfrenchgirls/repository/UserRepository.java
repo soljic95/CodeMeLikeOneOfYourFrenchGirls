@@ -12,6 +12,8 @@ import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.room.EventDatabase;
 
 import io.reactivex.Completable;
 import io.reactivex.CompletableObserver;
+import io.reactivex.Single;
+import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
@@ -19,8 +21,10 @@ import io.reactivex.schedulers.Schedulers;
 public class UserRepository implements AuthRegisteredListener {
     EventDao eventDao;
     FirebaseRepository firebaseRepository;
+    boolean isUserInRoom = false;
 
-    public UserRepository(EventDatabase database, FirebaseRepository firebaseRepository){
+
+    public UserRepository(EventDatabase database, FirebaseRepository firebaseRepository) {
         eventDao = database.getEventDao();
         this.firebaseRepository = firebaseRepository;
         this.firebaseRepository.addAuthRegisteredListener(this);
@@ -47,6 +51,7 @@ public class UserRepository implements AuthRegisteredListener {
                     }
                 });
     }
+
     public void insertUserInDatabase(User user) {
         Completable.fromAction(() -> eventDao.insertUser(user)).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -68,6 +73,7 @@ public class UserRepository implements AuthRegisteredListener {
                     }
                 });
     }
+
     public void updateId(User user) {
         Completable.fromAction(() -> eventDao.updateUser(user)).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -88,6 +94,30 @@ public class UserRepository implements AuthRegisteredListener {
                     }
                 });
 
+    }
+
+    public boolean isUserInRoomDb(String uId) {
+        Single.just(eventDao.getCurrentUser(uId)).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SingleObserver<User>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onSuccess(User user) {
+                        if (user.getName() != null) {
+                            isUserInRoom = true;
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+                });
+        return isUserInRoom;
     }
 
     @Override

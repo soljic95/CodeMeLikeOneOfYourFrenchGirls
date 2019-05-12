@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 
 import android.text.TextUtils;
@@ -27,7 +28,10 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.R;
+import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.room.EventDatabase;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.ui.MainActivity;
+import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.viewModel.FirebaseViewModel;
+import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.viewModel.MyViewModelFactory;
 
 import java.util.Arrays;
 import java.util.List;
@@ -39,14 +43,14 @@ import static android.app.Activity.RESULT_OK;
  * A simple {@link Fragment} subclass.
  */
 public class SignInFragment extends Fragment {
-    Button btnSignUp ;
+    Button btnSignUp;
     Button btnSignIn;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
     final static int RC_SIGN_IN = 1;
     private TextInputEditText etEmail;
     private TextInputEditText etPassword;
-
+    private FirebaseViewModel viewModel;
 
 
     public SignInFragment() {
@@ -67,6 +71,9 @@ public class SignInFragment extends Fragment {
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        viewModel = ViewModelProviders.of(getActivity(), new MyViewModelFactory(getActivity().getApplication(), EventDatabase.getInstance(getContext())))
+                .get(FirebaseViewModel.class);
+
         btnSignUp = view.findViewById(R.id.btnSignUp);
         btnSignIn = view.findViewById(R.id.btnSignIn);
         etEmail = view.findViewById(R.id.etEmail);
@@ -79,7 +86,7 @@ public class SignInFragment extends Fragment {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
 
-                if (user != null){
+                if (user != null) {
                     checkIfSignedIn(user);
                 }
             }
@@ -147,17 +154,20 @@ public class SignInFragment extends Fragment {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            Intent intent = new Intent(getContext(), MainActivity.class);
-                            startActivity(intent);
-                            getActivity().finish();
+                            if (viewModel.isUserInRoomDatabase(task.getResult().getUser().getUid())) {
+                                Intent intent = new Intent(getContext(), MainActivity.class);
+                                startActivity(intent);
+                                getActivity().finish();
+                            }
+
                         } else {
-                            Toast.makeText(getContext(), "Provjerite unesene podatke", Toast.LENGTH_SHORT).show();
+                            viewModel.getUserFromFirebase(String uId);
                         }
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Log.d("marko", "onFailure: "+e.getMessage());
+                Log.d("marko", "onFailure: " + e.getMessage());
             }
         });
     }
@@ -167,32 +177,33 @@ public class SignInFragment extends Fragment {
         if (TextUtils.isEmpty(etEmail.getText().toString())) {
             etEmail.setError("Obavezno popuniti");
             result = false;
-        } else if (!isEmailValid(etEmail.getText().toString().trim())){
+        } else if (!isEmailValid(etEmail.getText().toString().trim())) {
             etEmail.setError("Email adresa nije valjana");
             result = false;
-        }
-        else {
+        } else {
             etEmail.setError(null);
         }
         if (TextUtils.isEmpty(etPassword.getText().toString().trim())) {
             etPassword.setError("Obavezno popuniti");
             result = false;
 
-        } else if(isPasswordValid(etPassword.getText().toString().trim())){
+        } else if (isPasswordValid(etPassword.getText().toString().trim())) {
             etPassword.setError("Lozinka nije dovoljno duga");
             result = false;
-        }
-        else {
+        } else {
             etPassword.setError(null);
         }
 
         return result;
     }
 
-    private boolean isEmailValid(String email){
+    private boolean isEmailValid(String email) {
         return !TextUtils.isEmpty(email) && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
+
     private boolean isPasswordValid(String password) {
         return password.length() < 7;
     }
+
+
 }

@@ -16,7 +16,6 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.EventInterfaces.AuthRegisteredListener;
-import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.UpdateUserId;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.model.Event;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -36,7 +35,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 
-public class FirebaseHelperClass implements  AuthRegisteredListener{
+public class FirebaseHelperClass implements AuthRegisteredListener {
     FirebaseFirestore db;
     FirebaseAuth auth = FirebaseAuth.getInstance();
     String eventDocRef = "";
@@ -47,6 +46,7 @@ public class FirebaseHelperClass implements  AuthRegisteredListener{
     public void addListener(AuthRegisteredListener toAdd) {
         listeners.add(toAdd);
     }
+
     public FirebaseHelperClass() {
         db = FirebaseFirestore.getInstance();
     }
@@ -92,9 +92,9 @@ public class FirebaseHelperClass implements  AuthRegisteredListener{
         return observedLiveData;
     }
 
-    public void createUserAccountInFirebase(User user)  {
+    public void createUserAccountInFirebase(User user) {
 
-         auth.createUserWithEmailAndPassword(user.getEmail(), user.getPassword()).
+        auth.createUserWithEmailAndPassword(user.getEmail(), user.getPassword()).
                 addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                     @Override
                     public void onSuccess(AuthResult authResult) {
@@ -115,7 +115,7 @@ public class FirebaseHelperClass implements  AuthRegisteredListener{
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
-                        db.collection("Users").document(documentReference.getId()).update("userDocRef",documentReference.getId()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        db.collection("Users").document(documentReference.getId()).update("userDocRef", documentReference.getId()).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
                                 db.collection("Users").document(documentReference.getId()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -129,7 +129,9 @@ public class FirebaseHelperClass implements  AuthRegisteredListener{
                         });
                     }
                 });
-    };
+    }
+
+    ;
 
 
     @Override

@@ -30,7 +30,10 @@ public class FirebaseRepository {
 
     }
 
-    public void addAuthRegisteredListener(AuthRegisteredListener listener){firebaseHelperClass.addListener(listener);}
+    public void addAuthRegisteredListener(AuthRegisteredListener listener) {
+        firebaseHelperClass.addListener(listener);
+    }
+
     public LiveData<List<Event>> getAllEvents() {
         return eventLiveData;
     }
@@ -51,9 +54,6 @@ public class FirebaseRepository {
     public void createUserInFirebase(User user) {
         firebaseHelperClass.createUserAccountInFirebase(user);
     }
-
-
-
 
 
     public LiveData<User> getCurrentUser() {
