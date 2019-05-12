@@ -7,20 +7,27 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.model.Event;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.model.User;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.repository.FirebaseRepository;
+import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.repository.UserRepository;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.room.EventDatabase;
 
 import java.util.List;
 
+import io.reactivex.Single;
+
 public class FirebaseViewModel extends AndroidViewModel {
     private FirebaseRepository firebaseRepository;
+    private UserRepository userRepository;
     private LiveData<List<Event>> eventListLiveData;
 
     public FirebaseViewModel(@NonNull Application application, EventDatabase database) {
         super(application);
-        firebaseRepository = new FirebaseRepository(database);
+        firebaseRepository = new FirebaseRepository();
+        userRepository = new UserRepository(database,firebaseRepository);
         eventListLiveData = firebaseRepository.getAllEvents();
 
     }
@@ -40,17 +47,15 @@ public class FirebaseViewModel extends AndroidViewModel {
     }
 
     public void deleteEvent(Event event) {
-        firebaseRepository.deleteEvent(event);
+        userRepository.deleteEvent(event);
     }
 
     public void createUser(User user) {
-        firebaseRepository.createUserInFirebase(user);
-        firebaseRepository.insertUserInDatabase(user);
+       firebaseRepository.createUserInFirebase(user);
     }
 
-
     public void updateUser(User user) {
-        firebaseRepository.updateId(user);
+        userRepository.updateId(user);
     }
 
 
