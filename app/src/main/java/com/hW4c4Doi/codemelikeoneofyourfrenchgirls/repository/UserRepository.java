@@ -15,17 +15,12 @@ import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.room.EventDatabase;
 
 import io.reactivex.Completable;
 import io.reactivex.CompletableObserver;
-import io.reactivex.Maybe;
-import io.reactivex.Observable;
-import io.reactivex.Observer;
 import io.reactivex.Single;
-import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.internal.operators.completable.CompletableFromAction;
 import io.reactivex.schedulers.Schedulers;
 
-public class UserRepository implements UserUpdatedListener, UserFetchedListener {
+public class UserRepository implements UserUpdatedListener{
     EventDao eventDao;
     FirebaseRepository firebaseRepository;
     boolean isUserInRoom = false;
@@ -37,7 +32,6 @@ public class UserRepository implements UserUpdatedListener, UserFetchedListener 
         // Adding this class to userUpdatedListener so we know when we are ready to create user
         // in Room database
         this.firebaseRepository.addUserUpdatedListener(this);
-        this.firebaseRepository.addUserFetchedListener(this);
     }
 
     public void deleteEvent(final Event event) {
@@ -62,26 +56,10 @@ public class UserRepository implements UserUpdatedListener, UserFetchedListener 
                 });
     }
 
-    public void insertUserInDatabase(User user) {
-        Completable.fromAction(() -> eventDao.insertUser(user)).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new CompletableObserver() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                        Log.d("marko", "onInsertUser: userInserted");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.d("error", e.getMessage());
-                    }
-                });
+    // Insert user in Room database
+    public Completable insertUserInDatabase(User user) {
+        return Completable.fromAction(() -> eventDao.insertUser(user)).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     public void updateId(User user) {
@@ -116,12 +94,23 @@ public class UserRepository implements UserUpdatedListener, UserFetchedListener 
 
     @Override
     public void UserUpdatedInFirebase(User user) {
-        insertUserInDatabase(user);
+
+        insertUserInDatabase(user).subscribe(new CompletableObserver() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onComplete() {
+                Log.d("marko", "onSuccess: User was added in database!" + user);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Log.d("marko","onSuccess: User couldn be added in database!-" + e.getMessage());
+            }
+        });
     }
 
-
-    @Override
-    public void UserFetchedFromFirebase(User user) {
-        insertUserInDatabase(user);
-    }
 }

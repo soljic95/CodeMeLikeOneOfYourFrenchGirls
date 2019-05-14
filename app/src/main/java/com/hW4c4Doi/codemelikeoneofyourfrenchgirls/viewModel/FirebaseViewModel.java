@@ -9,6 +9,7 @@ import androidx.lifecycle.LiveData;
 
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.model.Event;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.model.User;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.network.FirebaseHelperClass;
@@ -53,8 +54,8 @@ public class FirebaseViewModel extends AndroidViewModel {
         userRepository.deleteEvent(event);
     }
 
-    public void createUser(User user) {
-        firebaseRepository.createUserInFirebase(user);
+    public void registerUserInFirebase(User user) {
+        firebaseRepository.registerUserInFirebase(user);
     }
 
     public void updateUser(User user) {
@@ -65,12 +66,12 @@ public class FirebaseViewModel extends AndroidViewModel {
         return userRepository.isUserInRoomDb(uId);
     }
 
-    public User getUserFromFirebase(String uId) {
+    public Task<QuerySnapshot> getUserFromFirebase(String uId) {
         return firebaseRepository.getUserFromFirebase(uId);
     }
 
-    public void insertUserInDatabase(User user){
-        userRepository.insertUserInDatabase(user);
+    public Completable insertUserInDatabase(User user){
+        return userRepository.insertUserInDatabase(user);
     }
 
 }

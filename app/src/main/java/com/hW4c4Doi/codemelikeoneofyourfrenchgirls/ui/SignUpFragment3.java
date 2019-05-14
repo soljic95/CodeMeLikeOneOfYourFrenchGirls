@@ -89,7 +89,7 @@ public class SignUpFragment3 extends Fragment {
         user.setProfilePictureUri(mPictureUri.toString());
 
         // Creating user in Firebase and sending event to create it in Room database
-        viewModel.createUser(user);
+        viewModel.registerUserInFirebase(user);
 
         getContext().startActivity(new Intent(getActivity(), MainActivity.class));
         getActivity().finish();

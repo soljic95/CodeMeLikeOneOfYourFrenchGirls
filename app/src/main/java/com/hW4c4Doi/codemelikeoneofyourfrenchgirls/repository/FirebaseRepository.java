@@ -4,8 +4,12 @@ package com.hW4c4Doi.codemelikeoneofyourfrenchgirls.repository;
 
 import androidx.lifecycle.LiveData;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.j2objc.annotations.ObjectiveCName;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.EventInterfaces.AuthRegisteredListener;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.EventInterfaces.UserFetchedListener;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.EventInterfaces.UserUpdatedListener;
@@ -17,6 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Single;
+import io.reactivex.SingleObserver;
+import io.reactivex.disposables.Disposable;
 
 
 public class FirebaseRepository {
@@ -28,9 +34,6 @@ public class FirebaseRepository {
     public FirebaseRepository() {
         eventList = new ArrayList<>();
         firebaseHelperClass = new FirebaseHelperClass();
-        // Add firebaseHelperClass to authRegisteredListener because event needs to be emited on
-        // same class so function calling can be continued
-        this.addAuthRegisteredListener(firebaseHelperClass);
 
     }
 
@@ -43,11 +46,6 @@ public class FirebaseRepository {
     // Adding user updated listener to firebase helper class
     public void addUserUpdatedListener(UserUpdatedListener listener) {
         firebaseHelperClass.addUserListener(listener);
-    }
-
-    // Adding user updated listener to firebase helper class
-    public void addUserFetchedListener(UserFetchedListener listener) {
-        firebaseHelperClass.addUserFetchedListener(listener);
     }
 
     public LiveData<List<Event>> getAllEvents() {
@@ -67,8 +65,20 @@ public class FirebaseRepository {
         return firebaseHelperClass.observeAllEvents();
     }
 
-    public void createUserInFirebase(User user) {
-        firebaseHelperClass.createUserAccountInFirebase(user);
+    // Pipline of creating user in firebase
+    // Needs to be
+    public void registerUserInFirebase(User user) {
+        firebaseHelperClass.createUserAccountInFirebase(user).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+            @Override
+            public void onSuccess(AuthResult authResult) {
+                firebaseHelperClass.addAuthenticatedUserInFirebase(authResult,user).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        firebaseHelperClass.updateDocRefInFirebase(documentReference);
+                    }
+                });
+            }
+        });
     }
 
 
@@ -76,7 +86,7 @@ public class FirebaseRepository {
         return getCurrentUser();
     }
 
-    public User getUserFromFirebase(String uId) {
+    public Task<QuerySnapshot> getUserFromFirebase(String uId) {
         return firebaseHelperClass.getUserFromFirebase(uId);
     }
 }
