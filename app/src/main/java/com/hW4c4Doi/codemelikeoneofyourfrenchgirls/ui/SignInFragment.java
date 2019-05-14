@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 
@@ -28,6 +29,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.R;
+import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.model.User;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.room.EventDatabase;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.ui.MainActivity;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.viewModel.FirebaseViewModel;
@@ -35,6 +37,15 @@ import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.viewModel.MyViewModelFactory;
 
 import java.util.Arrays;
 import java.util.List;
+
+import io.reactivex.CompletableObserver;
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.SingleObserver;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.internal.operators.observable.ObservableBlockingSubscribe;
+import io.reactivex.schedulers.Schedulers;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -154,15 +165,27 @@ public class SignInFragment extends Fragment {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            if (viewModel.isUserInRoomDatabase(task.getResult().getUser().getUid())) {
-                                Intent intent = new Intent(getContext(), MainActivity.class);
-                                startActivity(intent);
-                                getActivity().finish();
-                            } else {
-                                viewModel.getUserFromFirebase(task.getResult().getUser().getUid());
-                            }
+                            viewModel.isUserInRoomDatabase(task.getResult().getUser().getUid()).subscribe(new SingleObserver<LiveData<User>>() {
+                                @Override
+                                public void onSubscribe(Disposable d) {
 
-                        } else {
+                                }
+
+                                @Override
+                                public void onSuccess(LiveData<User> userLiveData) {
+                                    if (userLiveData.getValue() != null) {
+                                        Log.d("marko", "onSuccess: Dound all dataa, working");
+                                    }
+                                    Intent intent = new Intent(getContext(), MainActivity.class);
+                                    startActivity(intent);
+                                    getActivity().finish();
+                                }
+
+                                @Override
+                                public void onError(Throwable e) {
+
+                                }
+                            });
 
                         }
                     }

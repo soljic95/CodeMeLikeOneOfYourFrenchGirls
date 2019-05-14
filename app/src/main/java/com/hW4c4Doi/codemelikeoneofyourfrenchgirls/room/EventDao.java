@@ -36,7 +36,7 @@ public interface EventDao {
     void insertUser(User user);
 
     @Query("SELECT * FROM user_table where userId = :uId")
-    User getCurrentUser(String uId);
+    LiveData<User> getCurrentUser(String uId);
 
 
 

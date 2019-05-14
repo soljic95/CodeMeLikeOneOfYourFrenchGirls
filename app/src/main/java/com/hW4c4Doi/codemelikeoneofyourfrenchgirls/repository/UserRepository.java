@@ -2,6 +2,8 @@ package com.hW4c4Doi.codemelikeoneofyourfrenchgirls.repository;
 
 import android.util.Log;
 
+import androidx.lifecycle.LiveData;
+
 import com.google.firebase.auth.AuthResult;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.EventInterfaces.AuthRegisteredListener;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.EventInterfaces.UserFetchedListener;
@@ -13,10 +15,13 @@ import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.room.EventDatabase;
 
 import io.reactivex.Completable;
 import io.reactivex.CompletableObserver;
+import io.reactivex.Observable;
+import io.reactivex.Observer;
 import io.reactivex.Single;
 import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.internal.operators.completable.CompletableFromAction;
 import io.reactivex.schedulers.Schedulers;
 
 public class UserRepository implements UserUpdatedListener, UserFetchedListener {
@@ -101,29 +106,10 @@ public class UserRepository implements UserUpdatedListener, UserFetchedListener 
     }
 
 
-    public boolean isUserInRoomDb(String uId) {
-        Single.just(eventDao.getCurrentUser(uId)).subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SingleObserver<User>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-
-                    }
-
-                    @Override
-                    public void onSuccess(User user) {
-                        if (user.getName() != null) {
-                            isUserInRoom = true;
-                        }
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-                });
-        return isUserInRoom;
-    }
+    public Single<LiveData<User>> isUserInRoomDb(String uId) {
+       //return Completable.fromSingle(() -> eventDao.getCurrentUser(uId)).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        return Single.just(eventDao.getCurrentUser(uId)).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+    };
 
     // Insert given user in Room database when he is created in Firebase
 

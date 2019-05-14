@@ -18,6 +18,7 @@ import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.room.EventDatabase;
 
 import java.util.List;
 
+import io.reactivex.Completable;
 import io.reactivex.Single;
 
 public class FirebaseViewModel extends AndroidViewModel {
@@ -59,7 +60,7 @@ public class FirebaseViewModel extends AndroidViewModel {
         userRepository.updateId(user);
     }
 
-    public boolean isUserInRoomDatabase(String uId) {
+    public Single<LiveData<User>> isUserInRoomDatabase(String uId) {
         return userRepository.isUserInRoomDb(uId);
     }
 
