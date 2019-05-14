@@ -15,6 +15,7 @@ import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.room.EventDatabase;
 
 import io.reactivex.Completable;
 import io.reactivex.CompletableObserver;
+import io.reactivex.Maybe;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.Single;
@@ -106,9 +107,9 @@ public class UserRepository implements UserUpdatedListener, UserFetchedListener 
     }
 
 
-    public Single<LiveData<User>> isUserInRoomDb(String uId) {
+    public Single<User> isUserInRoomDb(String uId) {
        //return Completable.fromSingle(() -> eventDao.getCurrentUser(uId)).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
-        return Single.just(eventDao.getCurrentUser(uId)).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        return eventDao.getCurrentUser(uId).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     };
 
     // Insert given user in Room database when he is created in Firebase

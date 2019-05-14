@@ -39,6 +39,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import io.reactivex.CompletableObserver;
+import io.reactivex.MaybeObserver;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.SingleObserver;
@@ -164,18 +165,17 @@ public class SignInFragment extends Fragment {
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+
                         if (task.isSuccessful()) {
-                            viewModel.isUserInRoomDatabase(task.getResult().getUser().getUid()).subscribe(new SingleObserver<LiveData<User>>() {
+                            viewModel.isUserInRoomDatabase(task.getResult().getUser().getUid()).subscribe(new SingleObserver<User>() {
                                 @Override
                                 public void onSubscribe(Disposable d) {
 
                                 }
 
                                 @Override
-                                public void onSuccess(LiveData<User> userLiveData) {
-                                    if (userLiveData.getValue() != null) {
-                                        Log.d("marko", "onSuccess: Dound all dataa, working");
-                                    }
+                                public void onSuccess(User user) {
+                                    Log.d("marko", "onSuccess: User found in Room");
                                     Intent intent = new Intent(getContext(), MainActivity.class);
                                     startActivity(intent);
                                     getActivity().finish();
@@ -183,7 +183,10 @@ public class SignInFragment extends Fragment {
 
                                 @Override
                                 public void onError(Throwable e) {
-
+                                    viewModel.getUserFromFirebase(task.getResult().getUser().getUid());
+                                    Intent intent = new Intent(getContext(), MainActivity.class);
+                                    startActivity(intent);
+                                    getActivity().finish();
                                 }
                             });
 

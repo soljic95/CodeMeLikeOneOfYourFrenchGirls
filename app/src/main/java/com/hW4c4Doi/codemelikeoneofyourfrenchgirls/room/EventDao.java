@@ -12,6 +12,7 @@ import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.model.User;
 
 import java.util.List;
 
+import io.reactivex.Maybe;
 import io.reactivex.Single;
 
 @Dao
@@ -36,7 +37,7 @@ public interface EventDao {
     void insertUser(User user);
 
     @Query("SELECT * FROM user_table where userId = :uId")
-    LiveData<User> getCurrentUser(String uId);
+    Single<User> getCurrentUser(String uId);
 
 
 
