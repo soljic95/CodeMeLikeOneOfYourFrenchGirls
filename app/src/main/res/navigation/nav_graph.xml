@@ -94,8 +94,8 @@
     <fragment
         android:id="@+id/fragmentCreateEvent"
         android:name="com.hW4c4Doi.codemelikeoneofyourfrenchgirls.ui.CreateEventFragment"
-        android:label="fragment_create_event"
-        tools:layout="@layout/fragment_create_event" >
+        android:label="Create event"
+        tools:layout="@layout/fragment_create_event">
         <action
             android:id="@+id/action_fragmentCreateEvent_to_mapsFragment"
             app:destination="@id/mapsFragment" />

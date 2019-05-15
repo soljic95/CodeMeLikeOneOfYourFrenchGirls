@@ -54,14 +54,14 @@ public class UpcomingEventsRecyclerViewAdapter extends RecyclerView.Adapter<Upco
         final Bundle bundle = new Bundle();
         Event event = eventList.get(position);
 
-       /* bundle.putParcelable("event", event);
-        Glide.with(context).load(event.getImageLocation()).centerCrop().into(holder.ivEventImage);
+        bundle.putParcelable("event", event);
+        Glide.with(context).load(R.drawable.love).centerCrop().into(holder.ivEventImage);
         final FragmentNavigator.Extras extras = new FragmentNavigator.Extras.Builder()
                 .addSharedElement(holder.tvEventName, "transition" + position)
                 .addSharedElement(holder.ivEventImage, "transitionImage" + position)
                 .build();
-        holder.tvEventName.setText(eventList.get(position).getEventName());
-        holder.tvEventActivity.setText(eventList.get(position).getEventActivity());*/
+        holder.tvEventName.setText(eventList.get(position).getName());
+        holder.tvEventActivity.setText(eventList.get(position).getActivity());
         holder.tvEventPlayersNeeded.setText(5 + "");
         holder.tvEventTime.setText("26.april,11:00");
         holder.layout.setOnClickListener(new View.OnClickListener() {
@@ -97,7 +97,8 @@ public class UpcomingEventsRecyclerViewAdapter extends RecyclerView.Adapter<Upco
             this.layout = itemView.findViewById(R.id.constraintLayout);
         }
     }
-    public void addAllEvents(List<Event> eventsList){
+
+    public void addAllEvents(List<Event> eventsList) {
         this.eventList.clear();
         this.eventList.addAll(eventsList);
         notifyDataSetChanged();

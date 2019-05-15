@@ -23,6 +23,7 @@ import android.widget.TimePicker;
 
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
+import com.google.firebase.auth.FirebaseAuth;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.R;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.model.Event;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.viewModel.FirebaseViewModel;
@@ -60,6 +61,11 @@ public class CreateEventFragment extends Fragment {
     TextView tvEventTime;
     @BindView(R.id.eiEventDetails)
     TextInputEditText eiEventDetails;
+    @BindView(R.id.btnCreateEvent)
+    Button btnCreateEvent;
+    @BindView(R.id.eiEventName)
+    TextInputEditText eiEventName;
+
     private final List<String> listOfNeeds = new ArrayList<>();
     private FirebaseViewModel viewModel;
     private DatePickerDialog.OnDateSetListener listener;
@@ -80,6 +86,7 @@ public class CreateEventFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         viewModel = ViewModelProviders.of(getActivity()).get(FirebaseViewModel.class);
+
 
         listener = (view12, year, month, dayOfMonth) -> {
             month = month; //i dont know why but ondate changed sets the month a month earlier, so this corrects that
@@ -141,5 +148,14 @@ public class CreateEventFragment extends Fragment {
 
         TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(), timeListener, hour, minute, true);
         timePickerDialog.show();
+    }
+
+    @OnClick(R.id.btnCreateEvent)
+    void createEvent() {
+        Event currentEvent = new Event(FirebaseAuth.getInstance().getUid(), eiEventName.getText().toString(),
+                "Nogomet", 2, 2, 2.0,
+                2.0, 4, eiEventDetails.getText().toString(),
+                "Rudeska cesta 129", false, false, 1);
+        viewModel.insertEvent(currentEvent);
     }
 }

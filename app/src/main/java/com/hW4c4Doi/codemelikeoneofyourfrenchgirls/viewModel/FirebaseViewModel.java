@@ -31,7 +31,7 @@ public class FirebaseViewModel extends AndroidViewModel {
 
     public void insertEvent(Event event) {
         Log.d("marko", "insertEvent: called");
-        firebaseRepository.insertEvent(event);
+        firebaseRepository.insertEventInFirebaseDb(event);
     }
 
 

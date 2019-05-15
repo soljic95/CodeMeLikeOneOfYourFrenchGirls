@@ -21,6 +21,8 @@
             android:layout_marginTop="16dp"
             android:layout_marginRight="32dp"
             android:background="@color/colorPrimary"
+            app:tabTextColor="#ffffff"
+            app:tabIndicatorColor="@color/colorPrimaryDark"
             app:tabTextAppearance="@style/MyTabLayoutTextAppearance"></com.google.android.material.tabs.TabLayout>
     </androidx.appcompat.widget.Toolbar>
 

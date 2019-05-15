@@ -77,6 +77,7 @@ public class SignInFragment extends Fragment {
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                Log.d("marko", "onAuthStateChanged: "+firebaseAuth.getUid());
                 FirebaseUser user = firebaseAuth.getCurrentUser();
 
                 if (user != null) {
@@ -189,6 +190,20 @@ public class SignInFragment extends Fragment {
 
     private boolean isEmailValid(String email) {
         return !TextUtils.isEmpty(email) && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mAuth.addAuthStateListener(mAuthStateListener);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (mAuth != null){
+            mAuth.removeAuthStateListener(mAuthStateListener);
+        }
     }
 
     private boolean isPasswordValid(String password) {

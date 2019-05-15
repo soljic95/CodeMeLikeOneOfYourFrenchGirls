@@ -12,4 +12,5 @@
     <dimen name="big_button_top_pad">12dp</dimen>
     <dimen name="button_corner_radious">50dp</dimen>
     <dimen name="card_view_elevation">30dp</dimen>
+    <dimen name="event_image_height">140dp</dimen>
 </resources>

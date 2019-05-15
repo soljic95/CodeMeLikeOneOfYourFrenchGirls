@@ -7,7 +7,6 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.UpdateUserId;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.model.Event;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -34,6 +33,7 @@ public class FirebaseHelperClass {
         final MutableLiveData events = new MutableLiveData();
         final List<Event> eventsList = new ArrayList<>();
         db.collection("Events").get().addOnSuccessListener(queryDocumentSnapshots -> {
+            Log.d("marko", "getEvents: got here");
             for (DocumentSnapshot dc : queryDocumentSnapshots) {
                 eventsList.add(dc.toObject(Event.class));
             }
@@ -63,8 +63,8 @@ public class FirebaseHelperClass {
         db.collection("Events").addSnapshotListener((queryDocumentSnapshots, e) -> {
             eventList.clear();
             for (DocumentSnapshot dc : queryDocumentSnapshots) {
-               // Log.d("marko", "onEvent: " + dc.toObject(Event.class).getEventName());
-//                eventList.add(dc.toObject(Event.class));
+                // Log.d("marko", "onEvent: " + dc.toObject(Event.class).getEventName());
+                eventList.add(dc.toObject(Event.class));
             }
             observedLiveData.setValue(eventList);
         });

@@ -4,21 +4,24 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
+import androidx.room.OnConflictStrategy;
 import androidx.room.PrimaryKey;
 
 import java.util.ArrayList;
 
 @Entity(tableName = "event_table")
-public class Event  {
+public class Event implements Parcelable {
 
     public Event() {
 
     }
-    @NonNull
-    @PrimaryKey
-    private String eventId;
+    @OnConflictStrategy()
+    @ColumnInfo(name = "event_id")
+    @PrimaryKey(autoGenerate = true)
+    private long eventId;
     private String name;
     private String activity;
     private String eventDescription;
@@ -176,11 +179,11 @@ public class Event  {
         this.usersEntered = usersEntered;
     }
 
-    public String getEventId() {
+    public long getEventId() {
         return eventId;
     }
 
-    public void setEventId(String eventId) {
+    public void setEventId(long eventId) {
         this.eventId = eventId;
     }
 
@@ -198,4 +201,60 @@ public class Event  {
         listOfUsersParticipatingInEvent.remove(userIdToBeRemoved);
         usersEntered -= 1;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(this.eventId);
+        dest.writeString(this.name);
+        dest.writeString(this.activity);
+        dest.writeString(this.eventDescription);
+        dest.writeLong(this.eventStart);
+        dest.writeDouble(this.eventLat);
+        dest.writeDouble(this.eventLng);
+        dest.writeInt(this.usersNeeded);
+        dest.writeInt(this.usersEntered);
+        dest.writeString(this.idOfTheUserWhoCreatedIt);
+        dest.writeStringList(this.listOfUsersParticipatingInEvent);
+        dest.writeByte(this.isCompleted ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.isPrivate ? (byte) 1 : (byte) 0);
+        dest.writeInt(this.skillNeeded);
+        dest.writeInt(this.pictureNumber);
+        dest.writeString(this.eventAdress);
+    }
+
+    protected Event(Parcel in) {
+        this.eventId = in.readLong();
+        this.name = in.readString();
+        this.activity = in.readString();
+        this.eventDescription = in.readString();
+        this.eventStart = in.readLong();
+        this.eventLat = in.readDouble();
+        this.eventLng = in.readDouble();
+        this.usersNeeded = in.readInt();
+        this.usersEntered = in.readInt();
+        this.idOfTheUserWhoCreatedIt = in.readString();
+        this.listOfUsersParticipatingInEvent = in.createStringArrayList();
+        this.isCompleted = in.readByte() != 0;
+        this.isPrivate = in.readByte() != 0;
+        this.skillNeeded = in.readInt();
+        this.pictureNumber = in.readInt();
+        this.eventAdress = in.readString();
+    }
+
+    public static final Parcelable.Creator<Event> CREATOR = new Parcelable.Creator<Event>() {
+        @Override
+        public Event createFromParcel(Parcel source) {
+            return new Event(source);
+        }
+
+        @Override
+        public Event[] newArray(int size) {
+            return new Event[size];
+        }
+    };
 }

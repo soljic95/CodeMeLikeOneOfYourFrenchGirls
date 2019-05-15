@@ -15,7 +15,7 @@
         <ImageView
             android:id="@+id/ivEventImage"
             android:layout_width="match_parent"
-            android:layout_height="130dp"
+            android:layout_height="@dimen/event_image_height"
             android:layout_marginBottom="@dimen/standard_margin"
             android:scaleType="centerCrop"
             app:srcCompat="@drawable/event_image_placeholder" />
@@ -186,7 +186,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginRight="@dimen/usual_padding"
             android:text="Add need"
             android:textSize="12sp"
             app:cornerRadius="50dp" />
@@ -348,6 +347,7 @@
         </RadioGroup>
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCreateEvent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

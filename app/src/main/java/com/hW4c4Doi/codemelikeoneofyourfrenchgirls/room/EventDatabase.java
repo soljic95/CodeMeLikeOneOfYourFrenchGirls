@@ -11,7 +11,7 @@ import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.converter.Converters;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.model.Event;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.model.User;
 
-@Database(entities = {Event.class, User.class}, version = 4)
+@Database(entities = {Event.class, User.class}, version = 5)
 @TypeConverters({Converters.class})
 public abstract class EventDatabase extends RoomDatabase {
 

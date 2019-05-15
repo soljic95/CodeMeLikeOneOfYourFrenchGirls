@@ -12,7 +12,6 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,10 +22,8 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.R;
-import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.UpdateUserId;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.model.User;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.room.EventDatabase;
-import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.ui.MainActivity;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.viewModel.FirebaseViewModel;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.viewModel.MyViewModelFactory;
 

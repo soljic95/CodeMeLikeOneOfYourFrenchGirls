@@ -1,11 +1,9 @@
 package com.hW4c4Doi.codemelikeoneofyourfrenchgirls.repository;
 
-import android.app.Application;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
-import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.UpdateUserId;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.model.Event;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.model.User;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.network.FirebaseHelperClass;
@@ -17,13 +15,10 @@ import java.util.List;
 
 import io.reactivex.Completable;
 import io.reactivex.CompletableObserver;
-import io.reactivex.Observable;
-import io.reactivex.Observer;
 import io.reactivex.Single;
 import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Action;
 import io.reactivex.schedulers.Schedulers;
 
 public class FirebaseRepository {
@@ -43,7 +38,7 @@ public class FirebaseRepository {
 
 
     public LiveData<List<Event>> getAllEvents() {
-        return eventLiveData;
+        return firebaseHelperClass.getEvents();
     }
 
 
@@ -81,13 +76,13 @@ public class FirebaseRepository {
                     @Override
                     public void onSuccess(Long aLong) {
                         Log.d("marko", "onSuccess: " + aLong);
-                        event.setEventId("" + aLong);
+                        event.setEventId(aLong);
                         insertEventInFirebaseDb(event);
                     }
 
                     @Override
                     public void onError(Throwable e) {
-
+                        Log.d("marko", "onError: "+e.getLocalizedMessage());
                     }
                 });
     }

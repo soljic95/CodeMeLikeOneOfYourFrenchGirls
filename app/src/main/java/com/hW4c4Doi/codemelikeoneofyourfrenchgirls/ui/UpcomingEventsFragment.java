@@ -67,4 +67,15 @@ public class UpcomingEventsFragment extends Fragment {
         adapter.notifyDataSetChanged();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        viewModel.getEventList().observe(getActivity(), new Observer<List<Event>>() {
+            @Override
+            public void onChanged(List<Event> events) {
+                adapter.addAllEvents(events);
+                adapter.notifyDataSetChanged();
+            }
+        });
+    }
 }
