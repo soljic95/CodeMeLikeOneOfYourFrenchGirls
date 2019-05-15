@@ -5,4 +5,14 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="facebook_application_id" translatable="false">665277240597003</string>
     <string name="facebook_login_protocol_scheme" translatable="false">fb665277240597003</string>
+    <string name="event_name">Event name</string>
+    <string name="event_details">Add your event details...</string>
+    <string name="add_event_needs">Add event needs</string>
+    <string name="empty_string" />
+    <string name="entry_is_charged">Entry is charged</string>
+    <string name="enter_value">Enter value</string>
+    <string name="kn">kn</string>
+    <string name="public_event">Public event</string>
+    <string name="private_event">Private event</string>
+    <string name="create">Create</string>
 </resources>

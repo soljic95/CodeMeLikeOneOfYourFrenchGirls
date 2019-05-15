@@ -20,5 +20,6 @@ public class RegisterUserActivity extends AppCompatActivity {
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph())
                 .build();
 
+
     }
 }

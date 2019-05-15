@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="standard_margin">8dp</dimen>
+    <dimen name="event_info_box_size">310dp</dimen>
+    <dimen name="usual_padding">16dp</dimen>
+    <dimen name="chip_group_height">70dp</dimen>
+    <dimen name="big_box_dimensions">150dp</dimen>
+    <dimen name="big_margin_">64dp</dimen>
+    <dimen name="ejteen_text_size">18sp</dimen>
+    <dimen name="radio_button_height">60dp</dimen>
+    <dimen name="big_material_button_padd">120dp</dimen>
+    <dimen name="big_button_top_pad">12dp</dimen>
+    <dimen name="button_corner_radious">50dp</dimen>
+    <dimen name="card_view_elevation">30dp</dimen>
+</resources>

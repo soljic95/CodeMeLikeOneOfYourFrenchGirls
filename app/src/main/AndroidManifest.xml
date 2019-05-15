@@ -11,9 +11,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
+        android:theme="@style/JustAtheme"
         android:usesCleartextTraffic="true">
-        <activity android:name="com.hW4c4Doi.codemelikeoneofyourfrenchgirls.ui.MainActivity"></activity>
         <activity android:name="com.hW4c4Doi.codemelikeoneofyourfrenchgirls.ui.RegisterUserActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,6 +23,8 @@
                 android:name="com.facebook.sdk.ApplicationId"
                 android:value="@string/facebook_application_id" />
         </activity>
+        <activity android:name="com.hW4c4Doi.codemelikeoneofyourfrenchgirls.ui.MainActivity"></activity>
+
     </application>
 
 </manifest>

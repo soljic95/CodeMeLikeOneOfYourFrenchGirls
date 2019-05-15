@@ -11,7 +11,7 @@
         android:id="@+id/eventsToolbar"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
-        android:background="@color/material_grey_800">
+        android:background="@color/colorPrimary">
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabs"
@@ -20,7 +20,7 @@
             android:layout_marginLeft="24dp"
             android:layout_marginTop="16dp"
             android:layout_marginRight="32dp"
-            android:background="@color/material_grey_800"
+            android:background="@color/colorPrimary"
             app:tabTextAppearance="@style/MyTabLayoutTextAppearance"></com.google.android.material.tabs.TabLayout>
     </androidx.appcompat.widget.Toolbar>
 
@@ -29,8 +29,7 @@
         android:id="@+id/viewPagerContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="?actionBarSize"
-         />
+        android:layout_marginTop="?actionBarSize" />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

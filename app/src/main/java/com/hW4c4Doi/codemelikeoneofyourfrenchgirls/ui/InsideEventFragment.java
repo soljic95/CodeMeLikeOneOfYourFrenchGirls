@@ -56,12 +56,10 @@ public class InsideEventFragment extends Fragment {
         setHasOptionsMenu(true);
         tvEventName = view.findViewById(R.id.tvEventName);
         ivEventImage = view.findViewById(R.id.ivEventImage);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            ivEventImage.setTransitionName(event.getImageTransationName());
-        }
-        Glide.with(this).load(event.getImageLocation()).centerCrop().into(ivEventImage);
+
+      /*  Glide.with(this).load(event.getImageLocation()).centerCrop().into(ivEventImage);
         tvEventName.setText(event.getEventName());
-        viewModel = ViewModelProviders.of(getActivity()).get(FirebaseViewModel.class);
+        viewModel = ViewModelProviders.of(getActivity()).get(FirebaseViewModel.class);*/
 
         startPostponedEnterTransition();
         Transition transition = TransitionInflater.from(getActivity()).inflateTransition(android.R.transition.move);

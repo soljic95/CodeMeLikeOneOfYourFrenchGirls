@@ -81,7 +81,7 @@ public class FirebaseRepository {
                     @Override
                     public void onSuccess(Long aLong) {
                         Log.d("marko", "onSuccess: " + aLong);
-                        event.setEventId(aLong);
+                        event.setEventId("" + aLong);
                         insertEventInFirebaseDb(event);
                     }
 

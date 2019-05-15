@@ -53,24 +53,21 @@ public class UpcomingEventsRecyclerViewAdapter extends RecyclerView.Adapter<Upco
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         final Bundle bundle = new Bundle();
         Event event = eventList.get(position);
-        event.setImageTransationName("transitionImage" + position);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            holder.ivEventImage.setTransitionName("transitionImage" + position);
-        }
-        bundle.putParcelable("event", event);
+
+       /* bundle.putParcelable("event", event);
         Glide.with(context).load(event.getImageLocation()).centerCrop().into(holder.ivEventImage);
         final FragmentNavigator.Extras extras = new FragmentNavigator.Extras.Builder()
                 .addSharedElement(holder.tvEventName, "transition" + position)
                 .addSharedElement(holder.ivEventImage, "transitionImage" + position)
                 .build();
         holder.tvEventName.setText(eventList.get(position).getEventName());
-        holder.tvEventActivity.setText(eventList.get(position).getEventActivity());
+        holder.tvEventActivity.setText(eventList.get(position).getEventActivity());*/
         holder.tvEventPlayersNeeded.setText(5 + "");
         holder.tvEventTime.setText("26.april,11:00");
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Navigation.findNavController(activity, R.id.nav_host_fragment).navigate(R.id.fragmentInsideEvent, bundle, null, extras);
+                Navigation.findNavController(activity, R.id.nav_host_fragment).navigate(R.id.fragmentInsideEvent, bundle, null);
             }
         });
     }

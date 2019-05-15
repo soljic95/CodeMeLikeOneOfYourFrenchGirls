@@ -39,14 +39,13 @@ import static android.app.Activity.RESULT_OK;
  * A simple {@link Fragment} subclass.
  */
 public class SignInFragment extends Fragment {
-    Button btnSignUp ;
+    Button btnSignUp;
     Button btnSignIn;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
     final static int RC_SIGN_IN = 1;
     private TextInputEditText etEmail;
     private TextInputEditText etPassword;
-
 
 
     public SignInFragment() {
@@ -72,6 +71,7 @@ public class SignInFragment extends Fragment {
         etEmail = view.findViewById(R.id.etEmail);
         etPassword = view.findViewById(R.id.etPassword);
 
+
         mAuth = FirebaseAuth.getInstance();
 
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
@@ -79,7 +79,7 @@ public class SignInFragment extends Fragment {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
 
-                if (user != null){
+                if (user != null) {
                     checkIfSignedIn(user);
                 }
             }
@@ -157,7 +157,7 @@ public class SignInFragment extends Fragment {
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Log.d("marko", "onFailure: "+e.getMessage());
+                Log.d("marko", "onFailure: " + e.getMessage());
             }
         });
     }
@@ -167,31 +167,30 @@ public class SignInFragment extends Fragment {
         if (TextUtils.isEmpty(etEmail.getText().toString())) {
             etEmail.setError("Obavezno popuniti");
             result = false;
-        } else if (!isEmailValid(etEmail.getText().toString().trim())){
+        } else if (!isEmailValid(etEmail.getText().toString().trim())) {
             etEmail.setError("Email adresa nije valjana");
             result = false;
-        }
-        else {
+        } else {
             etEmail.setError(null);
         }
         if (TextUtils.isEmpty(etPassword.getText().toString().trim())) {
             etPassword.setError("Obavezno popuniti");
             result = false;
 
-        } else if(isPasswordValid(etPassword.getText().toString().trim())){
+        } else if (isPasswordValid(etPassword.getText().toString().trim())) {
             etPassword.setError("Lozinka nije dovoljno duga");
             result = false;
-        }
-        else {
+        } else {
             etPassword.setError(null);
         }
 
         return result;
     }
 
-    private boolean isEmailValid(String email){
+    private boolean isEmailValid(String email) {
         return !TextUtils.isEmpty(email) && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
+
     private boolean isPasswordValid(String password) {
         return password.length() < 7;
     }

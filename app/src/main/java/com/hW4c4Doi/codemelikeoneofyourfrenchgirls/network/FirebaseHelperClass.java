@@ -63,8 +63,8 @@ public class FirebaseHelperClass {
         db.collection("Events").addSnapshotListener((queryDocumentSnapshots, e) -> {
             eventList.clear();
             for (DocumentSnapshot dc : queryDocumentSnapshots) {
-                Log.d("marko", "onEvent: " + dc.toObject(Event.class).getEventName());
-                eventList.add(dc.toObject(Event.class));
+               // Log.d("marko", "onEvent: " + dc.toObject(Event.class).getEventName());
+//                eventList.add(dc.toObject(Event.class));
             }
             observedLiveData.setValue(eventList);
         });
