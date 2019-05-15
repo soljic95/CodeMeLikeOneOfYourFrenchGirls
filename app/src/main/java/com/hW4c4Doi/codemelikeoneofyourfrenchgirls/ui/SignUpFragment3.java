@@ -12,7 +12,6 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,8 +21,9 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.AuthResult;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.R;
-import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.UpdateUserId;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.model.User;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.room.EventDatabase;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.ui.MainActivity;
@@ -33,6 +33,8 @@ import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.viewModel.MyViewModelFactory;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.SingleObserver;
+import io.reactivex.disposables.Disposable;
 
 import static android.app.Activity.RESULT_OK;
 import static com.hW4c4Doi.codemelikeoneofyourfrenchgirls.ui.SignUpFragment4.PASSED_USER_TAG;
@@ -85,7 +87,10 @@ public class SignUpFragment3 extends Fragment {
     @OnClick(R.id.btnComplete)
     void completeAndCreateUserAccount() {
         user.setProfilePictureUri(mPictureUri.toString());
-        viewModel.createUser(user);
+
+        // Creating user in Firebase and sending event to create it in Room database
+        viewModel.registerUserInFirebase(user);
+
         getContext().startActivity(new Intent(getActivity(), MainActivity.class));
         getActivity().finish();
     }
