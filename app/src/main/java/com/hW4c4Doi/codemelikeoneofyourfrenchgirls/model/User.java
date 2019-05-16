@@ -24,9 +24,6 @@ public class User implements Parcelable {
     String name;
     String sex;
 
-    public String getSex() {
-        return sex;
-    }
 
     public void setSex(String sex) {
         this.sex = sex;
@@ -49,6 +46,11 @@ public class User implements Parcelable {
     int positiveReview = 0;
     int percentage = 100;
     long phoneNumber;
+
+    public String getSex() {
+        return sex;
+    }
+
 
     public long getPhoneNumber() {
         return phoneNumber;

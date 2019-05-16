@@ -4,6 +4,11 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import androidx.room.Entity;
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.OnConflictStrategy;
 import androidx.room.PrimaryKey;
 
 import java.util.ArrayList;
@@ -15,6 +20,8 @@ public class Event implements Parcelable {
 
     }
 
+    @OnConflictStrategy()
+    @ColumnInfo(name = "event_id")
     @PrimaryKey(autoGenerate = true)
     private long eventId;
     private String name;
@@ -204,6 +211,7 @@ public class Event implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(this.eventId);
         dest.writeString(this.name);
         dest.writeString(this.activity);
         dest.writeString(this.eventDescription);
@@ -212,7 +220,6 @@ public class Event implements Parcelable {
         dest.writeDouble(this.eventLng);
         dest.writeInt(this.usersNeeded);
         dest.writeInt(this.usersEntered);
-        dest.writeLong(this.eventId);
         dest.writeString(this.idOfTheUserWhoCreatedIt);
         dest.writeStringList(this.listOfUsersParticipatingInEvent);
         dest.writeByte(this.isCompleted ? (byte) 1 : (byte) 0);
@@ -223,6 +230,7 @@ public class Event implements Parcelable {
     }
 
     protected Event(Parcel in) {
+        this.eventId = in.readLong();
         this.name = in.readString();
         this.activity = in.readString();
         this.eventDescription = in.readString();
@@ -231,7 +239,6 @@ public class Event implements Parcelable {
         this.eventLng = in.readDouble();
         this.usersNeeded = in.readInt();
         this.usersEntered = in.readInt();
-        this.eventId = in.readLong();
         this.idOfTheUserWhoCreatedIt = in.readString();
         this.listOfUsersParticipatingInEvent = in.createStringArrayList();
         this.isCompleted = in.readByte() != 0;

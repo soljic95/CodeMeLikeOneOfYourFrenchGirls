@@ -10,6 +10,7 @@ android {
         applicationId "com.example.codemelikeoneofyourfrenchgirls"
         minSdkVersion 16
         targetSdkVersion 28
+        multiDexEnabled true
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -79,15 +80,12 @@ dependencies {
     // FirebaseUI for Firebase Auth (GitHub provider)
     implementation 'com.firebaseui:firebase-ui-auth-github:4.3.2'
 
-    // FirebaseUI for Cloud Storage
-    implementation 'com.firebaseui:firebase-ui-storage:4.3.2'
-
-    //facebook auth
-    implementation 'com.facebook.android:facebook-android-sdk:4.41.0'
 
     //butterKnife
     implementation 'com.jakewharton:butterknife:10.1.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.1.0'
+
+    compile 'com.android.support:multidex:1.0.3'
 
 
 }

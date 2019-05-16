@@ -30,7 +30,7 @@ public class FirebaseViewModel extends AndroidViewModel {
 
     public FirebaseViewModel(@NonNull Application application, EventDatabase database) {
         super(application);
-        firebaseRepository = new FirebaseRepository();
+        firebaseRepository = new FirebaseRepository(database);
         userRepository = new UserRepository(database, firebaseRepository);
         eventListLiveData = firebaseRepository.getAllEvents();
 
@@ -42,7 +42,7 @@ public class FirebaseViewModel extends AndroidViewModel {
 
     public void insertEvent(Event event) {
         Log.d("marko", "insertEvent: called");
-        firebaseRepository.insertEvent(event);
+        firebaseRepository.insertEventInFirebaseDb(event);
     }
 
 

@@ -5,4 +5,37 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="facebook_application_id" translatable="false">665277240597003</string>
     <string name="facebook_login_protocol_scheme" translatable="false">fb665277240597003</string>
+    <string name="event_name">Event name</string>
+    <string name="event_details">Add your event details...</string>
+    <string name="add_event_needs">Add event needs</string>
+    <string name="empty_string" />
+    <string name="entry_is_charged">Entry is charged</string>
+    <string name="enter_value">Enter value</string>
+    <string name="kn">kn</string>
+    <string name="public_event">Public event</string>
+    <string name="private_event">Private event</string>
+    <string name="create">Create</string>
+
+    <!-- interest-->
+    <string name="Football">Football</string>
+    <string name="Basketball">Basketball</string>
+    <string name="Tennis">Tennis</string>
+    <string name="Table_Tennis">Table Tennis</string>
+    <string name="Volleyball">Football</string>
+    <string name="Chess">Chess</string>
+    <string name="Bicycling">Bicycling</string>
+    <string name="Skating">Skating</string>
+    <string name="Badminton">Badminton</string>
+    <string name="Mountain_climbing">Mountain climbing</string>
+    <string name="Dog_walking">Dog walking</string>
+    <string name="Walking">Walking</string>
+    <string name="Canicross">Canicross </string>
+    <string name="Board_games">Board games</string>
+    <string name="Card_games">Card games</string>
+    <string name="Museums">Museums</string>
+    <string name="Theater">Theater</string>
+    <string name="Conference">Conference</string>
+    <string name="Concerts">Badminton</string>
+    <string name="Fitness">Fitness</string>
+
 </resources>

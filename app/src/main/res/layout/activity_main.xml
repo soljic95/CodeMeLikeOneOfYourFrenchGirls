@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.MainActivity">
+
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -14,8 +15,8 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
-            android:theme="@style/Theme.Design.NoActionBar"
-            android:background="@color/material_grey_800">
+            android:background="@color/colorPrimary"
+            android:theme="@style/Theme.Design.NoActionBar">
 
             <ImageView
                 android:id="@+id/toolbarImage"
@@ -23,7 +24,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:padding="8dp"
-                app:srcCompat="@android:drawable/sym_action_email" />
+                android:layout_marginRight="16dp"
+                android:src="@drawable/notification_icon" />
 
 
         </androidx.appcompat.widget.Toolbar>
@@ -38,7 +40,6 @@
             app:navGraph="@navigation/nav_graph" />
 
 
-
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 
@@ -47,8 +48,8 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        app:menu="@menu/menu_nav_drawer"
+        app:headerLayout="@layout/nav_header"
 
-        app:headerLayout="@layout/nav_header"/>
+        app:menu="@menu/menu_nav_drawer" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

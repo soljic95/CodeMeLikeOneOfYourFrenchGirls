@@ -53,6 +53,7 @@ public class FirebaseHelperClass{
         final MutableLiveData events = new MutableLiveData();
         final List<Event> eventsList = new ArrayList<>();
         db.collection("Events").get().addOnSuccessListener(queryDocumentSnapshots -> {
+            Log.d("marko", "getEvents: got here");
             for (DocumentSnapshot dc : queryDocumentSnapshots) {
                 eventsList.add(dc.toObject(Event.class));
             }
@@ -76,13 +77,14 @@ public class FirebaseHelperClass{
         });
     }
 
+
     public LiveData<List<Event>> observeAllEvents() {
         final MutableLiveData<List<Event>> observedLiveData = new MutableLiveData<>();
         final List<Event> eventList = new ArrayList<>();
         db.collection("Events").addSnapshotListener((queryDocumentSnapshots, e) -> {
             eventList.clear();
             for (DocumentSnapshot dc : queryDocumentSnapshots) {
-                Log.d("marko", "onEvent: " + dc.toObject(Event.class).getName());
+                // Log.d("marko", "onEvent: " + dc.toObject(Event.class).getEventName());
                 eventList.add(dc.toObject(Event.class));
             }
             observedLiveData.setValue(eventList);

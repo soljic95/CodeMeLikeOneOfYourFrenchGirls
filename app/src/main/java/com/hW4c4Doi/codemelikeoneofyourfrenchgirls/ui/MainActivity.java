@@ -46,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         drawerLayout = findViewById(R.id.drawerLayout);
         toolbarImage = findViewById(R.id.toolbarImage);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Events");
         navController = Navigation.findNavController(MainActivity.this, R.id.nav_host_fragment);
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph())
                 .setDrawerLayout(drawerLayout)
