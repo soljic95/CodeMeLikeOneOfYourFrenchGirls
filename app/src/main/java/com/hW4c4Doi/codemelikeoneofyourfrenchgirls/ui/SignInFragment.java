@@ -17,7 +17,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -77,7 +76,7 @@ public class SignInFragment extends Fragment {
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                Log.d("marko", "onAuthStateChanged: "+firebaseAuth.getUid());
+                Log.d("marko", "onAuthStateChanged: " + firebaseAuth.getUid());
                 FirebaseUser user = firebaseAuth.getCurrentUser();
 
                 if (user != null) {
@@ -201,7 +200,7 @@ public class SignInFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        if (mAuth != null){
+        if (mAuth != null) {
             mAuth.removeAuthStateListener(mAuthStateListener);
         }
     }

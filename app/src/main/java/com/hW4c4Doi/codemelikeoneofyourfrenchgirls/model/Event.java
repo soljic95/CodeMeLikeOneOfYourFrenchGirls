@@ -18,6 +18,7 @@ public class Event implements Parcelable {
     public Event() {
 
     }
+
     @OnConflictStrategy()
     @ColumnInfo(name = "event_id")
     @PrimaryKey(autoGenerate = true)

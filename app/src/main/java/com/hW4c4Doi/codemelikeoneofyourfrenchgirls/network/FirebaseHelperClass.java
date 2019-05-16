@@ -57,6 +57,7 @@ public class FirebaseHelperClass {
         });
     }
 
+
     public LiveData<List<Event>> observeAllEvents() {
         final MutableLiveData<List<Event>> observedLiveData = new MutableLiveData<>();
         final List<Event> eventList = new ArrayList<>();

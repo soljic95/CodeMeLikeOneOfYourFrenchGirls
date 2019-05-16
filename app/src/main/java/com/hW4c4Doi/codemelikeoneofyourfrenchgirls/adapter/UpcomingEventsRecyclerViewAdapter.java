@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.R;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.model.Event;
+import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.network.FirebaseHelperClass;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,11 +29,13 @@ public class UpcomingEventsRecyclerViewAdapter extends RecyclerView.Adapter<Upco
     private Context context;
     private List<Event> eventList;
     private Activity activity;
+    private FirebaseHelperClass helperClass;
 
     public UpcomingEventsRecyclerViewAdapter(Context context, Activity activity) {
         this.context = context;
         this.activity = activity;
         this.eventList = new ArrayList<>();
+        this.helperClass = new FirebaseHelperClass();
     }
 
     @NonNull
@@ -64,12 +67,7 @@ public class UpcomingEventsRecyclerViewAdapter extends RecyclerView.Adapter<Upco
         holder.tvEventActivity.setText(eventList.get(position).getActivity());
         holder.tvEventPlayersNeeded.setText(5 + "");
         holder.tvEventTime.setText("26.april,11:00");
-        holder.layout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Navigation.findNavController(activity, R.id.nav_host_fragment).navigate(R.id.fragmentInsideEvent, bundle, null);
-            }
-        });
+        holder.layout.setOnClickListener(v -> Navigation.findNavController(activity, R.id.nav_host_fragment).navigate(R.id.fragmentInsideEvent, bundle, null));
     }
 
     @Override
