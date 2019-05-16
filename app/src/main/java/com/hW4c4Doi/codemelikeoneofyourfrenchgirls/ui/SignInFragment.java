@@ -178,10 +178,7 @@ public class SignInFragment extends Fragment {
 
                                 @Override
                                 public void onSuccess(User user) {
-                                    Log.d("marko", "onSuccess: User found in Room");
-                                    Intent intent = new Intent(getContext(), MainActivity.class);
-                                    startActivity(intent);
-                                    getActivity().finish();
+
                                 }
 
                                 @Override
@@ -189,7 +186,7 @@ public class SignInFragment extends Fragment {
                                     viewModel.getUserFromFirebase(task.getResult().getUser().getUid()).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                                         @Override
                                         public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                                            for(DocumentSnapshot dc: queryDocumentSnapshots){
+                                            for (DocumentSnapshot dc : queryDocumentSnapshots) {
                                                 User currentUser = new User();
                                                 currentUser = dc.toObject(User.class);
 
@@ -201,15 +198,12 @@ public class SignInFragment extends Fragment {
 
                                                     @Override
                                                     public void onComplete() {
-                                                        Log.d("marko","onSuccess: User added in Room database!");
-                                                        Intent intent = new Intent(getContext(), MainActivity.class);
-                                                        startActivity(intent);
-                                                        getActivity().finish();
+                                                        Log.d("marko", "onSuccess: User added in Room database!");
                                                     }
 
                                                     @Override
                                                     public void onError(Throwable e) {
-                                                        Log.d("marko","onError: user couldn be added");
+                                                        Log.d("marko", "onError: user couldn be added");
                                                     }
                                                 });
                                             }
