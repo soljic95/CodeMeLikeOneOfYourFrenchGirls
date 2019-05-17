@@ -97,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+
         navigationView = findViewById(R.id.navigationView);
         navigationView.setNavigationItemSelectedListener(menuItem -> {
             switch (menuItem.getItemId()) {

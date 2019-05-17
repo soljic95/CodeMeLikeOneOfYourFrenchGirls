@@ -23,7 +23,8 @@ public class Event implements Parcelable {
     @OnConflictStrategy()
     @ColumnInfo(name = "event_id")
     @PrimaryKey(autoGenerate = true)
-    private long eventId;
+    private long tableId;
+    private String eventId;
     private String name;
     private String activity;
     private String eventDescription;
@@ -181,11 +182,19 @@ public class Event implements Parcelable {
         this.usersEntered = usersEntered;
     }
 
-    public long getEventId() {
+    public String getEventId() {
         return eventId;
     }
 
-    public void setEventId(long eventId) {
+    public long getTableId() {
+        return tableId;
+    }
+
+    public void setTableId(long tableId) {
+        this.tableId = tableId;
+    }
+
+    public void setEventId(String eventId) {
         this.eventId = eventId;
     }
 
@@ -211,7 +220,7 @@ public class Event implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeLong(this.eventId);
+        dest.writeString(this.eventId);
         dest.writeString(this.name);
         dest.writeString(this.activity);
         dest.writeString(this.eventDescription);
@@ -230,7 +239,7 @@ public class Event implements Parcelable {
     }
 
     protected Event(Parcel in) {
-        this.eventId = in.readLong();
+        this.eventId = in.readString();
         this.name = in.readString();
         this.activity = in.readString();
         this.eventDescription = in.readString();

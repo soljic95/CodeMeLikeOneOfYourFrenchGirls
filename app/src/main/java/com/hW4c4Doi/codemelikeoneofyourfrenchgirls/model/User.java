@@ -178,6 +178,10 @@ public class User implements Parcelable {
         return interests;
     }
 
+    public void addInterest(String interest){this.interests.add(interest);}
+
+    public void removeInterest(String interest){this.interests.remove(interest);}
+
     public void setInterests(ArrayList<String> interests) {
         this.interests = interests;
     }

@@ -17,8 +17,6 @@
     <string name="create">Create</string>
 
     <!-- interest-->
-    <string name="Football">Football</string>
-    <string name="Basketball">Basketball</string>
     <string name="Tennis">Tennis</string>
     <string name="Table_Tennis">Table Tennis</string>
     <string name="Volleyball">Football</string>
@@ -30,12 +28,17 @@
     <string name="Dog_walking">Dog walking</string>
     <string name="Walking">Walking</string>
     <string name="Canicross">Canicross </string>
-    <string name="Board_games">Board games</string>
     <string name="Card_games">Card games</string>
     <string name="Museums">Museums</string>
     <string name="Theater">Theater</string>
     <string name="Conference">Conference</string>
     <string name="Concerts">Badminton</string>
-    <string name="Fitness">Fitness</string>
+    <string name="Football">Nogomet</string>
+    <string name="Basketball">Košarka</string>
+    <string name="Handball">Rukomet</string>
+    <string name="Fitness">Teretane</string>
+    <string name="Running">Trčanje</string>
+    <string name="Boardgames">Društvene igre</string>
+    <string name="Social">Druženje</string>
 
 </resources>

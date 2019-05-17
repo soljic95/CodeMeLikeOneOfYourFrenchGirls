@@ -7,7 +7,7 @@
     tools:context=".ui.MyProfileFragment">
 
     <ImageView
-        android:id="@+id/imageView4"
+        android:id="@+id/picture_profile_fragment"
         android:layout_width="90dp"
         android:layout_height="90dp"
         android:layout_marginTop="32dp"
@@ -22,7 +22,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <View
-        android:id="@+id/view1"
+        android:id="@+id/upper_line_profile_fragment"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginStart="@dimen/usual_padding"
@@ -33,21 +33,21 @@
         android:background="@android:color/darker_gray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView4" />
+        app:layout_constraintTop_toBottomOf="@+id/picture_profile_fragment" />
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/name_label_profile_fragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginBottom="16dp"
         android:text="Name"
-        app:layout_constraintBottom_toTopOf="@+id/textView5"
+        app:layout_constraintBottom_toTopOf="@+id/surname_label_profile_fragment"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/tvUserName"
+        android:id="@+id/name_profile_fragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -58,11 +58,11 @@
         android:text="Marko"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/textView6"
-        app:layout_constraintTop_toBottomOf="@+id/view1" />
+        app:layout_constraintStart_toEndOf="@+id/name_label_profile_fragment"
+        app:layout_constraintTop_toBottomOf="@+id/upper_line_profile_fragment" />
 
     <TextView
-        android:id="@+id/tvUserSurname"
+        android:id="@+id/surname_profile_fragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -75,12 +75,12 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/textView5"
+        app:layout_constraintStart_toEndOf="@+id/surname_label_profile_fragment"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.357" />
 
     <TextView
-        android:id="@+id/tvUserMail"
+        android:id="@+id/mail_profile_fragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -90,38 +90,38 @@
         android:layout_marginRight="16dp"
         android:layout_marginBottom="8dp"
         android:text="Marko.soljic@gmail.com"
-        app:layout_constraintBottom_toTopOf="@+id/view2"
+        app:layout_constraintBottom_toTopOf="@+id/middle_line_profile_fragment"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/textView8"
-        app:layout_constraintTop_toBottomOf="@+id/tvUserSurname"
+        app:layout_constraintStart_toEndOf="@+id/email_label_fragment"
+        app:layout_constraintTop_toBottomOf="@+id/surname_profile_fragment"
         app:layout_constraintVertical_bias="0.3" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/surname_label_profile_fragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Surname"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/textView6"
+        app:layout_constraintStart_toStartOf="@+id/name_label_profile_fragment"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.362" />
 
     <TextView
-        android:id="@+id/textView8"
+        android:id="@+id/email_label_fragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="Email"
-        app:layout_constraintBottom_toTopOf="@+id/view2"
-        app:layout_constraintStart_toStartOf="@+id/textView5"
-        app:layout_constraintTop_toBottomOf="@+id/textView5"
+        app:layout_constraintBottom_toTopOf="@+id/middle_line_profile_fragment"
+        app:layout_constraintStart_toStartOf="@+id/surname_label_profile_fragment"
+        app:layout_constraintTop_toBottomOf="@+id/surname_label_profile_fragment"
         app:layout_constraintVertical_bias="0.0" />
 
     <View
-        android:id="@+id/view2"
+        android:id="@+id/middle_line_profile_fragment"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginStart="@dimen/usual_padding"
@@ -135,11 +135,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view1"
+        app:layout_constraintTop_toBottomOf="@+id/upper_line_profile_fragment"
         app:layout_constraintVertical_bias="0.282" />
 
     <TextView
-        android:id="@+id/textView9"
+        android:id="@+id/interests_label_profile_fragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -157,20 +157,20 @@
         app:layout_constraintVertical_bias="0.524" />
 
     <ScrollView
-        android:id="@+id/scrollView2"
+        android:id="@+id/interests_scroll_profile_fragment"
         android:layout_width="410dp"
         android:layout_height="140dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/view4"
+        app:layout_constraintBottom_toBottomOf="@+id/lower_line_profile_fragment"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView9"
+        app:layout_constraintTop_toBottomOf="@+id/interests_label_profile_fragment"
         app:layout_constraintVertical_bias="0.0">
 
         <com.google.android.material.chip.ChipGroup
-            android:id="@+id/myProfileChipGroup"
+            android:id="@+id/chip_group_profile_fragment"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="8dp"
@@ -179,103 +179,56 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView9">
+            app:layout_constraintTop_toBottomOf="@+id/interests_label_profile_fragment">
 
             <com.google.android.material.chip.Chip
+                android:id="@+id/football_chip_profile_fragment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checkable="true"
                 android:text="@string/Football" />
 
             <com.google.android.material.chip.Chip
+                android:id="@+id/basketball_chip_profile_fragment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checkable="true"
                 android:text="@string/Basketball" />
 
             <com.google.android.material.chip.Chip
+                android:id="@+id/handball_chip_profile_fragment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checkable="true"
-                android:text="@string/Tennis" />
+                android:text="@string/Handball" />
 
             <com.google.android.material.chip.Chip
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checkable="true"
-                android:text="@string/Table_Tennis" />
-
-            <com.google.android.material.chip.Chip
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checkable="true"
-                android:text="@string/Volleyball" />
-
-            <com.google.android.material.chip.Chip
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checkable="true"
-                android:text="@string/Chess" />
-
-            <com.google.android.material.chip.Chip
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checkable="true"
-                android:text="@string/Bicycling" />
-
-            <com.google.android.material.chip.Chip
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checkable="true"
-                android:text="@string/Skating" />
-
-            <com.google.android.material.chip.Chip
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checkable="true"
-                android:text="@string/Badminton" />
-
-            <com.google.android.material.chip.Chip
+                android:id="@+id/fitness_chip_profile_fragment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checkable="true"
                 android:text="@string/Fitness" />
 
             <com.google.android.material.chip.Chip
+                android:id="@+id/running_chip_profile_fragment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checkable="true"
-                android:text="@string/Mountain_climbing" />
+                android:text="@string/Running" />
 
             <com.google.android.material.chip.Chip
+                android:id="@+id/board_games_chip_profile_fragment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checkable="true"
-                android:text="@string/Dog_walking" />
+                android:text="@string/Boardgames" />
 
             <com.google.android.material.chip.Chip
+                android:id="@+id/social_chip_profile_fragment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checkable="true"
-                android:text="@string/Board_games" />
-
-            <com.google.android.material.chip.Chip
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checkable="true"
-                android:text="@string/Canicross" />
-
-            <com.google.android.material.chip.Chip
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checkable="true"
-                android:text="@string/Conference" />
-
-            <com.google.android.material.chip.Chip
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checkable="true"
-                android:text="@string/Concerts" />
+                android:text="@string/Social" />
 
 
         </com.google.android.material.chip.ChipGroup>
@@ -283,7 +236,7 @@
     </ScrollView>
 
     <View
-        android:id="@+id/view4"
+        android:id="@+id/lower_line_profile_fragment"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginStart="8dp"
@@ -301,18 +254,18 @@
         app:layout_constraintVertical_bias="0.802" />
 
     <TextView
-        android:id="@+id/textView10"
+        android:id="@+id/range_label_profile_fragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:layout_marginLeft="4dp"
         android:layout_marginTop="8dp"
         android:text="Range"
-        app:layout_constraintStart_toStartOf="@+id/view4"
-        app:layout_constraintTop_toBottomOf="@+id/view4" />
+        app:layout_constraintStart_toStartOf="@+id/lower_line_profile_fragment"
+        app:layout_constraintTop_toBottomOf="@+id/lower_line_profile_fragment" />
 
     <SeekBar
-        android:id="@+id/seekBar"
+        android:id="@+id/range_profile_fragment"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
@@ -323,9 +276,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView10"
+        app:layout_constraintTop_toBottomOf="@+id/range_label_profile_fragment"
         app:layout_constraintVertical_bias="0.0" />
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

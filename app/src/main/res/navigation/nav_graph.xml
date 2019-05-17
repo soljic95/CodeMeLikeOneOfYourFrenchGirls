@@ -84,7 +84,7 @@
     <fragment
         android:id="@+id/fragmentMyProfile"
         android:name="com.hW4c4Doi.codemelikeoneofyourfrenchgirls.ui.MyProfileFragment"
-        android:label="fragment_my_profile"
+        android:label="My Profile"
         tools:layout="@layout/fragment_my_profile" />
     <fragment
         android:id="@+id/fragmentSettings"

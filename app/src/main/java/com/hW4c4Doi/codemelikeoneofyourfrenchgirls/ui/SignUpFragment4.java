@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.SeekBar;
 import android.widget.Toast;
 
 import com.google.android.material.chip.Chip;
@@ -40,6 +41,9 @@ public class SignUpFragment4 extends Fragment {
     @BindView(R.id.btnContinue)
     Button btnContinue;
 
+    @BindView(R.id.seekBar)
+    SeekBar range;
+
     @BindView(R.id.nogometChip)
     Chip nogometChip;
     @BindView(R.id.kosarkaChip)
@@ -60,7 +64,9 @@ public class SignUpFragment4 extends Fragment {
     @BindView(R.id.druzenjeChip)
     Chip druzenjeChip;
 
+
     List<String> interestList = new ArrayList<>();
+
 
 
     @Override
@@ -82,12 +88,13 @@ public class SignUpFragment4 extends Fragment {
 
         setChipsListener();
 
+
     }
 
     @OnClick(R.id.btnContinue)
     void continueToNextCreationPage() {
         user.setInterests((ArrayList<String>) interestList);
-        user.setRange(100);
+        user.setRange(range.getProgress());
         Bundle bundle = new Bundle();
         bundle.putParcelable(PASSED_USER_TAG, user);
         Navigation.findNavController(getView()).navigate(R.id.action_signUpFragment4_to_signUpFragment3, bundle);
