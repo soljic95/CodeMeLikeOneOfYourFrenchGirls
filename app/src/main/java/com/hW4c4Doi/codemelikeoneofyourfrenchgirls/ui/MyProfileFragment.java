@@ -11,6 +11,8 @@ import androidx.annotation.Nullable;
 import androidx.core.graphics.drawable.RoundedBitmapDrawable;
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,6 +25,8 @@ import android.widget.TextView;
 import com.google.android.material.chip.Chip;
 import com.google.firebase.auth.FirebaseAuth;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.R;
+import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.adapter.InterestRecycleAdapter;
+import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.adapter.UpcomingEventsRecyclerViewAdapter;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.model.User;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.room.EventDao;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.room.EventDatabase;
@@ -41,37 +45,41 @@ import io.reactivex.schedulers.Schedulers;
  * A simple {@link Fragment} subclass.
  */
 public class MyProfileFragment extends Fragment {
-
+    static User myUser;
     @BindView(R.id.name_profile_fragment)
     TextView name;
-    @BindView(R.id.surname_profile_fragment)
-    TextView surname;
+    @BindView(R.id.mobile_number_profile_fragment)
+    TextView mobileNumber;
     @BindView(R.id.mail_profile_fragment)
     TextView email;
-    @BindView(R.id.football_chip_profile_fragment)
-    Chip footballChip;
-    @BindView(R.id.basketball_chip_profile_fragment)
-    Chip basketballChip;
-    @BindView(R.id.fitness_chip_profile_fragment)
-    Chip fitnessChip;
-    @BindView(R.id.handball_chip_profile_fragment)
-    Chip handballChip;
-    @BindView(R.id.running_chip_profile_fragment)
-    Chip runningChip;
-    @BindView(R.id.social_chip_profile_fragment)
-    Chip socialChip;
-    @BindView(R.id.board_games_chip_profile_fragment)
-    Chip boardGamesChip;
+    @BindView(R.id.interestRV)
+    RecyclerView recyclerView;
 
     @BindView(R.id.range_profile_fragment)
     SeekBar range;
 
     EventDao eventDao;
     FirebaseAuth mAuth;
-    public MyProfileFragment() {
+    InterestRecycleAdapter adapter;
+    LinearLayoutManager manager;
 
+    public void setupAdapter(View view,User user) {
+
+        adapter = new InterestRecycleAdapter(getContext(),user);
+        manager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(manager);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setHasFixedSize(true);
+        adapter.notifyDataSetChanged();
+
+        adapter.addInterest(getResources().getString(R.string.Football));
+        adapter.addInterest(getResources().getString(R.string.Badminton));
+        adapter.addInterest(getResources().getString(R.string.Handball));
+        adapter.addInterest(getResources().getString(R.string.Running));
+        adapter.addInterest(getResources().getString(R.string.Fitness));
+        adapter.addInterest(getResources().getString(R.string.Boardgames));
+        adapter.addInterest(getResources().getString(R.string.Social));
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -89,7 +97,7 @@ public class MyProfileFragment extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
-        Log.d("marko","UID"+mAuth.getUid());
+        Log.d("marko", "UID" + mAuth.getUid());
         eventDao.getCurrentUser(mAuth.getUid()).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new SingleObserver<User>() {
             @Override
             public void onSubscribe(Disposable d) {
@@ -98,8 +106,10 @@ public class MyProfileFragment extends Fragment {
 
             @Override
             public void onSuccess(User user) {
-                Log.d("marko","onSuccess: user fetched from database and ready to fill!");
+                Log.d("marko", "onSuccess: user fetched from database and ready to fill!");
                 fillProfileInformations(user);
+                myUser = user;
+                setupAdapter(view,user);
             }
 
             @Override
@@ -110,86 +120,19 @@ public class MyProfileFragment extends Fragment {
 
     }
 
-    private void fillProfileInformations(User user){
+    private void fillProfileInformations(User user) {
         name.setText(user.getName());
         email.setText(user.getEmail());
         range.setProgress(user.getRange());
-
-        for(String interest : user.getInterests()){
-            if( interest.equals(footballChip.getText().toString())) footballChip.setChecked(true);
-            else if( interest.equals(basketballChip.getText().toString())) basketballChip.setChecked(true);
-            else if( interest.equals(handballChip.getText().toString())) handballChip.setChecked(true);
-            else if( interest.equals( fitnessChip.getText().toString())) fitnessChip.setChecked(true);
-            else if( interest.equals(runningChip.getText().toString())) runningChip.setChecked(true);
-            else if( interest.equals(boardGamesChip.getText().toString())) boardGamesChip.setChecked(true);
-            else if( interest.equals(socialChip.getText().toString())) socialChip.setChecked(true);
-        }
+        mobileNumber.setText("+" + user.getPhoneNumber());
     }
 
-    public void setChipsListener(User user) {
-        footballChip.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                user.addInterest(footballChip.getText().toString());
-                Log.d("marko", "onCheckedChanged: nogometChip added");
-            } else if (!isChecked) {
-                user.removeInterest(footballChip.getText().toString());
-                Log.d("marko", "onCheckedChanged: nogometChip removed");
-            }
-        });
-        basketballChip.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                user.addInterest(basketballChip.getText().toString());
-                Log.d("marko", "onCheckedChanged: kosarkaChip added");
-            } else if (!isChecked) {
-                user.removeInterest(basketballChip.getText().toString());
-                Log.d("marko", "onCheckedChanged: kosarkaChip removed");
-            }
-        });
-        handballChip.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                user.addInterest(handballChip.getText().toString());
-                Log.d("marko", "onCheckedChanged: rukometChip added");
-            } else if (!isChecked) {
-                user.removeInterest(handballChip.getText().toString());
-                Log.d("marko", "onCheckedChanged: rukometChip removed");
-            }
-        });
-        runningChip.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                user.addInterest(runningChip.getText().toString());
-                Log.d("marko", "onCheckedChanged: trcanjeChip added");
-            } else if (!isChecked) {
-                user.removeInterest(runningChip.getText().toString());
-                Log.d("marko", "onCheckedChanged: trcanjeChip removed");
-            }
-        });
-        fitnessChip.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                user.addInterest(fitnessChip.getText().toString());
-                Log.d("marko", "onCheckedChanged: teretanaChip added");
-            } else if (!isChecked) {
-                user.removeInterest(fitnessChip.getText().toString());
-                Log.d("marko", "onCheckedChanged: teretanaChip removed");
-            }
-        });
-        boardGamesChip.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                user.addInterest(boardGamesChip.getText().toString());
-                Log.d("marko", "onCheckedChanged: drustveneChip added");
-            } else if (!isChecked) {
-                user.removeInterest(boardGamesChip.getText().toString());
-                Log.d("marko", "onCheckedChanged: drustveneChip removed");
-            }
-        });
-        socialChip.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                user.addInterest(socialChip.getText().toString());
-                Log.d("marko", "onCheckedChanged: druzenjeChip added");
-            } else if (!isChecked) {
-                user.removeInterest(socialChip.getText().toString());
-                Log.d("marko", "onCheckedChanged: druzenjeChip removed");
-            }
-        });
+    public static void addInterestToUser(String interest) {
+        myUser.addInterest(interest);
+    }
+
+    public static void removeInterestFromUser(String interest) {
+        myUser.removeInterest(interest);
     }
 
 }

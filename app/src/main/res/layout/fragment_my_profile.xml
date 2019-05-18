@@ -27,7 +27,7 @@
         android:layout_height="1dp"
         android:layout_marginStart="@dimen/usual_padding"
         android:layout_marginLeft="@dimen/usual_padding"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="56dp"
         android:layout_marginEnd="@dimen/usual_padding"
         android:layout_marginRight="@dimen/usual_padding"
         android:background="@android:color/darker_gray"
@@ -40,11 +40,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginBottom="16dp"
-        android:text="Name"
-        app:layout_constraintBottom_toTopOf="@+id/surname_label_profile_fragment"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="19dp"
+        android:text="Full Name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/upper_line_profile_fragment" />
 
     <TextView
         android:id="@+id/name_profile_fragment"
@@ -52,9 +52,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginTop="19dp"
+        android:layout_marginEnd="17dp"
+        android:layout_marginRight="17dp"
         android:text="Marko"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -62,22 +62,21 @@
         app:layout_constraintTop_toBottomOf="@+id/upper_line_profile_fragment" />
 
     <TextView
-        android:id="@+id/surname_profile_fragment"
+        android:id="@+id/mobile_number_profile_fragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="8dp"
-        android:text="Soljic"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="17dp"
+        android:layout_marginRight="17dp"
+        android:layout_marginBottom="15dp"
+        android:text="+385958820138"
+        app:layout_constraintBottom_toTopOf="@+id/mail_profile_fragment"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/surname_label_profile_fragment"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.357" />
+        app:layout_constraintStart_toEndOf="@+id/mobile_number_label_profile_fragment"
+        app:layout_constraintTop_toBottomOf="@+id/name_profile_fragment" />
 
     <TextView
         android:id="@+id/mail_profile_fragment"
@@ -85,40 +84,39 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="17dp"
+        android:layout_marginRight="17dp"
+        android:layout_marginBottom="19dp"
         android:text="Marko.soljic@gmail.com"
         app:layout_constraintBottom_toTopOf="@+id/middle_line_profile_fragment"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/email_label_fragment"
-        app:layout_constraintTop_toBottomOf="@+id/surname_profile_fragment"
-        app:layout_constraintVertical_bias="0.3" />
+        app:layout_constraintStart_toEndOf="@+id/email_label_fragment" />
 
     <TextView
-        android:id="@+id/surname_label_profile_fragment"
+        android:id="@+id/mobile_number_label_profile_fragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Surname"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/name_label_profile_fragment"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.362" />
+        android:layout_marginStart="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:text="Mobile number"
+        app:layout_constraintBottom_toTopOf="@+id/email_label_fragment"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/name_label_profile_fragment"
+        app:layout_constraintVertical_bias="0.44" />
 
     <TextView
         android:id="@+id/email_label_fragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginBottom="19dp"
         android:text="Email"
         app:layout_constraintBottom_toTopOf="@+id/middle_line_profile_fragment"
-        app:layout_constraintStart_toStartOf="@+id/surname_label_profile_fragment"
-        app:layout_constraintTop_toBottomOf="@+id/surname_label_profile_fragment"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <View
         android:id="@+id/middle_line_profile_fragment"
@@ -142,98 +140,31 @@
         android:id="@+id/interests_label_profile_fragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="20dp"
         android:text="Interest :"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.023"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.524" />
+        app:layout_constraintTop_toBottomOf="@+id/middle_line_profile_fragment" />
 
-    <ScrollView
-        android:id="@+id/interests_scroll_profile_fragment"
-        android:layout_width="410dp"
-        android:layout_height="140dp"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/interestRV"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="@+id/lower_line_profile_fragment"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/interests_label_profile_fragment"
-        app:layout_constraintVertical_bias="0.0">
-
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/chip_group_profile_fragment"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginTop="8dp"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/interests_label_profile_fragment">
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/football_chip_profile_fragment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checkable="true"
-                android:text="@string/Football" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/basketball_chip_profile_fragment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checkable="true"
-                android:text="@string/Basketball" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/handball_chip_profile_fragment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checkable="true"
-                android:text="@string/Handball" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/fitness_chip_profile_fragment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checkable="true"
-                android:text="@string/Fitness" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/running_chip_profile_fragment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checkable="true"
-                android:text="@string/Running" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/board_games_chip_profile_fragment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checkable="true"
-                android:text="@string/Boardgames" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/social_chip_profile_fragment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checkable="true"
-                android:text="@string/Social" />
+        app:layout_constraintVertical_bias="0.2"
+        tools:itemCount="7"
+        tools:listitem="@layout/interest_item"
+        tools:orientation="vertical"
+        tools:scrollbars="vertical" />
 
 
-        </com.google.android.material.chip.ChipGroup>
-
-    </ScrollView>
 
     <View
         android:id="@+id/lower_line_profile_fragment"

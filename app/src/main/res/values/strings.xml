@@ -33,12 +33,12 @@
     <string name="Theater">Theater</string>
     <string name="Conference">Conference</string>
     <string name="Concerts">Badminton</string>
-    <string name="Football">Nogomet</string>
-    <string name="Basketball">Košarka</string>
-    <string name="Handball">Rukomet</string>
-    <string name="Fitness">Teretane</string>
-    <string name="Running">Trčanje</string>
-    <string name="Boardgames">Društvene igre</string>
-    <string name="Social">Druženje</string>
+    <string name="Football">Football</string>
+    <string name="Basketball">Basketball</string>
+    <string name="Handball">Handball</string>
+    <string name="Fitness">Fitness</string>
+    <string name="Running">Running</string>
+    <string name="Boardgames">Board Games</string>
+    <string name="Social">Social</string>
 
 </resources>
