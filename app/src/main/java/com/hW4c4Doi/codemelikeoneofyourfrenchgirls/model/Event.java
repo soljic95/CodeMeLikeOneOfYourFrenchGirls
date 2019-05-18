@@ -12,6 +12,7 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.PrimaryKey;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity(tableName = "event_table")
 public class Event implements Parcelable {
@@ -39,6 +40,16 @@ public class Event implements Parcelable {
     private boolean isPrivate;
     private int skillNeeded;
     private int pictureNumber;
+    private ArrayList<String> eventNeeds;
+
+
+    public ArrayList<String> getEventNeeds() {
+        return eventNeeds;
+    }
+
+    public void setEventNeeds(ArrayList<String> eventNeeds) {
+        this.eventNeeds = eventNeeds;
+    }
 
     public long getTable_id() {
         return table_id;
@@ -215,6 +226,7 @@ public class Event implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(this.table_id);
         dest.writeString(this.eventId);
         dest.writeString(this.name);
         dest.writeString(this.activity);
@@ -230,10 +242,12 @@ public class Event implements Parcelable {
         dest.writeByte(this.isPrivate ? (byte) 1 : (byte) 0);
         dest.writeInt(this.skillNeeded);
         dest.writeInt(this.pictureNumber);
+        dest.writeStringList(this.eventNeeds);
         dest.writeString(this.eventAdress);
     }
 
     protected Event(Parcel in) {
+        this.table_id = in.readLong();
         this.eventId = in.readString();
         this.name = in.readString();
         this.activity = in.readString();
@@ -249,10 +263,11 @@ public class Event implements Parcelable {
         this.isPrivate = in.readByte() != 0;
         this.skillNeeded = in.readInt();
         this.pictureNumber = in.readInt();
+        this.eventNeeds = in.createStringArrayList();
         this.eventAdress = in.readString();
     }
 
-    public static final Parcelable.Creator<Event> CREATOR = new Parcelable.Creator<Event>() {
+    public static final Creator<Event> CREATOR = new Creator<Event>() {
         @Override
         public Event createFromParcel(Parcel source) {
             return new Event(source);

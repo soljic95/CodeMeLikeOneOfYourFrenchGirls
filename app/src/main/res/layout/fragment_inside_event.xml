@@ -22,7 +22,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/event_image_placeholder" />
 
         <TextView
             android:id="@+id/tvEventName"
@@ -59,7 +60,6 @@
             app:layout_constraintVertical_bias="0.0" />
 
         <TextView
-            android:background="@color/cardview_shadow_start_color"
             android:id="@+id/tvEventDetails"
             android:layout_width="match_parent"
             android:layout_height="120dp"
@@ -68,6 +68,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="18dp"
             android:layout_marginRight="16dp"
+            android:background="@color/cardview_shadow_start_color"
             android:padding="8dp"
             android:text="Ovaj turnir osmišljen je kako bi pokazali tko je najveći među najvećima, a tko samo gubitnik. Na cuganje i klopu dobrodošli su svi, no igrati mogu samo smjerovi sa FER-a. Zauzmi svoje mjesto što prije! "
             app:layout_constraintEnd_toEndOf="parent"
@@ -121,30 +122,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
             android:text="Fakultet elektrotehnike i računalstva"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.06"
             app:layout_constraintStart_toEndOf="@+id/iv_event_location_icon"
             app:layout_constraintTop_toBottomOf="@+id/tvEventTime" />
-
-        <TextView
-            android:id="@+id/tvDetailedEventAdress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:text="Unska ul. 3, 10000, Zagreb"
-            android:textSize="11sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/iv_event_location_icon"
-            app:layout_constraintTop_toBottomOf="@+id/tvEventLocation" />
 
         <ImageView
             android:id="@+id/imageView"
@@ -164,11 +148,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="8dp"
             android:text="10 HRK"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/imageView"
-            app:layout_constraintTop_toBottomOf="@+id/tvDetailedEventAdress" />
+            app:layout_constraintTop_toBottomOf="@+id/tvEventLocation" />
 
         <View
             android:id="@+id/view"
@@ -210,18 +196,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvEventNeeds">
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chipGroup"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Boots"
-                app:chipCornerRadius="50dp" />
 
-            <com.google.android.material.chip.Chip
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Good will"
-                app:chipCornerRadius="50dp" />
         </com.google.android.material.chip.ChipGroup>
 
         <View

@@ -67,7 +67,7 @@ public class UpcomingEventsRecyclerViewAdapter extends RecyclerView.Adapter<Upco
         Event event = eventList.get(position);
 
         bundle.putParcelable("event", event);
-        Glide.with(context).load(R.drawable.love).centerCrop().into(holder.ivEventImage);
+        Glide.with(context).load(R.drawable.event_image_placeholder).centerCrop().into(holder.ivEventImage);
         final FragmentNavigator.Extras extras = new FragmentNavigator.Extras.Builder()
                 .addSharedElement(holder.tvEventName, "transition" + position)
                 .addSharedElement(holder.ivEventImage, "transitionImage" + position)

@@ -2,31 +2,23 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="176dp"
+    android:background="@color/colorPrimary"
     android:gravity="bottom"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:background="@color/colorPrimary">
+    android:padding="16dp">
 
     <ImageView
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:src="@drawable/love"
-        />
+        android:src="@drawable/mask" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="Roboto"
         android:paddingTop="8dp"
-        android:text="4realDev"
-        android:textAppearance="@style/MyTabLayoutTextAppearance"/>
+        android:text="4real beta"
+        android:textAppearance="@style/MyTabLayoutTextAppearance" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="Roboto"
-        android:paddingTop="8dp"
-        android:textAppearance="@style/MyTabLayoutTextAppearance"
-        android:text="marko.soljic@gmail.com" />
 
 </LinearLayout>

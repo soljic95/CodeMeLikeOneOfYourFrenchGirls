@@ -26,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.firebase.auth.FirebaseAuth;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.R;
@@ -58,8 +59,6 @@ public class InsideEventFragment extends Fragment {
     TextView tvEventTime;
     @BindView(R.id.tvEventLocation)
     TextView tvEventLocation;
-    @BindView(R.id.tvDetailedEventAdress)
-    TextView tvDetailedEventAdress;
     @BindView(R.id.tvEventCost)
     TextView tvEventCost;
     @BindView(R.id.chipGroup2)
@@ -100,10 +99,21 @@ public class InsideEventFragment extends Fragment {
             tvEventActivity.setText(event.getActivity());
             tvEventDetails.setText(event.getEventDescription());
             tvEventTime.setText(sdfDate.format(event.getEventStart()));
+            tvEventLocation.setText(event.getEventAdress());
+            for (String need : event.getEventNeeds()) {
+                Chip chip = new Chip(getActivity());
+                chip.setText(need);
+                chip.setCheckable(false);
+                chipGroup2.addView(chip, 0);
+            }
         }
 
 
-        setHasOptionsMenu(true);
+        if (FirebaseAuth.getInstance().getUid().equals(event.getIdOfTheUserWhoCreatedIt())) {
+            setHasOptionsMenu(true);
+
+        }
+
 
         viewModel = ViewModelProviders.of(getActivity()).get(FirebaseViewModel.class);
 

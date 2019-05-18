@@ -91,7 +91,7 @@ public class CreateEventFragment extends Fragment {
     @BindView(R.id.tvKuna)
     TextView tvKuna;
 
-    private final List<String> listOfNeeds = new ArrayList<>();
+    private final ArrayList<String> listOfNeeds = new ArrayList<>();
     private FirebaseViewModel viewModel;
     private DatePickerDialog.OnDateSetListener listener;
     private TimePickerDialog.OnTimeSetListener timeListener;
@@ -214,6 +214,7 @@ public class CreateEventFragment extends Fragment {
                 eventActivity, calendar.getTimeInMillis(), Integer.parseInt(etPlayersNeeded.getText().toString()), eiEventDetails.getText().toString(),
                 tvEventLocation.getText().toString(), false);
         currentEvent.addUsersToArray(FirebaseAuth.getInstance().getUid());
+        currentEvent.setEventNeeds(listOfNeeds);
         viewModel.insertEvent(currentEvent);
         Navigation.findNavController(getActivity(), R.id.nav_host_fragment).popBackStack();
         Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(R.id.fragmentEvents);

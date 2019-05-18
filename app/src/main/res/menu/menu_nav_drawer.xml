@@ -4,23 +4,23 @@
 
         <item
             android:id="@+id/menu_events"
-            android:title="Events"
-            android:icon="@android:drawable/ic_menu_myplaces">Events
+            android:icon="@drawable/events_icon"
+            android:title="Events">Events
         </item>
         <item
             android:id="@+id/menu_groups"
-            android:title="Groups"
-            android:icon="@android:drawable/ic_dialog_dialer">Groups
+            android:icon="@drawable/groups_icon"
+            android:title="Groups">Groups
         </item>
         <item
             android:id="@+id/menu_profile"
-            android:title="MyProfile"
-            android:icon="@android:drawable/ic_popup_disk_full">MyProfile
+            android:icon="@drawable/my_profile_icon"
+            android:title="My profile">MyProfile
         </item>
         <item
             android:id="@+id/menu_settings"
-            android:title="Settings"
-            android:icon="@android:drawable/ic_menu_compass">Settings
+            android:icon="@drawable/logouticon"
+            android:title="Log out">Settings
         </item>
 
     </group>

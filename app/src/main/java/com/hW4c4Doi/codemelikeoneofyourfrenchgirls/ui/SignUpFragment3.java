@@ -65,9 +65,6 @@ public class SignUpFragment3 extends Fragment {
     @BindView(R.id.btnGallery)
     public Button btnGallery;
 
-    @BindView(R.id.btnCamera)
-    public Button btnCamera;
-
     private FirebaseViewModel viewModel;
     // Create a storage reference from our app
     private StorageReference storageRef;
@@ -112,15 +109,6 @@ public class SignUpFragment3 extends Fragment {
         startActivityForResult(new Intent()
                 .setType("image/*")
                 .setAction(Intent.ACTION_GET_CONTENT), PICK_IMAGE_REQUEST);
-    }
-
-    @OnClick(R.id.btnCamera)
-    void cameraIntent() {
-        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{Manifest.permission.CAMERA}, MY_CAMERA_PERMISSION_CODE);
-        } else {
-            startActivityForResult(new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE), CAMERA_REQUEST);
-        }
     }
 
     @Override
@@ -178,6 +166,7 @@ public class SignUpFragment3 extends Fragment {
                 });
 
     }
+
     private String getFileExtension(Uri uri) {
         ContentResolver cr = getActivity().getContentResolver();
         MimeTypeMap mime = MimeTypeMap.getSingleton();

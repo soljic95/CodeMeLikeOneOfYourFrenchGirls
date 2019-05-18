@@ -33,7 +33,9 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".ui.RegisterUserActivity">
+        <activity
+            android:name=".ui.RegisterUserActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -44,7 +46,9 @@
                 android:name="com.facebook.sdk.ApplicationId"
                 android:value="@string/facebook_application_id" />
         </activity>
-        <activity android:name=".ui.MainActivity" />
+        <activity
+            android:name=".ui.MainActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

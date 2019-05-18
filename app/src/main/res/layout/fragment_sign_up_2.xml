@@ -38,6 +38,9 @@
         android:layout_marginEnd="59dp"
         android:layout_marginRight="59dp"
         android:layout_marginBottom="8dp"
+        android:paddingLeft="85dp"
+        android:paddingRight="85dp"
+        app:cornerRadius="50dp"
         android:text="Continue"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -46,32 +49,32 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.712" />
 
+
     <TextView
-        android:text="Month"
         android:id="@+id/tvMonth"
         android:layout_width="100dp"
         android:layout_height="35dp"
         android:layout_marginStart="48dp"
         android:layout_marginLeft="48dp"
         android:layout_marginTop="20dp"
+        android:text="Month"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout4" />
 
     <TextView
-        android:text="Day"
         android:id="@+id/tvDay"
         android:layout_width="100dp"
         android:layout_height="35dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="20dp"
+        android:text="Day"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/tvMonth"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout4" />
 
     <TextView
-        android:text="Year"
         android:id="@+id/tvYear"
         android:layout_width="100dp"
         android:layout_height="35dp"
@@ -81,6 +84,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
+        android:text="Year"
         app:layout_constraintBottom_toTopOf="@+id/radioGroup"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
