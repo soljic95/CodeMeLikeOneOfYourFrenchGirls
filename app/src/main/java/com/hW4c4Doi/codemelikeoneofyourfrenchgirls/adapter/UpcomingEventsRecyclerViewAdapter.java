@@ -1,7 +1,9 @@
 package com.hW4c4Doi.codemelikeoneofyourfrenchgirls.adapter;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,26 +12,33 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.DialogFragment;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.FragmentNavigator;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.R;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.model.Event;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.network.FirebaseHelperClass;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class UpcomingEventsRecyclerViewAdapter extends RecyclerView.Adapter<UpcomingEventsRecyclerViewAdapter.MyViewHolder> {
     private Context context;
     private List<Event> eventList;
     private Activity activity;
     private FirebaseHelperClass helperClass;
+    private SimpleDateFormat sdfDate = new SimpleDateFormat("HH:mm, EEE, d. MMM ", Locale.getDefault());
+
 
     public UpcomingEventsRecyclerViewAdapter(Context context, Activity activity) {
         this.context = context;
@@ -63,11 +72,27 @@ public class UpcomingEventsRecyclerViewAdapter extends RecyclerView.Adapter<Upco
                 .addSharedElement(holder.tvEventName, "transition" + position)
                 .addSharedElement(holder.ivEventImage, "transitionImage" + position)
                 .build();
-        holder.tvEventName.setText(eventList.get(position).getName());
-        holder.tvEventActivity.setText(eventList.get(position).getActivity());
+        if (event.getListOfUsersParticipatingInEvent().contains(FirebaseAuth.getInstance().getUid())) {
+            holder.btnJoinEvent.setText("In event");
+        }
+        holder.tvEventName.setText(event.getName());
+        holder.tvEventActivity.setText(event.getActivity());
         holder.tvEventPlayersNeeded.setText(5 + "");
-        holder.tvEventTime.setText("26.april,11:00");
+        holder.tvEventTime.setText(sdfDate.format(event.getEventStart()));
         holder.layout.setOnClickListener(v -> Navigation.findNavController(activity, R.id.nav_host_fragment).navigate(R.id.fragmentInsideEvent, bundle, null));
+        holder.btnJoinEvent.setOnClickListener(v -> {
+            new AlertDialog.Builder(context)
+                    .setTitle("Join event?")
+                    .setMessage("Are you sure you want to join event: " + event.getName() +
+                            " ?").setPositiveButton("Yes", (dialog, which) -> {
+                event.addUsersToArray(FirebaseAuth.getInstance().getUid());
+                helperClass.joinEvent(event);
+                Toast.makeText(context, "Event joined", Toast.LENGTH_SHORT).show();
+                holder.btnJoinEvent.setText("In event");
+                dialog.dismiss();
+            }).setNegativeButton("No", (dialog, which) -> dialog.dismiss()).show();
+
+        });
     }
 
     @Override

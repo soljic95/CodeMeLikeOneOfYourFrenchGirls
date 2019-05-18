@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProviders;
@@ -17,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.ui.auth.IdpResponse;
@@ -33,22 +35,16 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.R;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.model.User;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.room.EventDatabase;
-import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.ui.MainActivity;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.viewModel.FirebaseViewModel;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.viewModel.MyViewModelFactory;
 
-import java.util.Arrays;
-import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import io.reactivex.CompletableObserver;
-import io.reactivex.MaybeObserver;
-import io.reactivex.Observable;
-import io.reactivex.Observer;
 import io.reactivex.SingleObserver;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.internal.operators.observable.ObservableBlockingSubscribe;
-import io.reactivex.schedulers.Schedulers;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -57,18 +53,20 @@ import static android.app.Activity.RESULT_OK;
  * A simple {@link Fragment} subclass.
  */
 public class SignInFragment extends Fragment {
-    Button btnSignUp;
+    @BindView(R.id.btnSignUp)
+    TextView btnSignUp;
+    @BindView(R.id.btnSignIn)
     Button btnSignIn;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
     final static int RC_SIGN_IN = 1;
-    private TextInputEditText etEmail;
-    private TextInputEditText etPassword;
-    private FirebaseViewModel viewModel;
 
-    public SignInFragment() {
-        // Required empty public constructor
-    }
+    @BindView(R.id.etEmail)
+    TextInputEditText etEmail;
+    @BindView(R.id.etPassword)
+    TextInputEditText etPassword;
+    private FirebaseViewModel viewModel;
+    private AlertDialog alertDialog;
 
 
     @Override
@@ -84,13 +82,14 @@ public class SignInFragment extends Fragment {
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        ButterKnife.bind(this, view);
+
+        alertDialog = new androidx.appcompat.app.AlertDialog.Builder(getContext())
+                .setView(R.layout.progress_dialog)
+                .create();
+
         viewModel = ViewModelProviders.of(getActivity(), new MyViewModelFactory(getActivity().getApplication(), EventDatabase.getInstance(getContext())))
                 .get(FirebaseViewModel.class);
-
-        btnSignUp = view.findViewById(R.id.btnSignUp);
-        btnSignIn = view.findViewById(R.id.btnSignIn);
-        etEmail = view.findViewById(R.id.etEmail);
-        etPassword = view.findViewById(R.id.etPassword);
 
 
         mAuth = FirebaseAuth.getInstance();
@@ -107,20 +106,6 @@ public class SignInFragment extends Fragment {
             }
         };
 
-        btnSignUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Navigation.findNavController(view).navigate(R.id.signUpFragment);
-            }
-        });
-
-
-        btnSignIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                login();
-            }
-        });
 
     }
 
@@ -148,6 +133,7 @@ public class SignInFragment extends Fragment {
 
     public void checkIfSignedIn(FirebaseUser currentUser) {
         if (currentUser != null) {
+            alertDialog.show();
             Intent intent = new Intent(getContext(), MainActivity.class);
             startActivity(intent);
             getActivity().finish();
@@ -155,11 +141,14 @@ public class SignInFragment extends Fragment {
 
     }
 
-    private void login() {
+    @OnClick(R.id.btnSignIn)
+    void login() {
 
         if (!validateForm()) {
             return;
         }
+
+        alertDialog.show();
 
         String email = etEmail.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
@@ -170,6 +159,7 @@ public class SignInFragment extends Fragment {
                     public void onComplete(@NonNull Task<AuthResult> task) {
 
                         if (task.isSuccessful()) {
+                            alertDialog.show();
                             viewModel.isUserInRoomDatabase(task.getResult().getUser().getUid()).subscribe(new SingleObserver<User>() {
                                 @Override
                                 public void onSubscribe(Disposable d) {
@@ -265,6 +255,12 @@ public class SignInFragment extends Fragment {
             mAuth.removeAuthStateListener(mAuthStateListener);
         }
     }
+
+    @OnClick(R.id.btnSignUp)
+    void setBtnSignUp() {
+        Navigation.findNavController(getView()).navigate(R.id.signUpFragment);
+    }
+
 
     private boolean isPasswordValid(String password) {
         return password.length() < 7;

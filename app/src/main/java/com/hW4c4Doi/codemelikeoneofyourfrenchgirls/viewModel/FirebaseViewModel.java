@@ -70,8 +70,12 @@ public class FirebaseViewModel extends AndroidViewModel {
         return firebaseRepository.getUserFromFirebase(uId);
     }
 
-    public Completable insertUserInDatabase(User user){
+    public Completable insertUserInDatabase(User user) {
         return userRepository.insertUserInDatabase(user);
     }
 
+    public void updateEvent(Event event) {
+        firebaseRepository.updateEvent(event);
+
+    }
 }

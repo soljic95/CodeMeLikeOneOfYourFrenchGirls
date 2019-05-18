@@ -23,7 +23,8 @@ public class Event implements Parcelable {
     @OnConflictStrategy()
     @ColumnInfo(name = "event_id")
     @PrimaryKey(autoGenerate = true)
-    private long eventId;
+    private long table_id;
+    private String eventId;
     private String name;
     private String activity;
     private String eventDescription;
@@ -38,6 +39,14 @@ public class Event implements Parcelable {
     private boolean isPrivate;
     private int skillNeeded;
     private int pictureNumber;
+
+    public long getTable_id() {
+        return table_id;
+    }
+
+    public void setTable_id(long table_id) {
+        this.table_id = table_id;
+    }
 
     public int getPictureNumber() {
         return pictureNumber;
@@ -114,21 +123,16 @@ public class Event implements Parcelable {
         this.eventDescription = eventDescription;
     }
 
-    public Event(String idOfTheUserWhoCreatedIt, String name, String activity, int skillNeeded, long eventStart, double eventLat, double eventLng, int usersNeeded,
-                 String eventDescription, String eventAdress, boolean isCompleted, boolean isPrivate, int pictureNumber) {
+    public Event(String idOfTheUserWhoCreatedIt, String name, String activity, long eventStart, int usersNeeded,
+                 String eventDescription, String eventAdress, boolean isCompleted) {
         this.idOfTheUserWhoCreatedIt = idOfTheUserWhoCreatedIt;
         this.name = name;
         this.activity = activity;
-        this.skillNeeded = skillNeeded;
         this.eventStart = eventStart;
-        this.eventLat = eventLat;
-        this.eventLng = eventLng;
         this.usersNeeded = usersNeeded;
         this.eventDescription = eventDescription;
         this.eventAdress = eventAdress;
         this.isCompleted = isCompleted;
-        this.isPrivate = isPrivate;
-        this.pictureNumber = pictureNumber;
 
     }
 
@@ -181,11 +185,11 @@ public class Event implements Parcelable {
         this.usersEntered = usersEntered;
     }
 
-    public long getEventId() {
+    public String getEventId() {
         return eventId;
     }
 
-    public void setEventId(long eventId) {
+    public void setEventId(String eventId) {
         this.eventId = eventId;
     }
 
@@ -211,7 +215,7 @@ public class Event implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeLong(this.eventId);
+        dest.writeString(this.eventId);
         dest.writeString(this.name);
         dest.writeString(this.activity);
         dest.writeString(this.eventDescription);
@@ -230,7 +234,7 @@ public class Event implements Parcelable {
     }
 
     protected Event(Parcel in) {
-        this.eventId = in.readLong();
+        this.eventId = in.readString();
         this.name = in.readString();
         this.activity = in.readString();
         this.eventDescription = in.readString();

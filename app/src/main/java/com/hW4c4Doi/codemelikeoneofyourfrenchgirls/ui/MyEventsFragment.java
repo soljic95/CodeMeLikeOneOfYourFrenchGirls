@@ -4,9 +4,12 @@ package com.hW4c4Doi.codemelikeoneofyourfrenchgirls.ui;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -14,7 +17,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.R;
+import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.adapter.MyEventsAdapter;
+import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.model.Event;
 
 
 /**
@@ -23,6 +32,7 @@ import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.R;
 public class MyEventsFragment extends Fragment {
     private NavController navController;
     private Button btnEvent;
+    private MyEventsAdapter myEventsAdapter;
 
     public MyEventsFragment() {
         // Required empty public constructor
@@ -33,10 +43,7 @@ public class MyEventsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_my_events, container, false);
-
-        btnEvent = view.findViewById(R.id.btnEvent);
-        btnEvent.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.fragmentInsideEvent, null));
-
+        setUpMyEventsRecyclerView(view);
         return view;
 
     }
@@ -50,5 +57,37 @@ public class MyEventsFragment extends Fragment {
         }
 
         return false;
+    }
+
+    private void setUpMyEventsRecyclerView(View view) {
+        Query query = FirebaseFirestore.getInstance().collection("Events").whereArrayContains("listOfUsersParticipatingInEvent", FirebaseAuth.getInstance().getUid())
+                .orderBy("name", Query.Direction.DESCENDING)
+                .limit(50);
+
+        FirestoreRecyclerOptions<Event> firestoreRecyclerOptions = new FirestoreRecyclerOptions
+                .Builder<Event>()
+                .setQuery(query, Event.class)
+                .build();
+
+        myEventsAdapter = new MyEventsAdapter(firestoreRecyclerOptions, getContext(), (AppCompatActivity) getActivity());
+
+        RecyclerView recyclerView = view.findViewById(R.id.my_events_container);
+        recyclerView.setHasFixedSize(true);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(myEventsAdapter);
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        myEventsAdapter.startListening();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        myEventsAdapter.stopListening();
     }
 }

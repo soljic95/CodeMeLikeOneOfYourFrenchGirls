@@ -59,7 +59,8 @@
             app:layout_constraintVertical_bias="0.0" />
 
         <TextView
-            android:id="@+id/textView"
+            android:background="@color/cardview_shadow_start_color"
+            android:id="@+id/tvEventDetails"
             android:layout_width="match_parent"
             android:layout_height="120dp"
             android:layout_marginStart="16dp"
@@ -85,10 +86,10 @@
             app:layout_constraintEnd_toEndOf="@+id/ivEventImage"
             app:layout_constraintHorizontal_bias="0.02"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
+            app:layout_constraintTop_toBottomOf="@+id/tvEventDetails" />
 
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/tvEventTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -128,7 +129,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.06"
             app:layout_constraintStart_toEndOf="@+id/iv_event_location_icon"
-            app:layout_constraintTop_toBottomOf="@+id/textView4" />
+            app:layout_constraintTop_toBottomOf="@+id/tvEventTime" />
 
         <TextView
             android:id="@+id/tvDetailedEventAdress"
@@ -264,11 +265,11 @@
             android:scrollbars="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/chipGroup2"
-            tools:listitem="@layout/browser_actions_context_menu_page" />
+            app:layout_constraintTop_toBottomOf="@+id/chipGroup2" />
 
 
         <Button
+            android:id="@+id/btnJoinEvent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"

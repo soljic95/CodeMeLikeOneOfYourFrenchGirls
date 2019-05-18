@@ -33,6 +33,39 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:paddingLeft="4dp"
+                android:text="Activity: " />
+
+            <Spinner
+                android:id="@+id/spinnerActivity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="175dp"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etPlayersNeeded"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/usual_padding"
+                android:hint="Players needed"
+                android:inputType="number" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/event_info_box_size">
@@ -98,21 +131,25 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/clock_event_image" />
 
-            <TextView
-                android:id="@+id/tvEventLocation"
-                style="@style/BlackColorStyle"
-                android:layout_width="wrap_content"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout7"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="28dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="24dp"
                 android:layout_marginRight="8dp"
-                android:text="Location"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/iv_event_location_icon"
-                app:layout_constraintTop_toBottomOf="@+id/tvDateOfEvent" />
+                app:layout_constraintTop_toBottomOf="@+id/tvDateOfEvent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tvEventLocation"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="Location" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardView"
@@ -120,19 +157,19 @@
                 android:layout_height="140dp"
                 android:layout_marginStart="48dp"
                 android:layout_marginLeft="48dp"
-                android:layout_marginTop="36dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="33dp"
                 android:layout_marginRight="33dp"
                 android:elevation="@dimen/card_view_elevation"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvEventLocation">
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout7">
 
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/textInputLayout5"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="138dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvEventLocation">
@@ -196,6 +233,11 @@
             android:layout_height="@dimen/chip_group_height"
             android:layout_margin="@dimen/usual_padding">
 
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Own equipment" />
+
         </com.google.android.material.chip.ChipGroup>
 
         <View
@@ -207,13 +249,13 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/big_box_dimensions"
+            android:layout_height="130dp"
             android:clickable="false">
 
             <ImageView
-                android:id="@+id/imageView3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/ivMoneyPicture"
+                android:layout_width="17dp"
+                android:layout_height="17dp"
                 android:layout_marginStart="@dimen/standard_margin"
                 android:layout_marginLeft="@dimen/standard_margin"
                 android:layout_marginTop="@dimen/big_margin_"
@@ -226,7 +268,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/tvEntryCharged"
                 style="@style/BlackColorStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -237,6 +279,7 @@
                 android:layout_marginRight="@dimen/standard_margin"
                 android:layout_marginBottom="@dimen/standard_margin"
                 android:text="@string/entry_is_charged"
+                android:textColor="@color/cardview_shadow_start_color"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.262"
@@ -271,10 +314,11 @@
                 app:layout_constraintEnd_toStartOf="@+id/cbEntryCharged"
                 app:layout_constraintHorizontal_bias="0.349"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView3"
+                app:layout_constraintTop_toBottomOf="@+id/tvEntryCharged"
                 app:layout_constraintVertical_bias="0.0">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:textColor="@color/colorPrimary"
                     android:id="@+id/eiEventValue"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -285,13 +329,14 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
-                style="@style/BlackColorStyle"
+                android:id="@+id/tvKuna"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/big_margin_"
                 android:layout_marginEnd="@dimen/standard_margin"
                 android:layout_marginRight="@dimen/standard_margin"
                 android:text="@string/kn"
+                android:textColor="@color/common_google_signin_btn_text_light_disabled"
                 android:textSize="@dimen/ejteen_text_size"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.104"
@@ -313,12 +358,12 @@
             android:layout_height="123dp">
 
             <RadioButton
-                android:enabled="false"
                 android:id="@+id/rbPrivateEvent"
                 style="@style/BlackColorStyle"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/radio_button_height"
                 android:layout_marginLeft="@dimen/usual_padding"
+                android:enabled="false"
                 android:text="@string/private_event" />
 
             <View
@@ -329,12 +374,12 @@
                 android:background="@android:color/darker_gray" />
 
             <RadioButton
-                android:enabled="false"
                 android:id="@+id/rbPublicEvent"
                 style="@style/BlackColorStyle"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/radio_button_height"
                 android:layout_marginLeft="@dimen/usual_padding"
+                android:enabled="false"
                 android:text="@string/public_event" />
 
             <View
