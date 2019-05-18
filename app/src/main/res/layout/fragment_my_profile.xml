@@ -27,7 +27,7 @@
         android:layout_height="1dp"
         android:layout_marginStart="@dimen/usual_padding"
         android:layout_marginLeft="@dimen/usual_padding"
-        android:layout_marginTop="56dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="@dimen/usual_padding"
         android:layout_marginRight="@dimen/usual_padding"
         android:background="@android:color/darker_gray"
@@ -209,6 +209,25 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/range_label_profile_fragment"
         app:layout_constraintVertical_bias="0.0" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/saveUser"
+        android:layout_width="235dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="SAVE"
+        android:textAppearance="@style/MyTabLayoutTextAppearance"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/range_profile_fragment"
+        app:layout_constraintVertical_bias="0.285"
+        app:cornerRadius="50dp"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

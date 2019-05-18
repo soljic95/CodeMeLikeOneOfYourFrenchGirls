@@ -77,6 +77,9 @@ public class FirebaseHelperClass{
         });
     }
 
+    public void updateUserInFirebase(User user){
+        db.collection("Users").document(user.getUserDocRef()).set(user);
+    }
 
     public LiveData<List<Event>> observeAllEvents() {
         final MutableLiveData<List<Event>> observedLiveData = new MutableLiveData<>();

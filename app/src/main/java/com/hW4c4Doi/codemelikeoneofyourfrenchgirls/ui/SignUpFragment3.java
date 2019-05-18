@@ -2,6 +2,7 @@ package com.hW4c4Doi.codemelikeoneofyourfrenchgirls.ui;
 
 
 import android.Manifest;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -13,16 +14,22 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.R;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.model.User;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.room.EventDatabase;
@@ -62,7 +69,9 @@ public class SignUpFragment3 extends Fragment {
     public Button btnCamera;
 
     private FirebaseViewModel viewModel;
-
+    // Create a storage reference from our app
+    private StorageReference storageRef;
+    private FirebaseStorage firebaseStorage;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -75,9 +84,11 @@ public class SignUpFragment3 extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         ButterKnife.bind(this, view);
-
+        firebaseStorage = FirebaseStorage.getInstance();
+        storageRef = firebaseStorage.getReference("ProfilePictures");
         viewModel = ViewModelProviders.of(getActivity(), new MyViewModelFactory(getActivity().getApplication(), EventDatabase.getInstance(getContext())))
                 .get(FirebaseViewModel.class);
+
         user = getArguments().getParcelable(PASSED_USER_TAG);
 
 
@@ -85,7 +96,7 @@ public class SignUpFragment3 extends Fragment {
 
     @OnClick(R.id.btnComplete)
     void completeAndCreateUserAccount() {
-        user.setProfilePictureUri(mPictureUri.toString());
+        //user.setProfilePictureUri(mPictureUri.toString());
 
         // Creating user in Firebase and sending event to create it in Room database
         viewModel.registerUserInFirebase(user);
@@ -132,6 +143,7 @@ public class SignUpFragment3 extends Fragment {
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
                 && data != null && data.getData() != null) {
             mPictureUri = data.getData();
+            uploudProfilePicture(mPictureUri);
             Glide
                     .with(SignUpFragment3.this)
                     .load(mPictureUri)
@@ -147,5 +159,28 @@ public class SignUpFragment3 extends Fragment {
                     .into(profilePicture);
 
         }
+    }
+
+    private void uploudProfilePicture(Uri uri) {
+        final StorageReference fileReferance = storageRef.child(System.currentTimeMillis() + "." + getFileExtension(mPictureUri));
+        UploadTask uploadTask = fileReferance.putFile(uri);
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("marko", "picture could not be uplouded" + e);
+            }
+        }).
+                addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        user.setProfilePictureUri(taskSnapshot.getUploadSessionUri().toString());
+                    }
+                });
+
+    }
+    private String getFileExtension(Uri uri) {
+        ContentResolver cr = getActivity().getContentResolver();
+        MimeTypeMap mime = MimeTypeMap.getSingleton();
+        return mime.getExtensionFromMimeType(cr.getType(uri));
     }
 }

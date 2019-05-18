@@ -84,6 +84,9 @@ public class FirebaseRepository {
         firebaseHelperClass.deleteEventFromFirebase(event);
     }
 
+    public void updateUserInFirebase(User user){
+        firebaseHelperClass.updateUserInFirebase(user);
+    }
     public LiveData<List<Event>> getEventLiveData() {
         return firebaseHelperClass.observeAllEvents();
     }

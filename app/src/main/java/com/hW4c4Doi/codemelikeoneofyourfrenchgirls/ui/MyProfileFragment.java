@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.core.graphics.drawable.RoundedBitmapDrawable;
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.Chip;
 import com.google.firebase.auth.FirebaseAuth;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.R;
@@ -30,11 +32,15 @@ import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.adapter.UpcomingEventsRecycle
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.model.User;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.room.EventDao;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.room.EventDatabase;
+import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.viewModel.FirebaseViewModel;
 
 import org.w3c.dom.Text;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import io.reactivex.Completable;
+import io.reactivex.CompletableObserver;
 import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -45,7 +51,7 @@ import io.reactivex.schedulers.Schedulers;
  * A simple {@link Fragment} subclass.
  */
 public class MyProfileFragment extends Fragment {
-    static User myUser;
+    public User myUser;
     @BindView(R.id.name_profile_fragment)
     TextView name;
     @BindView(R.id.mobile_number_profile_fragment)
@@ -54,18 +60,20 @@ public class MyProfileFragment extends Fragment {
     TextView email;
     @BindView(R.id.interestRV)
     RecyclerView recyclerView;
-
+    @BindView(R.id.saveUser)
+    MaterialButton saveButton;
     @BindView(R.id.range_profile_fragment)
     SeekBar range;
 
     EventDao eventDao;
     FirebaseAuth mAuth;
+    FirebaseViewModel viewModel;
     InterestRecycleAdapter adapter;
     LinearLayoutManager manager;
 
     public void setupAdapter(View view,User user) {
 
-        adapter = new InterestRecycleAdapter(getContext(),user);
+        adapter = new InterestRecycleAdapter(getContext(),this);
         manager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
@@ -75,7 +83,6 @@ public class MyProfileFragment extends Fragment {
         adapter.addInterest(getResources().getString(R.string.Football));
         adapter.addInterest(getResources().getString(R.string.Badminton));
         adapter.addInterest(getResources().getString(R.string.Handball));
-        adapter.addInterest(getResources().getString(R.string.Running));
         adapter.addInterest(getResources().getString(R.string.Fitness));
         adapter.addInterest(getResources().getString(R.string.Boardgames));
         adapter.addInterest(getResources().getString(R.string.Social));
@@ -91,10 +98,35 @@ public class MyProfileFragment extends Fragment {
 
     }
 
+    @OnClick(R.id.saveUser)
+    public void saveCurrentUser(){
+        if(myUser != null){
+            myUser.setRange(range.getProgress());
+            Completable.fromAction(()-> eventDao.updateUser(myUser)).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new CompletableObserver() {
+                @Override
+                public void onSubscribe(Disposable d) {
+
+                }
+
+                @Override
+                public void onComplete() {
+                    Log.d("marko", "User updated");
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    Log.d("marko", "onError: " +e);
+                }
+            });
+            viewModel.updateUserInFirebas(myUser);
+        }
+    }
+
     @Override
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         eventDao = EventDatabase.getInstance(getContext()).getEventDao();
         mAuth = FirebaseAuth.getInstance();
+        viewModel = ViewModelProviders.of(getActivity()).get(FirebaseViewModel.class);
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
         Log.d("marko", "UID" + mAuth.getUid());
@@ -107,8 +139,8 @@ public class MyProfileFragment extends Fragment {
             @Override
             public void onSuccess(User user) {
                 Log.d("marko", "onSuccess: user fetched from database and ready to fill!");
-                fillProfileInformations(user);
                 myUser = user;
+                fillProfileInformations();
                 setupAdapter(view,user);
             }
 
@@ -120,19 +152,10 @@ public class MyProfileFragment extends Fragment {
 
     }
 
-    private void fillProfileInformations(User user) {
-        name.setText(user.getName());
-        email.setText(user.getEmail());
-        range.setProgress(user.getRange());
-        mobileNumber.setText("+" + user.getPhoneNumber());
+    private void fillProfileInformations() {
+        name.setText(myUser.getName());
+        email.setText(myUser.getEmail());
+        range.setProgress(myUser.getRange());
+        mobileNumber.setText("+" + myUser.getPhoneNumber());
     }
-
-    public static void addInterestToUser(String interest) {
-        myUser.addInterest(interest);
-    }
-
-    public static void removeInterestFromUser(String interest) {
-        myUser.removeInterest(interest);
-    }
-
 }

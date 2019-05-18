@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,8 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.R;
-import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.model.Event;
-import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.model.User;
+
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.network.FirebaseHelperClass;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.ui.MyProfileFragment;
 
@@ -32,12 +32,12 @@ public class InterestRecycleAdapter extends RecyclerView.Adapter<InterestRecycle
     private Context context;
     private List<String> interests;
     private FirebaseHelperClass helperClass;
-    private User user;
-    public InterestRecycleAdapter(Context context, User user) {
+    private MyProfileFragment myProfile;
+    public InterestRecycleAdapter(Context context, MyProfileFragment myProfile) {
         this.context = context;
         this.interests = new ArrayList<>();
         this.helperClass = new FirebaseHelperClass();
-        this.user = user;
+        this.myProfile = myProfile;
     }
 
     @NonNull
@@ -57,25 +57,26 @@ public class InterestRecycleAdapter extends RecyclerView.Adapter<InterestRecycle
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.tvInterestName.setText(interests.get(position));
-        for(String interest : user.getInterests()){
+        for(String interest : myProfile.myUser.getInterests()){
             if(holder.tvInterestName.getText().equals(interest)){
                 holder.checkbox.setChecked(true);
                 holder.tvInterestName.setTextColor(Color.parseColor("#CE5036"));
                 holder.line.setBackgroundColor(Color.parseColor("#CE5036"));
+                break;
             }
         }
-        holder.checkbox.setOnClickListener(new View.OnClickListener() {
+        holder.checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
-                if(!holder.checkbox.isChecked()){
-                    MyProfileFragment.removeInterestFromUser(holder.checkbox.getText().toString());
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(!isChecked){
+                    myProfile.myUser.removeInterest(holder.tvInterestName.getText().toString());
                     holder.tvInterestName.setTextColor(Color.parseColor("#D0D1D1"));
                     holder.line.setBackgroundColor(Color.parseColor("#D0D1D1"));
 
                 }else{
                     holder.tvInterestName.setTextColor(Color.parseColor("#CE5036"));
                     holder.line.setBackgroundColor(Color.parseColor("#CE5036"));
-                    MyProfileFragment.addInterestToUser(holder.checkbox.getText().toString());
+                    myProfile.myUser.addInterest(holder.tvInterestName.getText().toString());
 
                 }
             }

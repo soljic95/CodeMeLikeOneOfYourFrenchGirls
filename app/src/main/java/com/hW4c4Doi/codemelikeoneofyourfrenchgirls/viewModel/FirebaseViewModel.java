@@ -62,6 +62,10 @@ public class FirebaseViewModel extends AndroidViewModel {
         userRepository.updateId(user);
     }
 
+    public void updateUserInFirebas(User user){
+        firebaseRepository.updateUserInFirebase(user);
+    }
+
     public Single<User> isUserInRoomDatabase(String uId) {
         return userRepository.isUserInRoomDb(uId);
     }

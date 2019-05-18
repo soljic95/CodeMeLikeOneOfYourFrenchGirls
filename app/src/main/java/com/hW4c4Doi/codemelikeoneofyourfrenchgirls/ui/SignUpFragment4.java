@@ -52,8 +52,6 @@ public class SignUpFragment4 extends Fragment {
     @BindView(R.id.rukometChip)
     Chip rukometChip;
 
-    @BindView(R.id.trcanjeChip)
-    Chip trcanjeChip;
 
     @BindView(R.id.teretanaChip)
     Chip teretanaChip;
@@ -135,15 +133,6 @@ public class SignUpFragment4 extends Fragment {
             } else if (isChecked == false) {
                 interestList.remove(rukometChip.getText().toString());
                 Log.d("marko", "onCheckedChanged: rukometChip removed");
-            }
-        });
-        trcanjeChip.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                interestList.add(trcanjeChip.getText().toString());
-                Log.d("marko", "onCheckedChanged: trcanjeChip added");
-            } else if (isChecked == false) {
-                interestList.remove(trcanjeChip.getText().toString());
-                Log.d("marko", "onCheckedChanged: trcanjeChip removed");
             }
         });
         teretanaChip.setOnCheckedChangeListener((buttonView, isChecked) -> {
