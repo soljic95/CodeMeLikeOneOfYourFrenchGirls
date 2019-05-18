@@ -14,6 +14,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.EventInterfaces.AuthRegisteredListener;
 
@@ -31,11 +33,13 @@ import org.w3c.dom.Document;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 
 
-public class FirebaseHelperClass{
+public class FirebaseHelperClass {
     FirebaseFirestore db;
     FirebaseAuth auth = FirebaseAuth.getInstance();
     String eventDocRef = "";
@@ -63,9 +67,10 @@ public class FirebaseHelperClass{
 
     }
 
-    public String insertEvent(Event event) {
-        db.collection("Events").add(event).addOnSuccessListener(documentReference -> eventDocRef = documentReference.getId());
-        return eventDocRef;
+    public void insertEvent(Event event) {
+        db.collection("Events").add(event).addOnSuccessListener(documentReference -> {
+            db.collection("Events").document(documentReference.getId()).update("eventId", documentReference.getId());
+        });
     }
 
     public void deleteEventFromFirebase(Event event) {
@@ -80,24 +85,47 @@ public class FirebaseHelperClass{
     public void updateUserInFirebase(User user){
         db.collection("Users").document(user.getUserDocRef()).set(user);
     }
+    public void joinEvent(Event event) {
+        db.collection("Events").document(event.getEventId()).set(event).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d("marko", "onSuccess: ");
+            }
+        });
+    }
+
 
     public LiveData<List<Event>> observeAllEvents() {
         final MutableLiveData<List<Event>> observedLiveData = new MutableLiveData<>();
         final List<Event> eventList = new ArrayList<>();
-        db.collection("Events").addSnapshotListener((queryDocumentSnapshots, e) -> {
-            eventList.clear();
-            for (DocumentSnapshot dc : queryDocumentSnapshots) {
-                // Log.d("marko", "onEvent: " + dc.toObject(Event.class).getEventName());
-                eventList.add(dc.toObject(Event.class));
-            }
-            observedLiveData.setValue(eventList);
-        });
+        List<String> intersts = new ArrayList<>();
+        intersts.add("Football");
+        intersts.add("Basketball");
+        db.collection("Events")
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                        for (DocumentSnapshot dc : queryDocumentSnapshots) {
+                            Event event = dc.toObject(Event.class);
+                            if (intersts.contains(event.getActivity())) {
+                                if (!eventList.contains(dc.toObject(Event.class))) {
+                                    eventList.add(dc.toObject(Event.class));
+
+                                }
+                            }
+                        }
+
+                        observedLiveData.setValue(eventList);
+                    }
+                });
         return observedLiveData;
     }
 
     // Create user in Firebase using email and password
     // when that is done trigger event to all listener so they can move forward in executing tasks
-    public Task<AuthResult> createUserAccountInFirebase(User user) {
+    public Task<AuthResult>
+
+    createUserAccountInFirebase(User user) {
         return auth.createUserWithEmailAndPassword(user.getEmail(), user.getPassword());
     }
 
@@ -109,7 +137,7 @@ public class FirebaseHelperClass{
     // Create given user in database and update its userDocRef in database so it is connected with
     // document
 
-    public Task<DocumentReference> addAuthenticatedUserInFirebase (AuthResult authResult, User user) {
+    public Task<DocumentReference> addAuthenticatedUserInFirebase(AuthResult authResult, User user) {
         return db.collection("Users").add(user.updateUserId(authResult.getUser().getUid()));
     }
 
@@ -117,21 +145,21 @@ public class FirebaseHelperClass{
     // it is part of pipline of creating user
     public void updateDocRefInFirebase(DocumentReference documentReference) {
         db.collection("Users").document(documentReference.getId()).update("userDocRef", documentReference.getId())
-         .addOnSuccessListener(new OnSuccessListener<Void>() {
-            // When user is updated, fetch it from database and trigger event for
-            // Listener that will create that user in Room database locally
-            @Override
-            public void onSuccess(Void aVoid) {
-            db.collection("Users").document(documentReference.getId()).
-            get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                @Override
-               public void onSuccess(DocumentSnapshot documentSnapshot) {
-                    for (UserUpdatedListener listener : userUpdatedListeners)
-                       listener.UserUpdatedInFirebase(documentSnapshot.toObject(User.class));
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    // When user is updated, fetch it from database and trigger event for
+                    // Listener that will create that user in Room database locally
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        db.collection("Users").document(documentReference.getId()).
+                                get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                            @Override
+                            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                for (UserUpdatedListener listener : userUpdatedListeners)
+                                    listener.UserUpdatedInFirebase(documentSnapshot.toObject(User.class));
+                            }
+                        });
                     }
-               });
-             }
-        });
+                });
     }
 
 
@@ -148,5 +176,9 @@ public class FirebaseHelperClass{
     //Get user from firebase by id
     public Task<QuerySnapshot> getUserFromFirebase(String uId) {
         return db.collection("Users").whereEqualTo("userId", uId).get();
+    }
+
+    public void updateEvent(Event event) {
+        db.collection("Events").document(event.getEventId()).set(event);
     }
 }

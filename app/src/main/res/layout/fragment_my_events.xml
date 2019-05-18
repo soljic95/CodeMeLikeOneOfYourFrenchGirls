@@ -5,12 +5,18 @@
     android:layout_height="match_parent"
     tools:context=".ui.MyEventsFragment">
 
+
     <!-- TODO: Update blank fragment layout -->
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Event"
-        android:layout_gravity="center"
-        android:id="@+id/btnEvent"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/my_events_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:itemCount="7"
+        tools:listitem="@layout/event_item"
+        tools:orientation="vertical"
+        tools:scrollbars="vertical">
+
+
+    </androidx.recyclerview.widget.RecyclerView>
 
 </FrameLayout>

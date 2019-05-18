@@ -15,6 +15,7 @@ import java.util.concurrent.Callable;
 
 import io.reactivex.Completable;
 import io.reactivex.Maybe;
+import io.reactivex.Observable;
 import io.reactivex.Single;
 
 @Dao
@@ -41,6 +42,8 @@ public interface EventDao {
     @Query("SELECT * FROM user_table where userId = :uId")
     Single<User> getCurrentUser(String uId);
 
+    @Query("SELECT * FROM user_table")
+    LiveData<User> getAnyUser();
 
 
 }

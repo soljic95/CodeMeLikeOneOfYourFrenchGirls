@@ -1,7 +1,6 @@
 package com.hW4c4Doi.codemelikeoneofyourfrenchgirls.repository;
 
 
-
 import androidx.lifecycle.LiveData;
 
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -11,6 +10,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.EventInterfaces.UserUpdatedListener;
+
 import android.util.Log;
 
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.model.Event;
@@ -97,7 +97,7 @@ public class FirebaseRepository {
         firebaseHelperClass.createUserAccountInFirebase(user).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
             @Override
             public void onSuccess(AuthResult authResult) {
-                firebaseHelperClass.addAuthenticatedUserInFirebase(authResult,user).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                firebaseHelperClass.addAuthenticatedUserInFirebase(authResult, user).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
                         firebaseHelperClass.updateDocRefInFirebase(documentReference);
@@ -114,5 +114,9 @@ public class FirebaseRepository {
 
     public Task<QuerySnapshot> getUserFromFirebase(String uId) {
         return firebaseHelperClass.getUserFromFirebase(uId);
+    }
+
+    public void updateEvent(Event event) {
+        firebaseHelperClass.updateEvent(event);
     }
 }
