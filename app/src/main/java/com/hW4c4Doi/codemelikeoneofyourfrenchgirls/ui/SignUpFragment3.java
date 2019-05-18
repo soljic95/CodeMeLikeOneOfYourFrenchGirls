@@ -88,7 +88,7 @@ public class SignUpFragment3 extends Fragment {
         storageRef = firebaseStorage.getReference("ProfilePictures");
         viewModel = ViewModelProviders.of(getActivity(), new MyViewModelFactory(getActivity().getApplication(), EventDatabase.getInstance(getContext())))
                 .get(FirebaseViewModel.class);
-
+        btnComplete.setEnabled(false);
         user = getArguments().getParcelable(PASSED_USER_TAG);
 
 
@@ -99,10 +99,15 @@ public class SignUpFragment3 extends Fragment {
         //user.setProfilePictureUri(mPictureUri.toString());
 
         // Creating user in Firebase and sending event to create it in Room database
-        viewModel.registerUserInFirebase(user);
+        viewModel.registerUserInFirebase(user).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+            @Override
+            public void onSuccess(AuthResult authResult) {
+                getContext().startActivity(new Intent(getActivity(), MainActivity.class));
+                getActivity().finish();
+            }
+        });
 
-        getContext().startActivity(new Intent(getActivity(), MainActivity.class));
-        getActivity().finish();
+
     }
 
 
@@ -173,7 +178,14 @@ public class SignUpFragment3 extends Fragment {
                 addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        user.setProfilePictureUri(taskSnapshot.getUploadSessionUri().toString());
+                        fileReferance.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                user.setProfilePictureUri(uri.toString());
+                                btnComplete.setEnabled(true);
+                            }
+                        });
+
                     }
                 });
 

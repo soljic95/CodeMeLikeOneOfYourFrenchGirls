@@ -11,6 +11,7 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -60,6 +61,7 @@ public class MyEventsFragment extends Fragment {
     }
 
     private void setUpMyEventsRecyclerView(View view) {
+        Log.d("marko","UID:" + FirebaseAuth.getInstance().getUid());
         Query query = FirebaseFirestore.getInstance().collection("Events").whereArrayContains("listOfUsersParticipatingInEvent", FirebaseAuth.getInstance().getUid())
                 .orderBy("name", Query.Direction.DESCENDING)
                 .limit(50);

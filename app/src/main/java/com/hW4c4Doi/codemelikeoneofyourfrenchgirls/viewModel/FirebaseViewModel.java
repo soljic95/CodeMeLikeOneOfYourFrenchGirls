@@ -54,8 +54,8 @@ public class FirebaseViewModel extends AndroidViewModel {
         userRepository.deleteEvent(event);
     }
 
-    public void registerUserInFirebase(User user) {
-        firebaseRepository.registerUserInFirebase(user);
+    public Task<AuthResult> registerUserInFirebase(User user) {
+        return firebaseRepository.registerUserInFirebase(user);
     }
 
     public void updateUser(User user) {

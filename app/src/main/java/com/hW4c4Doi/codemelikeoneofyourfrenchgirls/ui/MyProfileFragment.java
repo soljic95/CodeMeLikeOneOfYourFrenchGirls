@@ -4,6 +4,8 @@ package com.hW4c4Doi.codemelikeoneofyourfrenchgirls.ui;
 import android.bluetooth.le.ScanRecord;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.Image;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -23,9 +25,14 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.Chip;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.R;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.adapter.InterestRecycleAdapter;
 import com.hW4c4Doi.codemelikeoneofyourfrenchgirls.adapter.UpcomingEventsRecyclerViewAdapter;
@@ -58,6 +65,8 @@ public class MyProfileFragment extends Fragment {
     TextView mobileNumber;
     @BindView(R.id.mail_profile_fragment)
     TextView email;
+    @BindView(R.id.picture_profile_fragment)
+    ImageView profilePicture;
     @BindView(R.id.interestRV)
     RecyclerView recyclerView;
     @BindView(R.id.saveUser)
@@ -70,6 +79,7 @@ public class MyProfileFragment extends Fragment {
     FirebaseViewModel viewModel;
     InterestRecycleAdapter adapter;
     LinearLayoutManager manager;
+    FirebaseStorage storage;
 
     public void setupAdapter(View view,User user) {
 
@@ -127,6 +137,7 @@ public class MyProfileFragment extends Fragment {
         eventDao = EventDatabase.getInstance(getContext()).getEventDao();
         mAuth = FirebaseAuth.getInstance();
         viewModel = ViewModelProviders.of(getActivity()).get(FirebaseViewModel.class);
+        storage = FirebaseStorage.getInstance();
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
         Log.d("marko", "UID" + mAuth.getUid());
@@ -140,6 +151,11 @@ public class MyProfileFragment extends Fragment {
             public void onSuccess(User user) {
                 Log.d("marko", "onSuccess: user fetched from database and ready to fill!");
                 myUser = user;
+                Glide
+                        .with(getContext())
+                        .load(myUser.getProfilePictureUrl())
+                        .circleCrop()
+                        .into(profilePicture);
                 fillProfileInformations();
                 setupAdapter(view,user);
             }
