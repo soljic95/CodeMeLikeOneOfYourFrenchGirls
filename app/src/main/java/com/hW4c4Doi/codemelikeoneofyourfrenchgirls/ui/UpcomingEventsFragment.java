@@ -62,8 +62,8 @@ public class UpcomingEventsFragment extends Fragment {
     private AlertDialog alertDialog;
     private ArrayList<String> interest = new ArrayList<>();
     private FusedLocationProviderClient fusedLocationClient;
-    private LocationRequest locationRequest;
-    private boolean mLocationPermissionGranted = false;
+
+
     protected static final int REQUEST_CHECK_SETTINGS = 0x1;
     private static final int MY_PERMISSIONS_REQUEST_READ_FINE_LOCATION = 100;
     private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
@@ -80,7 +80,6 @@ public class UpcomingEventsFragment extends Fragment {
                 .setView(R.layout.progress_dialog)
                 .create();
         setupAdapter(view);
-        getLocationPermission();
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(getContext());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (getActivity().checkSelfPermission(ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && getActivity().checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -112,42 +111,7 @@ public class UpcomingEventsFragment extends Fragment {
             }
         });
 
-        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
-                .addLocationRequest(locationRequest);
 
-
-        SettingsClient client = LocationServices.getSettingsClient(getContext());
-        Task<LocationSettingsResponse> task = client.checkLocationSettings(builder.build());
-
-        task.addOnSuccessListener(getActivity(), new OnSuccessListener<LocationSettingsResponse>() {
-            @Override
-            public void onSuccess(LocationSettingsResponse locationSettingsResponse) {
-                // All location settings are satisfied. The client can initialize
-                // location requests here.
-                // ...
-                createLocationRequest();
-
-            }
-        });
-
-        task.addOnFailureListener(getActivity(), new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                if (e instanceof ResolvableApiException) {
-                    // Location settings are not satisfied, but this can be fixed
-                    // by showing the user a dialog.
-                    try {
-                        // Show the dialog by calling startResolutionForResult(),
-                        // and check the result in onActivityResult().
-                        ResolvableApiException resolvable = (ResolvableApiException) e;
-                        resolvable.startResolutionForResult(getActivity(),
-                                REQUEST_CHECK_SETTINGS);
-                    } catch (IntentSender.SendIntentException sendEx) {
-                        // Ignore the error.
-                    }
-                }
-            }
-        });
         fab = view.findViewById(R.id.fab);
         viewModel = ViewModelProviders.of(getActivity(), new MyViewModelFactory(getActivity().getApplication(), EventDatabase.getInstance(getContext())))
                 .get(FirebaseViewModel.class);
@@ -177,30 +141,6 @@ public class UpcomingEventsFragment extends Fragment {
             adapter.notifyDataSetChanged();
         });
 
-    }
-
-    protected void createLocationRequest() {
-        Log.d("marko", "createLocationRequest: i am reciving locaion requests");
-        locationRequest = LocationRequest.create();
-        locationRequest.setInterval(20000);
-        locationRequest.setFastestInterval(10000);
-        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-    }
-
-    private void getLocationPermission() {
-        String[] permissions = {FINE_LOCATION,
-                COARSE_LOCATION};
-
-        if (ContextCompat.checkSelfPermission(getActivity().getApplicationContext(), FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            if (ContextCompat.checkSelfPermission(getActivity().getApplicationContext(), COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                mLocationPermissionGranted = true;
-
-            } else {
-                ActivityCompat.requestPermissions(getActivity(), new String[]{ACCESS_FINE_LOCATION}, LOCATION_REQUEST_PERMISSION_RESULT);
-            }
-        } else {
-            ActivityCompat.requestPermissions(getActivity(), new String[]{ACCESS_FINE_LOCATION}, LOCATION_REQUEST_PERMISSION_RESULT);
-        }
     }
 
 

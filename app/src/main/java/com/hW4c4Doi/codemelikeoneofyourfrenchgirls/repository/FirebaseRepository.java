@@ -93,10 +93,11 @@ public class FirebaseRepository {
 
     // Pipline of creating user in firebase
     // Needs to be
-    public void registerUserInFirebase(User user) {
-        firebaseHelperClass.createUserAccountInFirebase(user).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+    public Task<AuthResult> registerUserInFirebase(User user) {
+        return firebaseHelperClass.createUserAccountInFirebase(user).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
             @Override
             public void onSuccess(AuthResult authResult) {
+                Log.d("marko", "USER REGISTERED!! AND ADDED IN UTH BADE");
                 firebaseHelperClass.addAuthenticatedUserInFirebase(authResult, user).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
